@@ -100,6 +100,9 @@ def aggregate_sequence(seq_tensor: np.ndarray, meta_df: pd.DataFrame = None) -> 
         raise ValueError(f"Expected (N, seq, d), got {seq_tensor.shape}")
         
     N, max_seq, d = seq_tensor.shape
+    if max_seq == 1:
+        return seq_tensor[:, 0, :]
+        
     mean_list = []
     max_list = []
     last_list = []
