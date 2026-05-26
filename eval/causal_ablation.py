@@ -1,13 +1,7 @@
 """Hook-based causal ablation of Top-5 difficulty-predictive SAE features.
 
 Mishra-style residual stream patching on EleutherAI/pythia-410m at Layer 12.
-For each test split prompt, we measure the zero-shot accuracy under three conditions:
-  - natural (no hook)
-  - recon (hidden states replaced by SAE reconstruction)
-  - ablate(feat=j) (hidden states replaced by SAE reconstruction with feature j zeroed out)
-
-We report the change in error rate (ablate - recon) and run paired bootstrap to compute
-95% confidence intervals.
+Supports HellaSwag (accuracy/correctness) and SQuAD (continuous generation perplexity).
 """
 import os
 import sys
@@ -32,13 +26,20 @@ from probing.features import aggregate_sequence
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--activations", default="activations/hellaswag_activations.safetensors")
-    ap.add_argument("--metadata", default="activations/hellaswag_metadata.parquet")
+    ap.add_argument("--dataset", type=str, default="hellaswag", choices=["hellaswag", "squad"])
+    ap.add_argument("--activations", type=str, default=None)
+    ap.add_argument("--metadata", type=str, default=None)
     ap.add_argument("--sae_ckpt", default="sae/checkpoints/sae_topk_32.pt")
     ap.add_argument("--model", default="EleutherAI/pythia-410m")
     ap.add_argument("--out_dir", default="eval/results")
     ap.add_argument("--seed", type=int, default=42)
     args = ap.parse_args()
+
+    # Dynamic defaults
+    if args.activations is None:
+        args.activations = f"activations/{args.dataset}_activations.safetensors"
+    if args.metadata is None:
+        args.metadata = f"activations/{args.dataset}_metadata.parquet"
 
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)
@@ -48,7 +49,7 @@ def main():
         if not os.path.exists(p):
             sys.exit(f"[ablation] missing input file: {p}. Run extraction & SAE training first.")
 
-    print("Loading metadata, activations, SAE...")
+    print(f"Loading {args.dataset} metadata, activations, SAE...")
     meta = pd.read_parquet(args.metadata)
     raw_acts = load_file(args.activations)["encoder_embeddings"]
     state = torch.load(args.sae_ckpt, map_location="cpu")
@@ -68,8 +69,7 @@ def main():
     y_tr, y_te = y[tr], y[te]
 
     # Step 1: Identify top-5 difficulty-predictive SAE features using L1 Logistic on train split
-    print("Fitting a quick L1 logistic regression to identify top-5 SAE features...")
-    # Reshape and pass raw acts to SAE to getaggregated train split features
+    print("Fitting L1 logistic regression to identify top-5 SAE features...")
     N, max_seq, d_model_raw = raw_acts.shape
     raw_acts_2d = raw_acts.reshape(-1, d_model_raw).to(device).to(torch.float32)
     sae_acts_list = []
@@ -87,14 +87,10 @@ def main():
     scaler = StandardScaler()
     X_tr_s = scaler.fit_transform(sae_agg[tr])
     
-    # Fit L1 logistic regression with balanced class weights
     clf = LogisticRegression(penalty="l1", solver="liblinear", class_weight="balanced", max_iter=2000, C=0.1)
     clf.fit(X_tr_s, y_tr)
     
-    # Logistic coefficients correspond to mean, max, last of each feature
-    # We want the top-5 feature indices that have the highest absolute coefficient
     coefs = clf.coef_[0]
-    # Reshape to (3, d_hidden) and sum absolute coefficients across the 3 poolings to rank features
     feature_importance = np.abs(coefs.reshape(3, d_hidden)).sum(axis=0)
     top_5_features = np.argsort(-feature_importance)[:5].tolist()
     print(f"Top-5 features identified: {top_5_features}")
@@ -106,7 +102,6 @@ def main():
     model = AutoModelForCausalLM.from_pretrained(args.model, torch_dtype=model_dtype).to(device)
     model.eval()
 
-    # Hook control states
     active_feat_idx = None
     ablate_active = False
     recon_active = False
@@ -121,7 +116,6 @@ def main():
             acts, x_reconstruct, _ = sae(x_2d)
             
         if ablate_active and active_feat_idx is not None:
-            # Zero out the selected feature
             acts[:, active_feat_idx] = 0.0
             x_reconstruct = acts @ sae.W_dec + sae.b_dec
             
@@ -136,67 +130,120 @@ def main():
     # Hook Layer 12
     handle = model.gpt_neox.layers[11].register_forward_hook(patch_hook)
 
-    # Step 3: Run zero-shot evaluation on test prompts for the three conditions
-    # Load HellaSwag validation dataset to get prompt endings
+    # Step 3: Run evaluation
     from datasets import load_dataset
-    dataset = load_dataset("hellaswag", split="validation")
+    if args.dataset == "hellaswag":
+        dataset = load_dataset("hellaswag", split="validation")
+    else:
+        dataset = load_dataset("squad", split="validation")
+        
     test_meta = meta[te].copy().reset_index(drop=True)
-
     print(f"Evaluating {len(test_meta)} test prompts under ablated conditions...")
     results_rows = []
+
+    # Get train threshold perplexity stats for SQuAD difficulty mapping
+    if args.dataset == "squad":
+        train_rows = (meta["split"] == "train").values
+        mean_tr = meta.loc[train_rows, "perplexity"].mean()
+        std_tr = meta.loc[train_rows, "perplexity"].std()
+        threshold_ppl = meta.loc[train_rows, "perplexity_norm"].quantile(0.75)
 
     for idx in tqdm(range(len(test_meta))):
         row = test_meta.iloc[idx]
         window_id = int(row["window_id"])
         sample = dataset[window_id]
         
-        prompt = sample["ctx_a"] + (" " + sample["ctx_b"] if sample["ctx_b"] else "")
-        endings = sample["endings"]
-        true_label = int(sample["label"])
-        
-        prompt_ids = tokenizer.encode(prompt, add_special_tokens=True)
-        prompt_len = len(prompt_ids)
-        
-        max_seq_len = 128
-        if prompt_len > max_seq_len:
-            prompt_ids = prompt_ids[-max_seq_len:]
-            prompt_len = max_seq_len
+        if args.dataset == "hellaswag":
+            prompt = sample["ctx_a"] + (" " + sample["ctx_b"] if sample["ctx_b"] else "")
+            endings = sample["endings"]
+            true_label = int(sample["label"])
+            
+            prompt_ids = tokenizer.encode(prompt, add_special_tokens=True)
+            prompt_len = len(prompt_ids)
+            
+            max_seq_len = 128
+            if prompt_len > max_seq_len:
+                prompt_ids = prompt_ids[-max_seq_len:]
+                prompt_len = max_seq_len
 
-        def run_eval():
-            ending_scores = []
-            for ending in endings:
-                ending_clean = " " + ending.strip()
-                ending_ids = tokenizer.encode(ending_clean, add_special_tokens=False)
-                full_ids = prompt_ids + ending_ids
-                input_tensor = torch.tensor([full_ids], dtype=torch.long, device=device)
+            def run_eval_hellaswag():
+                ending_scores = []
+                for ending in endings:
+                    ending_clean = " " + ending.strip()
+                    ending_ids = tokenizer.encode(ending_clean, add_special_tokens=False)
+                    full_ids = prompt_ids + ending_ids
+                    input_tensor = torch.tensor([full_ids], dtype=torch.long, device=device)
+                    
+                    with torch.no_grad():
+                        logits = model(input_tensor).logits
+                        
+                    shift_logits = logits[0, prompt_len-1 : -1, :]
+                    shift_labels = input_tensor[0, prompt_len:]
+                    
+                    log_probs = F.log_softmax(shift_logits, dim=-1)
+                    target_log_probs = log_probs[torch.arange(len(ending_ids)), shift_labels]
+                    ending_scores.append(target_log_probs.mean().item())
+                    
+                predicted_label = int(np.argmax(ending_scores))
+                return 0 if predicted_label == true_label else 1
+
+            recon_active, ablate_active = False, False
+            err_natural = run_eval_hellaswag()
+
+            recon_active, ablate_active = True, False
+            err_recon = run_eval_hellaswag()
+
+            recon_active, ablate_active = False, True
+            err_ablations = {}
+            for feat in top_5_features:
+                active_feat_idx = feat
+                err_ablations[feat] = run_eval_hellaswag()
                 
+        else:  # squad
+            context = sample["context"]
+            question = sample["question"]
+            gold_answer = sample["answers"]["text"][0]
+            
+            prompt = f"Context: {context}\nQuestion: {question}\nAnswer:"
+            target = " " + gold_answer.strip()
+            
+            prompt_ids = tokenizer.encode(prompt, add_special_tokens=True)
+            target_ids = tokenizer.encode(target, add_special_tokens=False)
+            prompt_len = len(prompt_ids)
+            target_len = len(target_ids)
+            
+            max_prompt_len = 200
+            if prompt_len > max_prompt_len:
+                prompt_ids = prompt_ids[-max_prompt_len:]
+                prompt_len = max_prompt_len
+                
+            full_ids = prompt_ids + target_ids
+            input_tensor = torch.tensor([full_ids], dtype=torch.long, device=device)
+
+            def run_eval_squad():
                 with torch.no_grad():
                     logits = model(input_tensor).logits
-                    
                 shift_logits = logits[0, prompt_len-1 : -1, :]
                 shift_labels = input_tensor[0, prompt_len:]
                 
-                log_probs = F.log_softmax(shift_logits, dim=-1)
-                target_log_probs = log_probs[torch.arange(len(ending_ids)), shift_labels]
-                ending_scores.append(target_log_probs.mean().item())
+                loss = F.cross_entropy(shift_logits, shift_labels, reduction="mean").item()
+                target_perplexity = np.exp(loss)
                 
-            predicted_label = int(np.argmax(ending_scores))
-            return 0 if predicted_label == true_label else 1 # returns 1 for incorrect (difficulty)
+                # Check difficulty mapping
+                norm_ppl = (target_perplexity - mean_tr) / (std_tr + 1e-8)
+                return 1 if norm_ppl >= threshold_ppl else 0
 
-        # 1. Natural condition
-        recon_active, ablate_active = False, False
-        err_natural = run_eval()
+            recon_active, ablate_active = False, False
+            err_natural = run_eval_squad()
 
-        # 2. Reconstruction condition
-        recon_active, ablate_active = True, False
-        err_recon = run_eval()
+            recon_active, ablate_active = True, False
+            err_recon = run_eval_squad()
 
-        # 3. Ablated conditions for each of the top-5 features
-        recon_active, ablate_active = False, True
-        err_ablations = {}
-        for feat in top_5_features:
-            active_feat_idx = feat
-            err_ablations[feat] = run_eval()
+            recon_active, ablate_active = False, True
+            err_ablations = {}
+            for feat in top_5_features:
+                active_feat_idx = feat
+                err_ablations[feat] = run_eval_squad()
 
         row_res = {
             "window_id": window_id,
@@ -210,10 +257,10 @@ def main():
     print("Ablation hook removed.")
 
     df_res = pd.DataFrame(results_rows)
-    df_res.to_parquet("eval/results/causal_ablation.parquet")
-    print("Saved eval/results/causal_ablation.parquet")
+    df_res.to_parquet(os.path.join(args.out_dir, f"{args.dataset}_causal_ablation.parquet"))
+    print(f"Saved {args.out_dir}/{args.dataset}_causal_ablation.parquet")
 
-    # Step 4: Perform Paired Bootstrap (B=2000) to compute deltas and CIs
+    # Step 4: Perform Paired Bootstrap (B=2000)
     print("Running paired bootstrap on causal ablation outcomes...")
     n_test = len(df_res)
     rng = np.random.default_rng(args.seed)
@@ -264,9 +311,9 @@ def main():
         }
         print(f"Feature {feat:4d} ablation: {delta_feat:+.3f}  95% CI [{feat_ci[0]:+.3f}, {feat_ci[1]:+.3f}]")
 
-    with open(os.path.join(args.out_dir, "causal_ablation.json"), "w") as f:
+    with open(os.path.join(args.out_dir, f"{args.dataset}_causal_ablation.json"), "w") as f:
         json.dump(summary, f, indent=2)
-    print(f"\nSaved {os.path.join(args.out_dir, 'causal_ablation.json')}")
+    print(f"\nSaved {os.path.join(args.out_dir, args.dataset + '_causal_ablation.json')}")
 
 
 if __name__ == "__main__":
