@@ -1,0 +1,237 @@
+{
+  "2956": [
+    {
+      "rank": 1,
+      "prompt_index": 3553,
+      "activation": 0.6592960357666016,
+      "perplexity": 33.62583101607634,
+      "difficulty": 0,
+      "prompt_text": "Context: In this dioxygen, the two oxygen atoms are chemically bonded to each other. The bond can be variously described based on level of theory, but is reasonably and simply described as a covalent double bond that results from the filling of molecular orbitals formed from the atomic orbitals of the individual oxygen atoms, the filling of which results in a bond order of two. More specifically, the double bond is the result of sequential, low-to-high energy, or Aufbau, filling of orbitals, and the resulting cancellation of contributions from the 2s electrons, after sequential filling of the low \u03c3 and \u03c3* orbitals; \u03c3 overlap of the two atomic 2p orbitals that lie along the O-O molecular axis and \u03c0 overlap of two pairs of atomic 2p orbitals perpendicular to the O-O molecular axis, and then cancellation of contributions from the remaining two of the six 2p electrons after their partial filling of the lowest \u03c0 and \u03c0* orbitals.\nQuestion: How is dioxygen most simply described?\nAnswer:",
+      "gold_answer": "covalent double bond"
+    },
+    {
+      "rank": 2,
+      "prompt_index": 3303,
+      "activation": 0.6080213785171509,
+      "perplexity": 629.9014107995271,
+      "difficulty": 1,
+      "prompt_text": "Context: The final major evolution of the steam engine design was the use of steam turbines starting in the late part of the 19th century. Steam turbines are generally more efficient than reciprocating piston type steam engines (for outputs above several hundred horsepower), have fewer moving parts, and provide rotary power directly instead of through a connecting rod system or similar means. Steam turbines virtually replaced reciprocating engines in electricity generating stations early in the 20th century, where their efficiency, higher speed appropriate to generator service, and smooth rotation were advantages. Today most electric power is provided by steam turbines. In the United States 90% of the electric power is produced in this way using a variety of heat sources. Steam turbines were extensively applied for propulsion of large ships throughout most of the 20th century.\nQuestion: Above what horsepower are steam turbines usually more efficient than steam engines that use reciprocating pistons?\nAnswer:",
+      "gold_answer": "several hundred"
+    },
+    {
+      "rank": 3,
+      "prompt_index": 3589,
+      "activation": 0.5810012817382812,
+      "perplexity": 7.164934661977315,
+      "difficulty": 0,
+      "prompt_text": "Context: Oxygen is more soluble in water than nitrogen is. Water in equilibrium with air contains approximately 1 molecule of dissolved O\n2 for every 2 molecules of N\n2, compared to an atmospheric ratio of approximately 1:4. The solubility of oxygen in water is temperature-dependent, and about twice as much (14.6 mg\u00b7L\u22121) dissolves at 0 \u00b0C than at 20 \u00b0C (7.6 mg\u00b7L\u22121). At 25 \u00b0C and 1 standard atmosphere (101.3 kPa) of air, freshwater contains about 6.04 milliliters (mL) of oxygen per liter, whereas seawater contains about 4.95 mL per liter. At 5 \u00b0C the solubility increases to 9.0 mL (50% more than at 25 \u00b0C) per liter for water and 7.2 mL (45% more) per liter for sea water.\nQuestion: How much oxygen is found is a liter of fresh water under normal conditions?\nAnswer:",
+      "gold_answer": "6.04 milliliters"
+    },
+    {
+      "rank": 4,
+      "prompt_index": 3528,
+      "activation": 0.5725806355476379,
+      "perplexity": 81081.74477450093,
+      "difficulty": 1,
+      "prompt_text": "Context: Concentrated O\n2 will allow combustion to proceed rapidly and energetically. Steel pipes and storage vessels used to store and transmit both gaseous and liquid oxygen will act as a fuel; and therefore the design and manufacture of O\n2 systems requires special training to ensure that ignition sources are minimized. The fire that killed the Apollo 1 crew in a launch pad test spread so rapidly because the capsule was pressurized with pure O\n2 but at slightly more than atmospheric pressure, instead of the 1\u20443 normal pressure that would be used in a mission.[k]\nQuestion: ______ In both liquid and gas form can fastly result in an exlposion.\nAnswer:",
+      "gold_answer": "oxygen"
+    },
+    {
+      "rank": 5,
+      "prompt_index": 4605,
+      "activation": 0.5536447763442993,
+      "perplexity": 14305.47373921146,
+      "difficulty": 1,
+      "prompt_text": "Context: The Lobata have a pair of lobes, which are muscular, cuplike extensions of the body that project beyond the mouth. Their inconspicuous tentacles originate from the corners of the mouth, running in convoluted grooves and spreading out over the inner surface of the lobes (rather than trailing far behind, as in the Cydippida). Between the lobes on either side of the mouth, many species of lobates have four auricles, gelatinous projections edged with cilia that produce water currents that help direct microscopic prey toward the mouth. This combination of structures enables lobates to feed continuously on suspended planktonic prey.\nQuestion: How many auricles do most species have?\nAnswer:",
+      "gold_answer": "four"
+    }
+  ],
+  "1449": [
+    {
+      "rank": 1,
+      "prompt_index": 1784,
+      "activation": 0.5938730835914612,
+      "perplexity": 629095.5195190543,
+      "difficulty": 1,
+      "prompt_text": "Context: Many important complexity classes can be defined by bounding the time or space used by the algorithm. Some important complexity classes of decision problems defined in this manner are the following:\nQuestion: What function is used by algorithms to define measurements like time or space?\nAnswer:",
+      "gold_answer": "bounding"
+    },
+    {
+      "rank": 2,
+      "prompt_index": 1759,
+      "activation": 0.4344658851623535,
+      "perplexity": 8.796969117817115,
+      "difficulty": 0,
+      "prompt_text": "Context: The best, worst and average case complexity refer to three different ways of measuring the time complexity (or any other complexity measure) of different inputs of the same size. Since some inputs of size n may be faster to solve than others, we define the following complexities:\nQuestion: What are the three primary expressions used to represent case complexity?\nAnswer:",
+      "gold_answer": "best, worst and average"
+    },
+    {
+      "rank": 3,
+      "prompt_index": 3112,
+      "activation": 0.427881121635437,
+      "perplexity": 270.43398975479454,
+      "difficulty": 1,
+      "prompt_text": "Context: Other evidence of the Walloons and Huguenots in Canterbury includes a block of houses in Turnagain Lane, where weavers' windows survive on the top floor, as many Huguenots worked as weavers. The Weavers, a half-timbered house by the river, was the site of a weaving school from the late 16th century to about 1830. (It has been adapted as a restaurant\u2014see illustration above. The house derives its name from a weaving school which was moved there in the last years of the 19th century, reviving an earlier use.) Others refugees practised the variety of occupations necessary to sustain the community as distinct from the indigenous population. Such economic separation was the condition of the refugees' initial acceptance in the City. They also settled elsewhere in Kent, particularly Sandwich, Faversham and Maidstone\u2014towns in which there used to be refugee churches.\nQuestion: What social construct did Huguenot refugees in Canterbury practice?\nAnswer:",
+      "gold_answer": "economic separation"
+    },
+    {
+      "rank": 4,
+      "prompt_index": 1232,
+      "activation": 0.4095972776412964,
+      "perplexity": 11.64008956955698,
+      "difficulty": 0,
+      "prompt_text": "Context: In 1873, Tesla returned to his birthtown, Smiljan. Shortly after he arrived, Tesla contracted cholera; he was bedridden for nine months and was near death multiple times. Tesla's father, in a moment of despair, promised to send him to the best engineering school if he recovered from the illness (his father had originally wanted him to enter the priesthood).\nQuestion: What did Tesla's father originally want him to do?\nAnswer:",
+      "gold_answer": "enter the priesthood"
+    },
+    {
+      "rank": 5,
+      "prompt_index": 2009,
+      "activation": 0.39991405606269836,
+      "perplexity": 6.378796362323981,
+      "difficulty": 0,
+      "prompt_text": "Context: Research shows that student motivation and attitudes towards school are closely linked to student-teacher relationships. Enthusiastic teachers are particularly good at creating beneficial relations with their students. Their ability to create effective learning environments that foster student achievement depends on the kind of relationship they build with their students. Useful teacher-to-student interactions are crucial in linking academic success with personal achievement. Here, personal success is a student's internal goal of improving himself, whereas academic success includes the goals he receives from his superior. A teacher must guide his student in aligning his personal goals with his academic goals. Students who receive this positive influence show stronger self-confidence and greater personal and academic success than those without these teacher interactions.\nQuestion: What does a student's academic goals include?\nAnswer:",
+      "gold_answer": "the goals he receives from his superior."
+    }
+  ],
+  "3625": [
+    {
+      "rank": 1,
+      "prompt_index": 3922,
+      "activation": 0.44849058985710144,
+      "perplexity": 9.47414611863714,
+      "difficulty": 0,
+      "prompt_text": "Context: The Lunar Module (LM) was designed to descend from lunar orbit to land two astronauts on the Moon and take them back to orbit to rendezvous with the Command Module. Not designed to fly through the Earth's atmosphere or return to Earth, its fuselage was designed totally without aerodynamic considerations, and was of an extremely lightweight construction. It consisted of separate descent and ascent stages, each with its own engine. The descent stage contained storage for the descent propellant, surface stay consumables, and surface exploration equipment. The ascent stage contained the crew cabin, ascent propellant, and a reaction control system. The initial LM model weighed approximately 33,300 pounds (15,100 kg), and allowed surface stays up to around 34 hours. An Extended Lunar Module weighed over 36,200 pounds (16,400 kg), and allowed surface stays of over 3 days.\nQuestion: The initial LM weighed how much in kgs?\nAnswer:",
+      "gold_answer": "15,100 kg"
+    },
+    {
+      "rank": 2,
+      "prompt_index": 2981,
+      "activation": 0.44408535957336426,
+      "perplexity": 2.7494081745002226,
+      "difficulty": 0,
+      "prompt_text": "Context: The Victorian Alps in the northeast are the coldest part of Victoria. The Alps are part of the Great Dividing Range mountain system extending east-west through the centre of Victoria. Average temperatures are less than 9 \u00b0C (48 \u00b0F) in winter and below 0 \u00b0C (32 \u00b0F) in the highest parts of the ranges. The state's lowest minimum temperature of \u221211.7 \u00b0C (10.9 \u00b0F) was recorded at Omeo on 13 June 1965, and again at Falls Creek on 3 July 1970. Temperature extremes for the state are listed in the table below:\nQuestion: What is the lowest recorded temperature in Victoria?\nAnswer:",
+      "gold_answer": "\u221211.7 \u00b0C"
+    },
+    {
+      "rank": 3,
+      "prompt_index": 3288,
+      "activation": 0.43276628851890564,
+      "perplexity": 1642.079898957654,
+      "difficulty": 1,
+      "prompt_text": "Context: In 1781 James Watt patented a steam engine that produced continuous rotary motion. Watt's ten-horsepower engines enabled a wide range of manufacturing machinery to be powered. The engines could be sited anywhere that water and coal or wood fuel could be obtained. By 1883, engines that could provide 10,000 hp had become feasible. The stationary steam engine was a key component of the Industrial Revolution, allowing factories to locate where water power was unavailable. The atmospheric engines of Newcomen and Watt were large compared to the amount of power they produced, but high pressure steam engines were light enough to be applied to vehicles such as traction engines and the railway locomotives.\nQuestion: How many horsepower was Watt's engine?\nAnswer:",
+      "gold_answer": "ten"
+    },
+    {
+      "rank": 4,
+      "prompt_index": 2920,
+      "activation": 0.43062540888786316,
+      "perplexity": 7.530157000898307,
+      "difficulty": 0,
+      "prompt_text": "Context: Immigrants arrived from all over the world to search for gold, especially from Ireland and China. Many Chinese miners worked in Victoria, and their legacy is particularly strong in Bendigo and its environs. Although there was some racism directed at them, there was not the level of anti-Chinese violence that was seen at the Lambing Flat riots in New South Wales. However, there was a riot at Buckland Valley near Bright in 1857. Conditions on the gold fields were cramped and unsanitary; an outbreak of typhoid at Buckland Valley in 1854 killed over 1,000 miners.\nQuestion: How many miners died in the typhoid outbreak of 1854?\nAnswer:",
+      "gold_answer": "over 1,000"
+    },
+    {
+      "rank": 5,
+      "prompt_index": 2482,
+      "activation": 0.425711989402771,
+      "perplexity": 150.61639523417801,
+      "difficulty": 0,
+      "prompt_text": "Context: In October 1529, Philip I, Landgrave of Hesse, convoked an assembly of German and Swiss theologians at the Marburg Colloquy, to establish doctrinal unity in the emerging Protestant states. Agreement was achieved on fourteen points out of fifteen, the exception being the nature of the Eucharist \u2013 the sacrament of the Lord's Supper\u2014an issue crucial to Luther.\nQuestion: How many of the fifteen points of discussion were agreed on?\nAnswer:",
+      "gold_answer": "fourteen points"
+    }
+  ],
+  "51": [
+    {
+      "rank": 1,
+      "prompt_index": 3428,
+      "activation": 0.42105406522750854,
+      "perplexity": 12678.782952228348,
+      "difficulty": 1,
+      "prompt_text": "Context: The next major step occurred when James Watt developed (1763\u20131775) an improved version of Newcomen's engine, with a separate condenser. Boulton and Watt's early engines used half as much coal as John Smeaton's improved version of Newcomen's. Newcomen's and Watt's early engines were \"atmospheric\". They were powered by air pressure pushing a piston into the partial vacuum generated by condensing steam, instead of the pressure of expanding steam. The engine cylinders had to be large because the only usable force acting on them was due to atmospheric pressure.\nQuestion: In an atmospheric engine, what does air pressure push against?\nAnswer:",
+      "gold_answer": "piston"
+    },
+    {
+      "rank": 2,
+      "prompt_index": 3303,
+      "activation": 0.39096060395240784,
+      "perplexity": 629.9014107995271,
+      "difficulty": 1,
+      "prompt_text": "Context: The final major evolution of the steam engine design was the use of steam turbines starting in the late part of the 19th century. Steam turbines are generally more efficient than reciprocating piston type steam engines (for outputs above several hundred horsepower), have fewer moving parts, and provide rotary power directly instead of through a connecting rod system or similar means. Steam turbines virtually replaced reciprocating engines in electricity generating stations early in the 20th century, where their efficiency, higher speed appropriate to generator service, and smooth rotation were advantages. Today most electric power is provided by steam turbines. In the United States 90% of the electric power is produced in this way using a variety of heat sources. Steam turbines were extensively applied for propulsion of large ships throughout most of the 20th century.\nQuestion: Above what horsepower are steam turbines usually more efficient than steam engines that use reciprocating pistons?\nAnswer:",
+      "gold_answer": "several hundred"
+    },
+    {
+      "rank": 3,
+      "prompt_index": 3288,
+      "activation": 0.3858153820037842,
+      "perplexity": 1642.079898957654,
+      "difficulty": 1,
+      "prompt_text": "Context: In 1781 James Watt patented a steam engine that produced continuous rotary motion. Watt's ten-horsepower engines enabled a wide range of manufacturing machinery to be powered. The engines could be sited anywhere that water and coal or wood fuel could be obtained. By 1883, engines that could provide 10,000 hp had become feasible. The stationary steam engine was a key component of the Industrial Revolution, allowing factories to locate where water power was unavailable. The atmospheric engines of Newcomen and Watt were large compared to the amount of power they produced, but high pressure steam engines were light enough to be applied to vehicles such as traction engines and the railway locomotives.\nQuestion: How many horsepower was Watt's engine?\nAnswer:",
+      "gold_answer": "ten"
+    },
+    {
+      "rank": 4,
+      "prompt_index": 4341,
+      "activation": 0.3817411959171295,
+      "perplexity": 1.748533004946234,
+      "difficulty": 0,
+      "prompt_text": "Context: During the mid-Eocene, it is believed that the drainage basin of the Amazon was split along the middle of the continent by the Purus Arch. Water on the eastern side flowed toward the Atlantic, while to the west water flowed toward the Pacific across the Amazonas Basin. As the Andes Mountains rose, however, a large basin was created that enclosed a lake; now known as the Solim\u00f5es Basin. Within the last 5\u201310 million years, this accumulating water broke through the Purus Arch, joining the easterly flow toward the Atlantic.\nQuestion: When was the drainage basin of the Amazon believed to have split in the middle of South America?\nAnswer:",
+      "gold_answer": "During the mid-Eocene"
+    },
+    {
+      "rank": 5,
+      "prompt_index": 3484,
+      "activation": 0.37367162108421326,
+      "perplexity": 3734.290750057821,
+      "difficulty": 1,
+      "prompt_text": "Context: Many major classes of organic molecules in living organisms, such as proteins, nucleic acids, carbohydrates, and fats, contain oxygen, as do the major inorganic compounds that are constituents of animal shells, teeth, and bone. Most of the mass of living organisms is oxygen as it is a part of water, the major constituent of lifeforms. Oxygen is used in cellular respiration and released by photosynthesis, which uses the energy of sunlight to produce oxygen from water. It is too chemically reactive to remain a free element in air without being continuously replenished by the photosynthetic action of living organisms. Another form (allotrope) of oxygen, ozone (O\n3), strongly absorbs UVB radiation and consequently the high-altitude ozone layer helps protect the biosphere from ultraviolet radiation, but is a pollutant near the surface where it is a by-product of smog. At even higher low earth orbit altitudes, sufficient atomic oxygen is present to cause erosion for spacecraft.\nQuestion: Photosynthesis uses which energy to for oxygen from water?\nAnswer:",
+      "gold_answer": "sunlight"
+    }
+  ],
+  "2849": [
+    {
+      "rank": 1,
+      "prompt_index": 1380,
+      "activation": 0.453629732131958,
+      "perplexity": 2.235700321724921,
+      "difficulty": 0,
+      "prompt_text": "Context: In 1893, George Westinghouse won the bid to light the 1893 World's Columbian Exposition in Chicago with alternating current, beating out a General Electric bid by one million dollars. This World's Fair devoted a building to electrical exhibits. It was a key event in the history of AC power, as Westinghouse demonstrated the safety, reliability, and efficiency of a fully integrated alternating current system to the American public. At the Columbian Exposition, under a banner announcing the \"Tesla Polyphase System\", Tesla demonstrated a series of electrical effects previously performed throughout America and Europe,:76 included using high-voltage, high-frequency alternating current to light a wireless gas-discharge lamp.:79 An observer noted:\nQuestion: Who did George Westinghouse beat out to light the World's Columbian Exposition?\nAnswer:",
+      "gold_answer": "General Electric"
+    },
+    {
+      "rank": 2,
+      "prompt_index": 4269,
+      "activation": 0.4244002103805542,
+      "perplexity": 5.029675013734816,
+      "difficulty": 0,
+      "prompt_text": "Context: Often rules apply to all goods neutrally, but may have a greater practical effect on imports than domestic products. For such \"indirect\" discriminatory (or \"indistinctly applicable\") measures the Court of Justice has developed more justifications: either those in article 36, or additional \"mandatory\" or \"overriding\" requirements such as consumer protection, improving labour standards, protecting the environment, press diversity, fairness in commerce, and more: the categories are not closed. In the most famous case Rewe-Zentral AG v Bundesmonopol f\u00fcr Branntwein, the Court of Justice found that a German law requiring all spirits and liqueurs (not just imported ones) to have a minimum alcohol content of 25 per cent was contrary to TFEU article 34, because it had a greater negative effect on imports. German liqueurs were over 25 per cent alcohol, but Cassis de Dijon, which Rewe-Zentrale AG wished to import from France, only had 15 to 20 per cent alcohol. The Court of Justice rejected the German government's arguments that the measure proportionately protected public health under TFEU article 36, because stronger beverages were available and adequate labelling would be enough for consumers to understand what they bought. This rule primarily applies to requirements about a product's content or packaging. In Walter Rau Lebensmittelwerke v De Smedt PVBA the Court of Justice found that a Belgian law requiring all margarine to be in cube shaped packages infringed article 34, and was not justified by the pursuit of consumer protection. The argument that Belgians would believe it was butter if it was not cube shaped was disproportionate: it would \"considerably exceed the requirements of the object in view\" and labelling would protect consumers \"just as effectively\". In a 2003 case, Commission v Italy Italian law required that cocoa products that included other vegetable fats could not be labelled as \"chocolate\". It had to be \"chocolate substitute\". All Italian chocolate was made from cocoa butter alone, but British, Danish and Irish manufacturers used other vegetable fats. They claimed the law infringed article 34. The Court of Justice held that a low content of vegetable fat did not justify a \"chocolate substitute\" label. This was derogatory in the consumers' eyes. A \u2018neutral and objective statement\u2019 was enough to protect consumers. If member states place considerable obstacles on the use of a product, this can also infringe article 34. So, in a 2009 case, Commission v Italy, the Court of Justice held that an Italian law prohibiting motorcycles or mopeds pulling trailers infringed article 34. Again, the law applied neutrally to everyone, but disproportionately affected importers, because Italian companies did not make trailers. This was not a product requirement, but the Court reasoned that the prohibition would deter people from buying it: it would have \"a considerable influence on the behaviour of consumers\" that \"affects the access of that product to the market\". It would require justification under article 36, or as a mandatory requirement.\nQuestion:  In the 2009 Commission v Italy, case, the Court of Justice held that an Italian low prohibiting what infringed article 34?\nAnswer:",
+      "gold_answer": "motorcycles or mopeds pulling trailers"
+    },
+    {
+      "rank": 3,
+      "prompt_index": 1722,
+      "activation": 0.42273595929145813,
+      "perplexity": 3.1126021030243693,
+      "difficulty": 0,
+      "prompt_text": "Context: To measure the difficulty of solving a computational problem, one may wish to see how much time the best algorithm requires to solve the problem. However, the running time may, in general, depend on the instance. In particular, larger instances will require more time to solve. Thus the time required to solve a problem (or the space required, or any measure of complexity) is calculated as a function of the size of the instance. This is usually taken to be the size of the input in bits. Complexity theory is interested in how algorithms scale with an increase in the input size. For instance, in the problem of finding whether a graph is connected, how much more time does it take to solve a problem for a graph with 2n vertices compared to the time taken for a graph with n vertices?\nQuestion: How is the time needed to obtain the solution to a problem calculated?\nAnswer:",
+      "gold_answer": "as a function of the size of the instance"
+    },
+    {
+      "rank": 4,
+      "prompt_index": 1856,
+      "activation": 0.3932369351387024,
+      "perplexity": 15.235998434896857,
+      "difficulty": 0,
+      "prompt_text": "Context: What intractability means in practice is open to debate. Saying that a problem is not in P does not imply that all large cases of the problem are hard or even that most of them are. For example, the decision problem in Presburger arithmetic has been shown not to be in P, yet algorithms have been written that solve the problem in reasonable times in most cases. Similarly, algorithms can solve the NP-complete knapsack problem over a wide range of sizes in less than quadratic time and SAT solvers routinely handle large instances of the NP-complete Boolean satisfiability problem.\nQuestion: How quickly can an algorithm solve an NP-complete knapsack problem?\nAnswer:",
+      "gold_answer": "in less than quadratic time"
+    },
+    {
+      "rank": 5,
+      "prompt_index": 2236,
+      "activation": 0.38942426443099976,
+      "perplexity": 79.35333119252977,
+      "difficulty": 0,
+      "prompt_text": "Context: From 1510 to 1520, Luther lectured on the Psalms, the books of Hebrews, Romans, and Galatians. As he studied these portions of the Bible, he came to view the use of terms such as penance and righteousness by the Catholic Church in new ways. He became convinced that the church was corrupt in its ways and had lost sight of what he saw as several of the central truths of Christianity. The most important for Luther was the doctrine of justification \u2013 God's act of declaring a sinner righteous \u2013 by faith alone through God's grace. He began to teach that salvation or redemption is a gift of God's grace, attainable only through faith in Jesus as the Messiah. \"This one and firm rock, which we call the doctrine of justification,\" he wrote, \"is the chief article of the whole Christian doctrine, which comprehends the understanding of all godliness.\"\nQuestion: What, to Luther had the Church lost sight of?\nAnswer:",
+      "gold_answer": "central truths of Christianity"
+    }
+  ]
+}
