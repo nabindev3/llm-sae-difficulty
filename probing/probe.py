@@ -127,9 +127,11 @@ def main():
         X_test_s = scaler.transform(X[test_mask])
 
         base = LogisticRegression(penalty="l1", solver="liblinear", class_weight="balanced", max_iter=2000)
-        gs = GridSearchCV(base, C_grid, scoring="roc_auc", cv=cv)
+        gs = GridSearchCV(base, C_grid, scoring="roc_auc", cv=cv, n_jobs=-1)
         
-        gs.fit(X_train_s, cv_target if cv_target is not y_train else y_train)
+        from joblib import parallel_backend
+        with parallel_backend("threading"):
+            gs.fit(X_train_s, cv_target if cv_target is not y_train else y_train)
         
         preds[name] = gs.predict_proba(X_test_s)[:, 1]
         point = roc_auc_score(y_test, preds[name]) if len(np.unique(y_test)) > 1 else 0.0

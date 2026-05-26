@@ -1,20 +1,7 @@
 #!/usr/bin/env bash
-# Dual-layer pipeline for the LLM Bridge Project (Layer 12 Mid and Layer 18 Late).
-# Stops at the first failure.
-
 set -euo pipefail
 
 PY=${PY:-python3}
-
-echo "== [1/12] Running lightweight smoke test =="
-$PY smoke_test.py
-
-echo "== [2/12] Layer 12 (Mid): Extracting activations + HellaSwag labels =="
-$PY extract_activations.py --layer_idx 11 --max_samples 5000 --output_dir activations
-
-echo "== [3/12] Layer 12 (Mid): Training TopK SAE on TRAIN split prompt tokens =="
-$PY sae/train_sae.py --activations activations/hellaswag_activations.safetensors \
-    --metadata activations/hellaswag_metadata.parquet --epochs 5 --output_dir sae/checkpoints
 
 echo "== [4/12] Layer 12 (Mid): Running difficulty logistic probe =="
 $PY probing/probe.py --activations activations/hellaswag_activations.safetensors \
@@ -58,8 +45,6 @@ $PY eval/causal_ablation.py --activations activations/hellaswag_activations.safe
 echo "== [Final] Compiling cross-layer results & populating report.md =="
 $PY eval/populate_report.py
 
-echo
 echo "=========================================================="
-echo "Done! The dual-layer pipeline has executed successfully."
-echo "Comparative cross-layer AUROC metrics are compiled in eval/report.md."
+echo "HellaSwag Resume Pipeline Completed!"
 echo "=========================================================="
