@@ -1,0 +1,43 @@
+{
+  "metric": "continuous",
+  "metric_unit": "nats (cross-entropy of gold answer)",
+  "top_5_features": [
+    2956,
+    1449,
+    3625,
+    51,
+    2849
+  ],
+  "natural_error_mean": 3.292780686557293,
+  "recon_error_mean": 3.334387314816316,
+  "delta_recon_natural": 0.04160662825902303,
+  "delta_recon_natural_ci_lower": 0.022800868944699567,
+  "delta_recon_natural_ci_upper": 0.05944896683345236,
+  "feature_effects": {
+    "2956": {
+      "delta_error": 1.613214612007141e-05,
+      "ci_lower": -6.668524021903674e-05,
+      "ci_upper": 0.00010546534756819361
+    },
+    "1449": {
+      "delta_error": -3.543400764465332e-05,
+      "ci_lower": -7.347980141639709e-05,
+      "ci_upper": -6.928092241287233e-06
+    },
+    "3625": {
+      "delta_error": 3.914833068847656e-07,
+      "ci_lower": -2.1244557698567708e-05,
+      "ci_upper": 2.4997472763061478e-05
+    },
+    "51": {
+      "delta_error": -6.3738425572713216e-06,
+      "ci_lower": -2.674029270807902e-05,
+      "ci_upper": 1.1040844519933048e-05
+    },
+    "2849": {
+      "delta_error": 8.42138131459554e-06,
+      "ci_lower": -1.460750897725423e-06,
+      "ci_upper": 2.291707197825111e-05
+    }
+  }
+}

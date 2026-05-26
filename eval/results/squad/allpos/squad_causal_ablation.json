@@ -1,0 +1,46 @@
+{
+  "metric": "continuous",
+  "metric_unit": "nats (cross-entropy of gold answer)",
+  "positions": "all",
+  "sae_ckpt": "sae/checkpoints_allpos_squad/sae_topk_32.pt",
+  "activations_path": "activations_allpos/squad_activations.safetensors",
+  "top_5_features": [
+    2154,
+    3070,
+    1264,
+    507,
+    2121
+  ],
+  "natural_error_mean": 3.292780686557293,
+  "recon_error_mean": 3.789844970524311,
+  "delta_recon_natural": 0.49706428396701813,
+  "delta_recon_natural_ci_lower": 0.46158394206638137,
+  "delta_recon_natural_ci_upper": 0.530862659235547,
+  "feature_effects": {
+    "2154": {
+      "delta_error": 0.007875387132167816,
+      "ci_lower": 0.00574667739768823,
+      "ci_upper": 0.010169394525885578
+    },
+    "3070": {
+      "delta_error": 0.0034870110948880513,
+      "ci_lower": 0.001767947621146838,
+      "ci_upper": 0.0051605808883905405
+    },
+    "1264": {
+      "delta_error": -0.005936460206906001,
+      "ci_lower": -0.006930276361604531,
+      "ci_upper": -0.0050252131665746375
+    },
+    "507": {
+      "delta_error": 0.0028589472273985546,
+      "ci_lower": 0.0024800728204349676,
+      "ci_upper": 0.00325006309847037
+    },
+    "2121": {
+      "delta_error": 0.0010036921302477519,
+      "ci_lower": 0.00046378858834505076,
+      "ci_upper": 0.001600994872053464
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "metric": "continuous",
+  "metric_unit": "nats (neg-log-prob of true ending)",
+  "positions": "boundary",
+  "hellaswag_boundary": "last_prompt",
+  "sae_ckpt": "sae/checkpoints_allpos_hellaswag/sae_topk_32.pt",
+  "activations_path": "activations_allpos/hellaswag_activations.safetensors",
+  "top_5_features": [
+    1126,
+    2869,
+    2483,
+    893,
+    2903
+  ],
+  "natural_error_mean": 2.607853444040895,
+  "recon_error_mean": 2.6120538805388387,
+  "delta_recon_natural": 0.004200436497943412,
+  "delta_recon_natural_ci_lower": 0.003363346848748699,
+  "delta_recon_natural_ci_upper": 0.005060728567293916,
+  "feature_effects": {
+    "1126": {
+      "delta_error": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0
+    },
+    "2869": {
+      "delta_error": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0
+    },
+    "2483": {
+      "delta_error": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0
+    },
+    "893": {
+      "delta_error": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0
+    },
+    "2903": {
+      "delta_error": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0
+    }
+  }
+}

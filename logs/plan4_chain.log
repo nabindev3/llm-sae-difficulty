@@ -1,0 +1,2 @@
+== Plan 4 [2/3]: Train Layer-18 SAE on SQuAD activations ==
+run_plan4_chain.sh: line 14: ../tsfm-sae-routing/venv/bin/python3: No such file or directory

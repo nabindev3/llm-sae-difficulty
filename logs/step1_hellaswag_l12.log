@@ -1,0 +1,143 @@
+== Step 1 [1/7]: Train HellaSwag-matched L12 SAE ==
+Loading activations from activations/hellaswag_activations.safetensors...
+Loaded activations with shape: torch.Size([5000, 4, 1024])
+Auto-detected d_model = 1024
+Auto-set d_hidden = 4096
+Filtering to split='train': 3500/5000 prompts
+Masking out padding tokens for SAE training...
+Total tokens for SAE training: (14000, 1024)
+Token activation variance: 0.2052
+Using training device: mps
+Epoch 1/10:   0%|          | 0/7 [00:00<?, ?it/s]Epoch 1/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=1.033, L0=32.0, dead=0.0%, lr=5.00e-06]Epoch 1/10:  14%|█▍        | 1/7 [00:00<00:02,  2.88it/s, nMSE=1.033, L0=32.0, dead=0.0%, lr=5.00e-06]Epoch 1/10:  14%|█▍        | 1/7 [00:00<00:02,  2.88it/s, nMSE=1.030, L0=32.0, dead=0.0%, lr=1.00e-05]Epoch 1/10:  14%|█▍        | 1/7 [00:00<00:02,  2.88it/s, nMSE=1.028, L0=32.0, dead=0.0%, lr=1.50e-05]Epoch 1/10:  43%|████▎     | 3/7 [00:00<00:00,  7.08it/s, nMSE=1.028, L0=32.0, dead=0.0%, lr=1.50e-05]Epoch 1/10:  43%|████▎     | 3/7 [00:00<00:00,  7.08it/s, nMSE=1.021, L0=32.0, dead=0.0%, lr=2.00e-05]Epoch 1/10:  43%|████▎     | 3/7 [00:00<00:00,  7.08it/s, nMSE=1.030, L0=32.0, dead=0.0%, lr=2.50e-05]Epoch 1/10:  71%|███████▏  | 5/7 [00:00<00:00,  9.89it/s, nMSE=1.030, L0=32.0, dead=0.0%, lr=2.50e-05]Epoch 1/10:  71%|███████▏  | 5/7 [00:00<00:00,  9.89it/s, nMSE=1.024, L0=32.0, dead=0.0%, lr=3.00e-05]Epoch 1/10:  71%|███████▏  | 5/7 [00:00<00:00,  9.89it/s, nMSE=1.023, L0=32.0, dead=0.0%, lr=3.50e-05]Epoch 1/10: 100%|██████████| 7/7 [00:00<00:00, 11.20it/s, nMSE=1.023, L0=32.0, dead=0.0%, lr=3.50e-05]Epoch 1/10: 100%|██████████| 7/7 [00:00<00:00,  9.23it/s, nMSE=1.023, L0=32.0, dead=0.0%, lr=3.50e-05]
+Epoch 1 | MSE: 0.2108 | nMSE: 1.027 | L0: 32.0 | Dead: 0.0%
+Epoch 2/10:   0%|          | 0/7 [00:00<?, ?it/s]Epoch 2/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=1.014, L0=32.0, dead=0.0%, lr=4.00e-05]Epoch 2/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=1.017, L0=32.0, dead=0.0%, lr=4.50e-05]Epoch 2/10:  29%|██▊       | 2/7 [00:00<00:00, 15.90it/s, nMSE=1.017, L0=32.0, dead=0.0%, lr=4.50e-05]Epoch 2/10:  29%|██▊       | 2/7 [00:00<00:00, 15.90it/s, nMSE=1.017, L0=32.0, dead=0.0%, lr=5.00e-05]Epoch 2/10:  29%|██▊       | 2/7 [00:00<00:00, 15.90it/s, nMSE=1.024, L0=32.0, dead=0.0%, lr=5.50e-05]Epoch 2/10:  57%|█████▋    | 4/7 [00:00<00:00, 12.53it/s, nMSE=1.024, L0=32.0, dead=0.0%, lr=5.50e-05]Epoch 2/10:  57%|█████▋    | 4/7 [00:00<00:00, 12.53it/s, nMSE=1.003, L0=32.0, dead=0.0%, lr=6.00e-05]Epoch 2/10:  57%|█████▋    | 4/7 [00:00<00:00, 12.53it/s, nMSE=1.012, L0=32.0, dead=0.0%, lr=6.50e-05]Epoch 2/10:  86%|████████▌ | 6/7 [00:00<00:00, 14.02it/s, nMSE=1.012, L0=32.0, dead=0.0%, lr=6.50e-05]Epoch 2/10:  86%|████████▌ | 6/7 [00:00<00:00, 14.02it/s, nMSE=0.994, L0=32.0, dead=0.0%, lr=7.00e-05]Epoch 2/10: 100%|██████████| 7/7 [00:00<00:00, 14.26it/s, nMSE=0.994, L0=32.0, dead=0.0%, lr=7.00e-05]
+Epoch 2 | MSE: 0.2076 | nMSE: 1.012 | L0: 32.0 | Dead: 0.0%
+Epoch 3/10:   0%|          | 0/7 [00:00<?, ?it/s]Epoch 3/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=0.998, L0=32.0, dead=0.0%, lr=7.50e-05]Epoch 3/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=0.996, L0=32.0, dead=0.0%, lr=8.00e-05]Epoch 3/10:  29%|██▊       | 2/7 [00:00<00:00, 13.48it/s, nMSE=0.996, L0=32.0, dead=0.0%, lr=8.00e-05]Epoch 3/10:  29%|██▊       | 2/7 [00:00<00:00, 13.48it/s, nMSE=0.984, L0=32.0, dead=0.0%, lr=8.50e-05]Epoch 3/10:  29%|██▊       | 2/7 [00:00<00:00, 13.48it/s, nMSE=0.980, L0=32.0, dead=0.0%, lr=9.00e-05]Epoch 3/10:  57%|█████▋    | 4/7 [00:00<00:00, 14.72it/s, nMSE=0.980, L0=32.0, dead=0.0%, lr=9.00e-05]Epoch 3/10:  57%|█████▋    | 4/7 [00:00<00:00, 14.72it/s, nMSE=0.964, L0=32.0, dead=0.0%, lr=9.50e-05]Epoch 3/10:  57%|█████▋    | 4/7 [00:00<00:00, 14.72it/s, nMSE=0.981, L0=32.0, dead=0.0%, lr=1.00e-04]Epoch 3/10:  86%|████████▌ | 6/7 [00:00<00:00, 15.16it/s, nMSE=0.981, L0=32.0, dead=0.0%, lr=1.00e-04]Epoch 3/10:  86%|████████▌ | 6/7 [00:00<00:00, 15.16it/s, nMSE=0.961, L0=32.0, dead=0.0%, lr=1.05e-04]Epoch 3/10: 100%|██████████| 7/7 [00:00<00:00, 15.24it/s, nMSE=0.961, L0=32.0, dead=0.0%, lr=1.05e-04]
+Epoch 3 | MSE: 0.2013 | nMSE: 0.981 | L0: 32.0 | Dead: 0.0%
+Epoch 4/10:   0%|          | 0/7 [00:00<?, ?it/s]Epoch 4/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=0.944, L0=32.0, dead=0.0%, lr=1.10e-04]Epoch 4/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=0.944, L0=32.0, dead=0.0%, lr=1.15e-04]Epoch 4/10:  29%|██▊       | 2/7 [00:00<00:00, 15.42it/s, nMSE=0.944, L0=32.0, dead=0.0%, lr=1.15e-04]Epoch 4/10:  29%|██▊       | 2/7 [00:00<00:00, 15.42it/s, nMSE=0.956, L0=32.0, dead=0.0%, lr=1.20e-04]Epoch 4/10:  29%|██▊       | 2/7 [00:00<00:00, 15.42it/s, nMSE=0.920, L0=32.0, dead=0.0%, lr=1.25e-04]Epoch 4/10:  57%|█████▋    | 4/7 [00:00<00:00, 15.39it/s, nMSE=0.920, L0=32.0, dead=0.0%, lr=1.25e-04]Epoch 4/10:  57%|█████▋    | 4/7 [00:00<00:00, 15.39it/s, nMSE=0.929, L0=32.0, dead=0.0%, lr=1.30e-04]Epoch 4/10:  57%|█████▋    | 4/7 [00:00<00:00, 15.39it/s, nMSE=0.920, L0=32.0, dead=0.0%, lr=1.35e-04]Epoch 4/10:  86%|████████▌ | 6/7 [00:00<00:00, 15.36it/s, nMSE=0.920, L0=32.0, dead=0.0%, lr=1.35e-04]Epoch 4/10:  86%|████████▌ | 6/7 [00:00<00:00, 15.36it/s, nMSE=0.906, L0=32.0, dead=0.0%, lr=1.40e-04]Epoch 4/10: 100%|██████████| 7/7 [00:00<00:00, 15.73it/s, nMSE=0.906, L0=32.0, dead=0.0%, lr=1.40e-04]
+Epoch 4 | MSE: 0.1911 | nMSE: 0.931 | L0: 32.0 | Dead: 0.0%
+Epoch 5/10:   0%|          | 0/7 [00:00<?, ?it/s]Epoch 5/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=0.893, L0=32.0, dead=0.0%, lr=1.45e-04]Epoch 5/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=0.883, L0=32.0, dead=0.0%, lr=1.50e-04]Epoch 5/10:  29%|██▊       | 2/7 [00:00<00:00, 15.47it/s, nMSE=0.883, L0=32.0, dead=0.0%, lr=1.50e-04]Epoch 5/10:  29%|██▊       | 2/7 [00:00<00:00, 15.47it/s, nMSE=0.855, L0=32.0, dead=0.0%, lr=1.55e-04]Epoch 5/10:  29%|██▊       | 2/7 [00:00<00:00, 15.47it/s, nMSE=0.845, L0=32.0, dead=0.0%, lr=1.60e-04]Epoch 5/10:  57%|█████▋    | 4/7 [00:00<00:00, 15.29it/s, nMSE=0.845, L0=32.0, dead=0.0%, lr=1.60e-04]Epoch 5/10:  57%|█████▋    | 4/7 [00:00<00:00, 15.29it/s, nMSE=0.843, L0=32.0, dead=0.0%, lr=1.65e-04]Epoch 5/10:  57%|█████▋    | 4/7 [00:00<00:00, 15.29it/s, nMSE=0.825, L0=32.0, dead=0.0%, lr=1.70e-04]Epoch 5/10:  86%|████████▌ | 6/7 [00:00<00:00, 15.19it/s, nMSE=0.825, L0=32.0, dead=0.0%, lr=1.70e-04]Epoch 5/10:  86%|████████▌ | 6/7 [00:00<00:00, 15.19it/s, nMSE=0.812, L0=32.0, dead=0.0%, lr=1.75e-04]Epoch 5/10: 100%|██████████| 7/7 [00:00<00:00, 15.57it/s, nMSE=0.812, L0=32.0, dead=0.0%, lr=1.75e-04]
+Epoch 5 | MSE: 0.1746 | nMSE: 0.851 | L0: 32.0 | Dead: 0.0%
+Epoch 6/10:   0%|          | 0/7 [00:00<?, ?it/s]Epoch 6/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=0.797, L0=32.0, dead=0.0%, lr=1.80e-04]Epoch 6/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=0.773, L0=32.0, dead=0.0%, lr=1.85e-04]Epoch 6/10:  29%|██▊       | 2/7 [00:00<00:00, 14.75it/s, nMSE=0.773, L0=32.0, dead=0.0%, lr=1.85e-04]Epoch 6/10:  29%|██▊       | 2/7 [00:00<00:00, 14.75it/s, nMSE=0.745, L0=32.0, dead=0.0%, lr=1.90e-04]Epoch 6/10:  29%|██▊       | 2/7 [00:00<00:00, 14.75it/s, nMSE=0.741, L0=32.0, dead=0.0%, lr=1.95e-04]Epoch 6/10:  57%|█████▋    | 4/7 [00:00<00:00, 15.28it/s, nMSE=0.741, L0=32.0, dead=0.0%, lr=1.95e-04]Epoch 6/10:  57%|█████▋    | 4/7 [00:00<00:00, 15.28it/s, nMSE=0.711, L0=32.0, dead=0.0%, lr=2.00e-04]Epoch 6/10:  57%|█████▋    | 4/7 [00:00<00:00, 15.28it/s, nMSE=0.705, L0=32.0, dead=0.0%, lr=2.05e-04]Epoch 6/10:  86%|████████▌ | 6/7 [00:00<00:00, 15.46it/s, nMSE=0.705, L0=32.0, dead=0.0%, lr=2.05e-04]Epoch 6/10:  86%|████████▌ | 6/7 [00:00<00:00, 15.46it/s, nMSE=0.672, L0=32.0, dead=0.0%, lr=2.10e-04]Epoch 6/10: 100%|██████████| 7/7 [00:00<00:00, 15.72it/s, nMSE=0.672, L0=32.0, dead=0.0%, lr=2.10e-04]
+Epoch 6 | MSE: 0.1508 | nMSE: 0.735 | L0: 32.0 | Dead: 0.0%
+Epoch 7/10:   0%|          | 0/7 [00:00<?, ?it/s]Epoch 7/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=0.668, L0=32.0, dead=0.0%, lr=2.15e-04]Epoch 7/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=0.639, L0=32.0, dead=0.0%, lr=2.20e-04]Epoch 7/10:  29%|██▊       | 2/7 [00:00<00:00, 15.73it/s, nMSE=0.639, L0=32.0, dead=0.0%, lr=2.20e-04]Epoch 7/10:  29%|██▊       | 2/7 [00:00<00:00, 15.73it/s, nMSE=0.621, L0=32.0, dead=0.0%, lr=2.25e-04]Epoch 7/10:  29%|██▊       | 2/7 [00:00<00:00, 15.73it/s, nMSE=0.608, L0=32.0, dead=0.0%, lr=2.30e-04]Epoch 7/10:  57%|█████▋    | 4/7 [00:00<00:00, 15.73it/s, nMSE=0.608, L0=32.0, dead=0.0%, lr=2.30e-04]Epoch 7/10:  57%|█████▋    | 4/7 [00:00<00:00, 15.73it/s, nMSE=0.584, L0=32.0, dead=0.0%, lr=2.35e-04]Epoch 7/10:  57%|█████▋    | 4/7 [00:00<00:00, 15.73it/s, nMSE=0.579, L0=32.0, dead=0.0%, lr=2.40e-04]Epoch 7/10:  86%|████████▌ | 6/7 [00:00<00:00, 15.84it/s, nMSE=0.579, L0=32.0, dead=0.0%, lr=2.40e-04]Epoch 7/10:  86%|████████▌ | 6/7 [00:00<00:00, 15.84it/s, nMSE=0.570, L0=32.0, dead=0.0%, lr=2.45e-04]Epoch 7/10: 100%|██████████| 7/7 [00:00<00:00, 15.96it/s, nMSE=0.570, L0=32.0, dead=0.0%, lr=2.45e-04]
+Epoch 7 | MSE: 0.1252 | nMSE: 0.610 | L0: 32.0 | Dead: 0.0%
+Epoch 8/10:   0%|          | 0/7 [00:00<?, ?it/s]Epoch 8/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=0.538, L0=32.0, dead=0.0%, lr=2.50e-04]Epoch 8/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=0.537, L0=32.0, dead=0.0%, lr=2.55e-04]Epoch 8/10:  29%|██▊       | 2/7 [00:00<00:00, 10.86it/s, nMSE=0.537, L0=32.0, dead=0.0%, lr=2.55e-04]Epoch 8/10:  29%|██▊       | 2/7 [00:00<00:00, 10.86it/s, nMSE=0.518, L0=32.0, dead=0.0%, lr=2.60e-04]Epoch 8/10:  29%|██▊       | 2/7 [00:00<00:00, 10.86it/s, nMSE=0.518, L0=32.0, dead=0.0%, lr=2.65e-04]Epoch 8/10:  57%|█████▋    | 4/7 [00:00<00:00, 12.91it/s, nMSE=0.518, L0=32.0, dead=0.0%, lr=2.65e-04]Epoch 8/10:  57%|█████▋    | 4/7 [00:00<00:00, 12.91it/s, nMSE=0.504, L0=32.0, dead=0.0%, lr=2.70e-04]Epoch 8/10:  57%|█████▋    | 4/7 [00:00<00:00, 12.91it/s, nMSE=0.490, L0=32.0, dead=0.0%, lr=2.75e-04]Epoch 8/10:  86%|████████▌ | 6/7 [00:00<00:00, 14.04it/s, nMSE=0.490, L0=32.0, dead=0.0%, lr=2.75e-04]Epoch 8/10:  86%|████████▌ | 6/7 [00:00<00:00, 14.04it/s, nMSE=0.471, L0=32.0, dead=0.0%, lr=2.80e-04]Epoch 8/10: 100%|██████████| 7/7 [00:00<00:00, 13.89it/s, nMSE=0.471, L0=32.0, dead=0.0%, lr=2.80e-04]
+Epoch 8 | MSE: 0.1049 | nMSE: 0.511 | L0: 32.0 | Dead: 0.0%
+Epoch 9/10:   0%|          | 0/7 [00:00<?, ?it/s]Epoch 9/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=0.460, L0=32.0, dead=0.0%, lr=2.85e-04]Epoch 9/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=0.456, L0=32.0, dead=0.0%, lr=2.90e-04]Epoch 9/10:  29%|██▊       | 2/7 [00:00<00:00, 15.91it/s, nMSE=0.456, L0=32.0, dead=0.0%, lr=2.90e-04]Epoch 9/10:  29%|██▊       | 2/7 [00:00<00:00, 15.91it/s, nMSE=0.457, L0=32.0, dead=0.0%, lr=2.95e-04]Epoch 9/10:  29%|██▊       | 2/7 [00:00<00:00, 15.91it/s, nMSE=0.443, L0=32.0, dead=0.0%, lr=3.00e-04]Epoch 9/10:  57%|█████▋    | 4/7 [00:00<00:00, 15.95it/s, nMSE=0.443, L0=32.0, dead=0.0%, lr=3.00e-04]Epoch 9/10:  57%|█████▋    | 4/7 [00:00<00:00, 15.95it/s, nMSE=0.430, L0=32.0, dead=0.0%, lr=3.05e-04]Epoch 9/10:  57%|█████▋    | 4/7 [00:00<00:00, 15.95it/s, nMSE=0.417, L0=32.0, dead=0.0%, lr=3.10e-04]Epoch 9/10:  86%|████████▌ | 6/7 [00:00<00:00, 15.60it/s, nMSE=0.417, L0=32.0, dead=0.0%, lr=3.10e-04]Epoch 9/10:  86%|████████▌ | 6/7 [00:00<00:00, 15.60it/s, nMSE=0.430, L0=32.0, dead=0.0%, lr=3.15e-04]Epoch 9/10: 100%|██████████| 7/7 [00:00<00:00, 15.87it/s, nMSE=0.430, L0=32.0, dead=0.0%, lr=3.15e-04]
+Epoch 9 | MSE: 0.0907 | nMSE: 0.442 | L0: 32.0 | Dead: 0.0%
+Epoch 10/10:   0%|          | 0/7 [00:00<?, ?it/s]Epoch 10/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=0.398, L0=32.0, dead=0.0%, lr=3.20e-04]Epoch 10/10:   0%|          | 0/7 [00:00<?, ?it/s, nMSE=0.403, L0=32.0, dead=0.0%, lr=3.25e-04]Epoch 10/10:  29%|██▊       | 2/7 [00:00<00:00, 15.94it/s, nMSE=0.403, L0=32.0, dead=0.0%, lr=3.25e-04]Epoch 10/10:  29%|██▊       | 2/7 [00:00<00:00, 15.94it/s, nMSE=0.393, L0=32.0, dead=0.0%, lr=3.30e-04]Epoch 10/10:  29%|██▊       | 2/7 [00:00<00:00, 15.94it/s, nMSE=0.387, L0=32.0, dead=0.0%, lr=3.35e-04]Epoch 10/10:  57%|█████▋    | 4/7 [00:00<00:00, 15.78it/s, nMSE=0.387, L0=32.0, dead=0.0%, lr=3.35e-04]Epoch 10/10:  57%|█████▋    | 4/7 [00:00<00:00, 15.78it/s, nMSE=0.390, L0=32.0, dead=0.0%, lr=3.40e-04]Epoch 10/10:  57%|█████▋    | 4/7 [00:00<00:00, 15.78it/s, nMSE=0.378, L0=32.0, dead=0.0%, lr=3.45e-04]Epoch 10/10:  86%|████████▌ | 6/7 [00:00<00:00, 15.87it/s, nMSE=0.378, L0=32.0, dead=0.0%, lr=3.45e-04]Epoch 10/10:  86%|████████▌ | 6/7 [00:00<00:00, 15.87it/s, nMSE=0.389, L0=32.0, dead=0.0%, lr=3.50e-04]Epoch 10/10: 100%|██████████| 7/7 [00:00<00:00, 16.13it/s, nMSE=0.389, L0=32.0, dead=0.0%, lr=3.50e-04]
+Epoch 10 | MSE: 0.0803 | nMSE: 0.391 | L0: 32.0 | Dead: 0.0%
+Saved SAE checkpoint to sae/checkpoints_hellaswag_l12/sae_topk_32.pt
+== Step 1 [2/7]: HellaSwag probe with dataset-matched L12 SAE ==
+Loading HellaSwag metadata and activations...
+Computing prompt statistics...
+Loading SAE...
+Auto-detected SAE dimensions from checkpoint: d_model=1024, d_hidden=4096
+Aggregating activations (padding-aware sequence pooling)...
+Aggregating SAE codes (padding-aware sequence pooling)...
+Train samples: 3500, Test samples: 1499, Hard (incorrect) rate: 62.1%
+  CV: Using stratified-by-label CV (some topic-label groups have count < 5)
+Training probe: P1_InputStats (features: 8)
+  P1_InputStats point AUROC = 0.509  (C=1.0)
+Training probe: P2_InputStats_Raw (features: 3080)
+  P2_InputStats_Raw point AUROC = 0.472  (C=0.3)
+Training probe: P3_InputStats_SAE (features: 12296)
+  P3_InputStats_SAE point AUROC = 0.500  (C=0.01)
+Training probe: P4_RawOnly (features: 3072)
+  P4_RawOnly point AUROC = 0.465  (C=0.01)
+Training probe: P5_SAEOnly (features: 12288)
+  P5_SAEOnly point AUROC = 0.500  (C=0.01)
+Running paired bootstrap (B=2000)...
+  P1_InputStats AUROC 95% CI: [0.480, 0.539]
+  P2_InputStats_Raw AUROC 95% CI: [0.442, 0.501]
+  P3_InputStats_SAE AUROC 95% CI: [0.500, 0.500]
+  P4_RawOnly AUROC 95% CI: [0.435, 0.496]
+  P5_SAEOnly AUROC 95% CI: [0.500, 0.500]
+
+--- Incremental Predictive Power (ΔAUROC, paired bootstrap) ---
+Δ Raw - Stats : -0.038  95% CI [-0.080, +0.003]
+Δ SAE - Stats : -0.009  95% CI [-0.039, +0.020]
+Δ SAE - Raw   : +0.028  95% CI [-0.001, +0.058]
+
+Saved activations/probe_scores.parquet
+Saved probing/results/probe_results.json
+== Step 1 [3/7]: HellaSwag cascade (uncalibrated) ==
+[cascade] evaluating on 1499 test prompts
+  mean error small = 0.6211
+  mean error base  = 0.3909
+  win rate base    = 24.08%  (fraction where base beats small)
+  pred_P3_InputStats_SAE: 0 dominating points
+  pred_P1_InputStats: 1 Pareto-dominating points  (best: {'tau': 0.42500000000000004, 'frac_to_base': 0.9946631087391594, 'mean_cost': 4.978652434956638, 'mean_error': 0.39159439626417614})
+
+Saved eval/results/pareto_frontier.png
+Saved eval/results/cascade_results.json
+== Step 1 [4/7]: HellaSwag selective prediction ==
+n_test = 1499
+No-abstention error rate = 0.6211
+Oracle AURC              = 0.2537
+Random AURC              = 0.5591
+Probe AURCs (lower better):
+  P1 stats          AURC = 0.5529
+  P2 stats+raw      AURC = 0.5722
+  P3 stats+sae      AURC = 0.5611
+  P4 raw only       AURC = 0.5755
+  P5 sae only       AURC = 0.5611
+
+At 50% coverage:
+  P1 stats          mean error = 0.6160  (ΔError = -0.8% vs no abstention)
+  P2 stats+raw      mean error = 0.6480  (ΔError = +4.3% vs no abstention)
+  P3 stats+sae      mean error = 0.6253  (ΔError = +0.7% vs no abstention)
+  P4 raw only       mean error = 0.6467  (ΔError = +4.1% vs no abstention)
+  P5 sae only       mean error = 0.6253  (ΔError = +0.7% vs no abstention)
+  Oracle            mean error = 0.2427
+  Random            mean error = 0.6214
+
+Saved eval/results/risk_coverage.png
+Saved eval/results/selective_prediction.json
+== Step 1 [5/7]: HellaSwag calibration ==
+Test prompts: 1499 | Hard (incorrect) fraction = 0.621
+
+probe                         ECE    Brier
+P1 stats                   0.1472   0.2570
+P2 stats+raw               0.3455   0.3862
+P3 stats+sae               0.1184   0.2494
+P4 raw only                0.1193   0.2502
+P5 sae only                0.1184   0.2494
+
+Saved eval/results/reliability_diagram.png
+Saved eval/results/calibration_results.json
+== Step 1 [6/7]: HellaSwag recalibrate (with --probe_scores so cascade can route on Platt for parity) ==
+Loading metadata, activations, SAE...
+  n_train=3500  n_test=1499  hard_frac_train=0.619  hard_frac_test=0.621
+Computing prompt statistics...
+Computing SAE-aggregated features (mean+max+last) for P3...
+
+--- P1_InputStats (features: 8) ---
+  raw      ECE 0.147  Brier 0.257  AUROC 0.509
+  Platt    ECE 0.018  Brier 0.236  AUROC 0.509   (monotone, AUROC preserved)
+  isotonic ECE 0.028  Brier 0.235  AUROC 0.522   (lower ECE)
+
+--- P3_InputStats_SAE (features: 12296) ---
+  raw      ECE 0.216  Brier 0.307  AUROC 0.501
+  Platt    ECE 0.003  Brier 0.235  AUROC 0.499   (monotone, AUROC preserved)
+  isotonic ECE 0.004  Brier 0.236  AUROC 0.497   (lower ECE)
+
+Saved eval/results/reliability_recalibrated.png
+Saved eval/results/recalibration_results.json
+Wrote calibrated columns to activations/probe_scores.parquet
+== Step 1 [6b/7]: HellaSwag calibrated cascade (closes Plan 3 parity gap) ==
+[cascade] evaluating on 1499 test prompts
+  mean error small = 0.6211
+  mean error base  = 0.3909
+  win rate base    = 24.08%  (fraction where base beats small)
+  pred_P3_InputStats_SAE_platt: 0 dominating points
+  pred_P1_InputStats_platt: 2 Pareto-dominating points  (best: {'tau': 0.5750000000000001, 'frac_to_base': 0.9939959973315544, 'mean_cost': 4.975983989326218, 'mean_error': 0.39159439626417614})
+  pred_P3_InputStats_SAE: 0 dominating points
+  pred_P1_InputStats: 1 Pareto-dominating points  (best: {'tau': 0.42500000000000004, 'frac_to_base': 0.9946631087391594, 'mean_cost': 4.978652434956638, 'mean_error': 0.39159439626417614})
+
+Saved eval/results/calibrated/pareto_frontier.png
+Saved eval/results/calibrated/cascade_results.json
+== Step 1 [7/7]: HellaSwag populate report ==
+Successfully populated and wrote eval/report.md
+=== Step 1 complete ===

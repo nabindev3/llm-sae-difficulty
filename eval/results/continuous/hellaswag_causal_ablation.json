@@ -1,0 +1,43 @@
+{
+  "metric": "continuous",
+  "metric_unit": "nats (neg-log-prob of true ending)",
+  "top_5_features": [
+    1659,
+    139,
+    966,
+    1441,
+    78
+  ],
+  "natural_error_mean": 2.607853444040895,
+  "recon_error_mean": 2.9145184476189487,
+  "delta_recon_natural": 0.3066650035780537,
+  "delta_recon_natural_ci_lower": 0.3000890696462271,
+  "delta_recon_natural_ci_upper": 0.31328092690624343,
+  "feature_effects": {
+    "1659": {
+      "delta_error": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0
+    },
+    "139": {
+      "delta_error": -1.228865661010335e-05,
+      "ci_lower": -2.1090039895167742e-05,
+      "ci_upper": -4.266261100132837e-06
+    },
+    "966": {
+      "delta_error": -9.482665567735261e-07,
+      "ci_lower": -3.2786928549697195e-06,
+      "ci_upper": 4.338931846491411e-07
+    },
+    "1441": {
+      "delta_error": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0
+    },
+    "78": {
+      "delta_error": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0
+    }
+  }
+}

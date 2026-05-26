@@ -50,8 +50,17 @@ def compute_prompt_stats(df_meta: pd.DataFrame) -> np.ndarray:
         # Stat 3: Lexical diversity (Type-Token Ratio)
         lexical_diversity = len(set(words_lower)) / (len(words) + 1e-8)
         
-        # Stat 4: Perplexity under Pythia-410M
-        perplexity = float(row["perplexity"])
+        # Stat 4: Perplexity under Pythia-410M (PROMPT-only, never the gold target)
+        # For SQuAD, `perplexity` is the gold-answer perplexity — the quantity from
+        # which the difficulty label is derived (extract_activations.py:280). Using
+        # it here would be direct label leakage (single-feature AUROC = 1.000).
+        # `prompt_perplexity` is the prompt-only perplexity used for Pile contamination
+        # checks; HellaSwag stores prompt-only ppl in `perplexity` and has no
+        # `prompt_perplexity` column, so we fall back to `perplexity` there.
+        if "prompt_perplexity" in df_meta.columns:
+            perplexity = float(row["prompt_perplexity"])
+        else:
+            perplexity = float(row["perplexity"])
         
         # Stat 5: Character-to-token ratio
         char_to_token = char_len / (token_count + 1e-8)

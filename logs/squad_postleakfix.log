@@ -1,0 +1,100 @@
+== [1/6] SQuAD probe (post-leakage-fix) ==
+Loading HellaSwag metadata and activations...
+Computing prompt statistics...
+Loading SAE...
+Auto-detected SAE dimensions from checkpoint: d_model=1024, d_hidden=4096
+Aggregating activations (padding-aware sequence pooling)...
+Aggregating SAE codes (padding-aware sequence pooling)...
+Train samples: 3500, Test samples: 1500, Hard (incorrect) rate: 17.7%
+  CV: Using stratified-by-topic CV across 5 folds
+Training probe: P1_InputStats (features: 8)
+  P1_InputStats point AUROC = 0.591  (C=1.0)
+Training probe: P2_InputStats_Raw (features: 1032)
+  P2_InputStats_Raw point AUROC = 0.671  (C=0.1)
+Training probe: P3_InputStats_SAE (features: 4104)
+  P3_InputStats_SAE point AUROC = 0.592  (C=0.03)
+Training probe: P4_RawOnly (features: 1024)
+  P4_RawOnly point AUROC = 0.667  (C=0.1)
+Training probe: P5_SAEOnly (features: 4096)
+  P5_SAEOnly point AUROC = 0.578  (C=0.03)
+Running paired bootstrap (B=2000)...
+  P1_InputStats AUROC 95% CI: [0.552, 0.628]
+  P2_InputStats_Raw AUROC 95% CI: [0.638, 0.704]
+  P3_InputStats_SAE AUROC 95% CI: [0.554, 0.628]
+  P4_RawOnly AUROC 95% CI: [0.634, 0.700]
+  P5_SAEOnly AUROC 95% CI: [0.539, 0.614]
+
+--- Incremental Predictive Power (ΔAUROC, paired bootstrap) ---
+Δ Raw - Stats : +0.080  95% CI [+0.039, +0.121]
+Δ SAE - Stats : +0.001  95% CI [-0.045, +0.046]
+Δ SAE - Raw   : -0.079  95% CI [-0.118, -0.041]
+
+Saved activations/squad_scores.parquet
+Saved probing/results/squad_probe_results.json
+== [2/6] SQuAD cascade ==
+[cascade] evaluating on 1500 test prompts
+  mean error small = 0.1773
+  mean error base  = 0.1413
+  win rate base    = 4.73%  (fraction where base beats small)
+  pred_P3_InputStats_SAE: 31 Pareto-dominating points  (best: {'tau': 0.05, 'frac_to_base': 0.9986666666666667, 'mean_cost': 4.994666666666666, 'mean_error': 0.14133333333333334})
+  pred_P1_InputStats: 24 Pareto-dominating points  (best: {'tau': 0.4, 'frac_to_base': 0.8866666666666667, 'mean_cost': 4.546666666666667, 'mean_error': 0.14})
+
+Saved eval/results/squad/pareto_frontier.png
+Saved eval/results/squad/cascade_results.json
+== [3/6] SQuAD selective prediction ==
+n_test = 1500
+No-abstention error rate = 0.1773
+Oracle AURC              = 0.0170
+Random AURC              = 0.1594
+Probe AURCs (lower better):
+  P1 stats          AURC = 0.1297
+  P2 stats+raw      AURC = 0.1006
+  P3 stats+sae      AURC = 0.1275
+  P4 raw only       AURC = 0.1005
+  P5 sae only       AURC = 0.1333
+
+At 50% coverage:
+  P1 stats          mean error = 0.1467  (ΔError = -17.3% vs no abstention)
+  P2 stats+raw      mean error = 0.1000  (ΔError = -43.6% vs no abstention)
+  P3 stats+sae      mean error = 0.1400  (ΔError = -21.1% vs no abstention)
+  P4 raw only       mean error = 0.1013  (ΔError = -42.9% vs no abstention)
+  P5 sae only       mean error = 0.1480  (ΔError = -16.5% vs no abstention)
+  Oracle            mean error = 0.0000
+  Random            mean error = 0.1770
+
+Saved eval/results/squad/risk_coverage.png
+Saved eval/results/squad/selective_prediction.json
+== [4/6] SQuAD calibration ==
+Test prompts: 1500 | Hard (incorrect) fraction = 0.177
+
+probe                         ECE    Brier
+P1 stats                   0.3222   0.2493
+P2 stats+raw               0.2835   0.2506
+P3 stats+sae               0.2941   0.2611
+P4 raw only                0.2711   0.2433
+P5 sae only                0.2817   0.2553
+
+Saved eval/results/squad/reliability_diagram.png
+Saved eval/results/squad/calibration_results.json
+== [5/6] SQuAD recalibration ==
+Loading metadata, activations, SAE...
+  n_train=3500  n_test=1500  hard_frac_train=0.250  hard_frac_test=0.177
+Computing prompt statistics...
+Computing SAE-aggregated features (mean+max+last) for P3...
+
+--- P1_InputStats (features: 8) ---
+  raw      ECE 0.322  Brier 0.249  AUROC 0.591
+  Platt    ECE 0.079  Brier 0.150  AUROC 0.591   (monotone, AUROC preserved)
+  isotonic ECE 0.079  Brier 0.152  AUROC 0.588   (lower ECE)
+
+--- P3_InputStats_SAE (features: 4104) ---
+  raw      ECE 0.259  Brier 0.272  AUROC 0.583
+  Platt    ECE 0.093  Brier 0.164  AUROC 0.583   (monotone, AUROC preserved)
+  isotonic ECE 0.105  Brier 0.167  AUROC 0.584   (lower ECE)
+
+Saved eval/results/squad/reliability_recalibrated.png
+Saved eval/results/squad/recalibration_results.json
+== [6/6] SQuAD report populate ==
+Successfully populated and wrote eval/report_squad.md
+
+=== Post-leakage-fix SQuAD pipeline complete ===

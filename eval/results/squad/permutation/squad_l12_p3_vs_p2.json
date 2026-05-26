@@ -1,0 +1,16 @@
+{
+  "score_a": "pred_P3_InputStats_SAE",
+  "score_b": "pred_P2_InputStats_Raw",
+  "n_test": 1500,
+  "auroc_a": 0.5919255188213646,
+  "auroc_b": 0.6711805851744433,
+  "observed_delta": -0.07925506635307877,
+  "direction": "SAE < Raw (pred_P3_InputStats_SAE < pred_P2_InputStats_Raw)",
+  "B": 10000,
+  "p_one_sided": 0.0,
+  "p_two_sided": 0.0,
+  "null_mean": 0.00036081939045344325,
+  "null_std": 0.02042508703956172,
+  "null_2p5_pct": -0.039913943590743406,
+  "null_97p5_pct": 0.040127542316081975
+}

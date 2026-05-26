@@ -234,237 +234,237 @@
         },
         {
           "tau": 0.025,
-          "frac_to_base": 0.7605070046697798,
-          "mean_cost": 4.04202801867912,
-          "mean_error": 0.44896597731821214
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.05,
-          "frac_to_base": 0.7211474316210807,
-          "mean_cost": 3.884589726484323,
-          "mean_error": 0.45830553702468313
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.07500000000000001,
-          "frac_to_base": 0.704469646430954,
-          "mean_cost": 3.817878585723816,
-          "mean_error": 0.4629753168779186
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.1,
-          "frac_to_base": 0.6891260840560374,
-          "mean_cost": 3.7565043362241495,
-          "mean_error": 0.4656437625083389
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.125,
-          "frac_to_base": 0.6744496330887259,
-          "mean_cost": 3.6977985323549034,
-          "mean_error": 0.466977985323549
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.15000000000000002,
-          "frac_to_base": 0.6577718478985991,
-          "mean_cost": 3.6310873915943964,
-          "mean_error": 0.46897931954636424
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.17500000000000002,
-          "frac_to_base": 0.6437625083388926,
-          "mean_cost": 3.5750500333555704,
-          "mean_error": 0.47164776517678453
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.2,
-          "frac_to_base": 0.6330887258172114,
-          "mean_cost": 3.5323549032688457,
-          "mean_error": 0.4749833222148099
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.225,
-          "frac_to_base": 0.6237491661107405,
-          "mean_cost": 3.494996664442962,
-          "mean_error": 0.47631754503002
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.25,
-          "frac_to_base": 0.6150767178118746,
-          "mean_cost": 3.4603068712474983,
-          "mean_error": 0.4783188792528352
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.275,
-          "frac_to_base": 0.6077384923282189,
-          "mean_cost": 3.4309539693128754,
-          "mean_error": 0.4789859906604403
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.30000000000000004,
-          "frac_to_base": 0.5997331554369579,
-          "mean_cost": 3.3989326217478317,
-          "mean_error": 0.4816544362908606
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.325,
-          "frac_to_base": 0.5923949299533022,
-          "mean_cost": 3.369579719813209,
-          "mean_error": 0.4836557705136758
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.35000000000000003,
-          "frac_to_base": 0.5837224816544363,
-          "mean_cost": 3.334889926617745,
-          "mean_error": 0.4849899933288859
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.375,
-          "frac_to_base": 0.5783855903935957,
-          "mean_cost": 3.313542361574383,
-          "mean_error": 0.48632421614409604
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.4,
-          "frac_to_base": 0.5723815877251501,
-          "mean_cost": 3.2895263509006005,
-          "mean_error": 0.4876584389593062
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.42500000000000004,
-          "frac_to_base": 0.5650433622414943,
-          "mean_cost": 3.2601734489659773,
-          "mean_error": 0.4896597731821214
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.45,
-          "frac_to_base": 0.5563709139426284,
-          "mean_cost": 3.2254836557705135,
-          "mean_error": 0.4923282188125417
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.47500000000000003,
-          "frac_to_base": 0.5496997998665777,
-          "mean_cost": 3.1987991994663107,
-          "mean_error": 0.4943295530353569
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.5,
-          "frac_to_base": 0.5456971314209473,
-          "mean_cost": 3.1827885256837893,
-          "mean_error": 0.494996664442962
+          "frac_to_base": 1.0,
+          "mean_cost": 5.0,
+          "mean_error": 0.390927284856571
         },
         {
           "tau": 0.525,
-          "frac_to_base": 0.5410273515677118,
-          "mean_cost": 3.164109406270847,
-          "mean_error": 0.4969979986657772
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 0.55,
-          "frac_to_base": 0.5330220146764509,
-          "mean_cost": 3.1320880587058038,
-          "mean_error": 0.4989993328885924
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 0.5750000000000001,
-          "frac_to_base": 0.5276851234156104,
-          "mean_cost": 3.1107404936624414,
-          "mean_error": 0.49966644429619744
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 0.6000000000000001,
-          "frac_to_base": 0.5190126751167445,
-          "mean_cost": 3.076050700466978,
-          "mean_error": 0.5036691127418279
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 0.625,
-          "frac_to_base": 0.514342895263509,
-          "mean_cost": 3.057371581054036,
-          "mean_error": 0.505003335557038
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 0.65,
-          "frac_to_base": 0.5056704469646431,
-          "mean_cost": 3.0226817878585726,
-          "mean_error": 0.5063375583722481
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 0.675,
-          "frac_to_base": 0.4989993328885924,
-          "mean_cost": 2.9959973315543698,
-          "mean_error": 0.5083388925950634
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 0.7000000000000001,
-          "frac_to_base": 0.49366244162775186,
-          "mean_cost": 2.9746497665110074,
-          "mean_error": 0.5110073382254836
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 0.7250000000000001,
-          "frac_to_base": 0.49099399599733157,
-          "mean_cost": 2.963975983989326,
-          "mean_error": 0.5123415610406938
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 0.75,
-          "frac_to_base": 0.4849899933288859,
-          "mean_cost": 2.9399599733155437,
-          "mean_error": 0.514342895263509
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 0.775,
-          "frac_to_base": 0.47565043362241494,
-          "mean_cost": 2.90260173448966,
-          "mean_error": 0.5163442294863242
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 0.8,
-          "frac_to_base": 0.4676450967311541,
-          "mean_cost": 2.8705803869246163,
-          "mean_error": 0.5163442294863242
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 0.8250000000000001,
-          "frac_to_base": 0.45563709139426284,
-          "mean_cost": 2.8225483655770516,
-          "mean_error": 0.5190126751167445
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 0.8500000000000001,
-          "frac_to_base": 0.43962641761174115,
-          "mean_cost": 2.7585056704469646,
-          "mean_error": 0.5216811207471648
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 0.875,
-          "frac_to_base": 0.42494996664442963,
-          "mean_cost": 2.6997998665777185,
-          "mean_error": 0.5250166777851901
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 0.9,
-          "frac_to_base": 0.4069379586390927,
-          "mean_cost": 2.627751834556371,
-          "mean_error": 0.5283522348232155
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 0.925,
-          "frac_to_base": 0.38625750500333556,
-          "mean_cost": 2.545030020013342,
-          "mean_error": 0.5323549032688459
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 0.9500000000000001,
-          "frac_to_base": 0.3482321547698466,
-          "mean_cost": 2.3929286190793864,
-          "mean_error": 0.5443629086057371
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 0.9750000000000001,
-          "frac_to_base": 0.3035356904603069,
-          "mean_cost": 2.2141427618412273,
-          "mean_error": 0.553035356904603
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.6210807204803203
         },
         {
           "tau": 1.0,
@@ -473,13 +473,8 @@
           "mean_error": 0.6210807204803203
         }
       ],
-      "n_dominating_points": 15,
-      "best_dominating": {
-        "tau": 0.15000000000000002,
-        "frac_to_base": 0.6577718478985991,
-        "mean_cost": 3.6310873915943964,
-        "mean_error": 0.46897931954636424
-      }
+      "n_dominating_points": 0,
+      "best_dominating": null
     },
     "pred_P1_InputStats": {
       "frontier": [

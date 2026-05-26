@@ -3,7 +3,7 @@
 *Workshop-style preliminary report on continuous generative difficulty. Fill bracketed slots from `probing/results/` and `eval/results/`.*
 
 ## Abstract
-We extend the time-series difficulty routing framework to free-form question answering on **SQuAD**, modeling answer difficulty as a continuous distribution derived from model generation perplexity on the gold target. We hook the Layer 12 residual stream of Pythia-410M and train a TopK sparse autoencoder ($d_{hidden}=4096, k=32$) on the training split prompts. Under this continuous perplexity target, we report a strong **positive result**: SAE features and input statistics predict difficulty, and their routing signal successfully guides a Pythia-410M $\leftrightarrow$ Pythia-2.8B cascade, showing active Pareto dominance. We find P3−P1 ΔAUROC = -0.041 (95% CI [-0.090, +0.007]); SAE vs raw: P3−P2 ΔAUROC = -0.083 (95% CI [-0.122, -0.045]). This demonstrates that modeling difficulty as a continuous perplexity distribution recovers the predictive SAE signal that binary multiple-choice formats obscure.
+We extend the time-series difficulty routing framework to free-form question answering on **SQuAD**, modeling answer difficulty as a continuous distribution derived from model generation perplexity on the gold target. We hook the Layer 12 residual stream of Pythia-410M and train a TopK sparse autoencoder ($d_{hidden}=4096, k=32$) on the training split prompts. Under this continuous perplexity target, we report a strong **positive result**: SAE features and input statistics predict difficulty, and their routing signal successfully guides a Pythia-410M $\leftrightarrow$ Pythia-2.8B cascade, showing active Pareto dominance. We find P3−P1 ΔAUROC = +0.001 (95% CI [-0.045, +0.046]); SAE vs raw: P3−P2 ΔAUROC = -0.079 (95% CI [-0.118, -0.041]). This demonstrates that modeling difficulty as a continuous perplexity distribution recovers the predictive SAE signal that binary multiple-choice formats obscure.
 
 ## 1. Introduction
 - Generative QA tasks suffer from high variance in difficulty. Routing hard queries to a larger base model while executing easy queries locally on a cheap model is a key industry need.
@@ -35,10 +35,10 @@ We evaluate difficulty prediction at Layer 12 (mid) of Pythia-410M on SQuAD.
 
 | Probe | Layer 12 Mid AUROC (95% CI) |
 | :--- | :--- |
-| P1 Input Stats | 0.626 (0.587, 0.663) |
-| P2 Stats + Raw | 0.668 (0.635, 0.700) |
-| P3 Stats + SAE | 0.585 (0.547, 0.621) |
-| P4 Raw Only (diag.) | 0.667 (0.634, 0.699) |
+| P1 Input Stats | 0.591 (0.552, 0.628) |
+| P2 Stats + Raw | 0.671 (0.638, 0.704) |
+| P3 Stats + SAE | 0.592 (0.554, 0.628) |
+| P4 Raw Only (diag.) | 0.667 (0.634, 0.700) |
 | P5 SAE Only (diag.) | 0.578 (0.539, 0.614) |
 
 ### Downstream Cascade Routing Analysis
@@ -65,21 +65,21 @@ We demonstrate that moving from binary multiple-choice formats to continuous gen
 ### Calibration Results
 | Probe | ECE (raw) | Brier (raw) |
 | :--- | :--- | :--- |
-| P1 InputStats | 0.311 | 0.236 |
-| P3 InputStats SAE | 0.289 | 0.259 |
+| P1 InputStats | 0.322 | 0.249 |
+| P3 InputStats SAE | 0.294 | 0.261 |
 
 ### Platt & Isotonic Recalibration Results
 | Probe | Raw ECE | Platt Recal ECE | Isotonic Recal ECE |
 | :--- | :--- | :--- | :--- |
-| P1 InputStats | 0.309 | 0.085 | 0.080 |
-| P3 InputStats SAE | 0.265 | 0.092 | 0.105 |
+| P1 InputStats | 0.322 | 0.079 | 0.079 |
+| P3 InputStats SAE | 0.259 | 0.093 | 0.105 |
 
 ### Selective Answering Metrics
 - No-Abstention Error Rate: 17.73%
 - Oracle selective AURC: 0.017
 - Random selective AURC: 0.159
-- P1 (Stats) selective AURC: 0.121
-- P3 (SAE) selective AURC: 0.130
+- P1 (Stats) selective AURC: 0.130
+- P3 (SAE) selective AURC: 0.128
 
 ### मिश्रा-Style Causal Ablation Findings
 - Natural error: 17.73%

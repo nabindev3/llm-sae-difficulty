@@ -61,6 +61,10 @@ def main():
     ap.add_argument("--sae_ckpt", default="sae/checkpoints/sae_topk_32.pt")
     ap.add_argument("--n_splits", type=int, default=5)
     ap.add_argument("--out_dir", default="eval/results")
+    ap.add_argument("--probe_scores", default=None,
+                    help="If provided, write pred_<probe>_platt and pred_<probe>_isotonic "
+                         "columns back into this parquet so cascade.py can route on "
+                         "calibrated probabilities.")
     ap.add_argument("--seed", type=int, default=42)
     args = ap.parse_args()
     
@@ -117,6 +121,7 @@ def main():
     n_tr = int(tr.sum())
     kf = KFold(n_splits=5, shuffle=True, random_state=args.seed)
     results = {}
+    calibrated_test_preds = {}   # name -> dict(platt: array, isotonic: array) on test set
     fig, axes = plt.subplots(1, 2, figsize=(11.5, 5.4), sharey=True)
 
     for ax, (name, X) in zip(axes, probes.items()):
@@ -170,6 +175,7 @@ def main():
             "platt":    {"ece": ece_pl,  "brier": brier_pl,  "auroc": auroc_pl},
             "isotonic": {"ece": ece_iso, "brier": brier_iso, "auroc": auroc_iso},
         }
+        calibrated_test_preds[name] = {"platt": p_te_pl, "isotonic": p_te_iso}
         
         print(f"  raw      ECE {ece_b:.3f}  Brier {brier_b:.3f}  AUROC {auroc_b:.3f}")
         print(f"  Platt    ECE {ece_pl:.3f}  Brier {brier_pl:.3f}  AUROC {auroc_pl:.3f}   (monotone, AUROC preserved)")
@@ -202,6 +208,21 @@ def main():
     with open(os.path.join(args.out_dir, "recalibration_results.json"), "w") as f:
         json.dump(results, f, indent=2)
     print(f"Saved {os.path.join(args.out_dir, 'recalibration_results.json')}")
+
+    # Write calibrated probabilities back to probe_scores.parquet so cascade.py
+    # can route on a true probability scale (τ = P(hard) > 0.x).
+    if args.probe_scores and os.path.exists(args.probe_scores):
+        df_scores = pd.read_parquet(args.probe_scores)
+        test_window_ids = meta.loc[te, "window_id"].values
+        for name, preds_d in calibrated_test_preds.items():
+            for variant, arr in preds_d.items():
+                col = f"pred_{name}_{variant}"
+                mapping = dict(zip(test_window_ids, arr))
+                df_scores[col] = df_scores["window_id"].map(mapping)
+        df_scores.to_parquet(args.probe_scores)
+        print(f"Wrote calibrated columns to {args.probe_scores}")
+    elif args.probe_scores:
+        print(f"[recalibrate] --probe_scores given but file not found: {args.probe_scores}; skipping write-back")
 
 
 if __name__ == "__main__":
