@@ -240,20 +240,20 @@
         },
         {
           "tau": 0.05,
-          "frac_to_base": 0.998,
-          "mean_cost": 4.992,
+          "frac_to_base": 0.9986666666666667,
+          "mean_cost": 4.994666666666666,
           "mean_error": 0.14133333333333334
         },
         {
           "tau": 0.07500000000000001,
-          "frac_to_base": 0.9946666666666667,
-          "mean_cost": 4.978666666666666,
+          "frac_to_base": 0.996,
+          "mean_cost": 4.984,
           "mean_error": 0.14133333333333334
         },
         {
           "tau": 0.1,
-          "frac_to_base": 0.9833333333333333,
-          "mean_cost": 4.933333333333334,
+          "frac_to_base": 0.9846666666666667,
+          "mean_cost": 4.938666666666666,
           "mean_error": 0.142
         },
         {
@@ -264,200 +264,200 @@
         },
         {
           "tau": 0.15000000000000002,
-          "frac_to_base": 0.9473333333333334,
-          "mean_cost": 4.789333333333333,
-          "mean_error": 0.14333333333333334
-        },
-        {
-          "tau": 0.17500000000000002,
-          "frac_to_base": 0.914,
-          "mean_cost": 4.656,
+          "frac_to_base": 0.9526666666666667,
+          "mean_cost": 4.810666666666667,
           "mean_error": 0.144
         },
         {
+          "tau": 0.17500000000000002,
+          "frac_to_base": 0.918,
+          "mean_cost": 4.672,
+          "mean_error": 0.14466666666666667
+        },
+        {
           "tau": 0.2,
-          "frac_to_base": 0.8813333333333333,
-          "mean_cost": 4.525333333333333,
-          "mean_error": 0.14533333333333334
+          "frac_to_base": 0.888,
+          "mean_cost": 4.552,
+          "mean_error": 0.14466666666666667
         },
         {
           "tau": 0.225,
-          "frac_to_base": 0.85,
-          "mean_cost": 4.4,
-          "mean_error": 0.14666666666666667
+          "frac_to_base": 0.8553333333333333,
+          "mean_cost": 4.421333333333333,
+          "mean_error": 0.14533333333333334
         },
         {
           "tau": 0.25,
-          "frac_to_base": 0.812,
-          "mean_cost": 4.248,
-          "mean_error": 0.14733333333333334
+          "frac_to_base": 0.8186666666666667,
+          "mean_cost": 4.274666666666667,
+          "mean_error": 0.14666666666666667
         },
         {
           "tau": 0.275,
-          "frac_to_base": 0.7706666666666667,
-          "mean_cost": 4.082666666666666,
+          "frac_to_base": 0.776,
+          "mean_cost": 4.104,
           "mean_error": 0.148
         },
         {
           "tau": 0.30000000000000004,
-          "frac_to_base": 0.728,
-          "mean_cost": 3.912,
-          "mean_error": 0.15133333333333332
+          "frac_to_base": 0.7393333333333333,
+          "mean_cost": 3.957333333333333,
+          "mean_error": 0.15
         },
         {
           "tau": 0.325,
-          "frac_to_base": 0.6793333333333333,
-          "mean_cost": 3.7173333333333334,
-          "mean_error": 0.15266666666666667
+          "frac_to_base": 0.688,
+          "mean_cost": 3.752,
+          "mean_error": 0.15066666666666667
         },
         {
           "tau": 0.35000000000000003,
-          "frac_to_base": 0.6406666666666667,
-          "mean_cost": 3.562666666666667,
-          "mean_error": 0.15333333333333332
+          "frac_to_base": 0.648,
+          "mean_cost": 3.592,
+          "mean_error": 0.152
         },
         {
           "tau": 0.375,
-          "frac_to_base": 0.602,
-          "mean_cost": 3.408,
-          "mean_error": 0.154
+          "frac_to_base": 0.6113333333333333,
+          "mean_cost": 3.445333333333333,
+          "mean_error": 0.15266666666666667
         },
         {
           "tau": 0.4,
-          "frac_to_base": 0.5666666666666667,
-          "mean_cost": 3.2666666666666666,
-          "mean_error": 0.154
+          "frac_to_base": 0.5773333333333334,
+          "mean_cost": 3.3093333333333335,
+          "mean_error": 0.15266666666666667
         },
         {
           "tau": 0.42500000000000004,
-          "frac_to_base": 0.528,
-          "mean_cost": 3.112,
-          "mean_error": 0.15533333333333332
-        },
-        {
-          "tau": 0.45,
-          "frac_to_base": 0.49133333333333334,
-          "mean_cost": 2.965333333333333,
+          "frac_to_base": 0.5366666666666666,
+          "mean_cost": 3.1466666666666665,
           "mean_error": 0.156
         },
         {
+          "tau": 0.45,
+          "frac_to_base": 0.49933333333333335,
+          "mean_cost": 2.997333333333333,
+          "mean_error": 0.158
+        },
+        {
           "tau": 0.47500000000000003,
-          "frac_to_base": 0.452,
-          "mean_cost": 2.808,
+          "frac_to_base": 0.4573333333333333,
+          "mean_cost": 2.8293333333333335,
           "mean_error": 0.15733333333333333
         },
         {
           "tau": 0.5,
-          "frac_to_base": 0.412,
-          "mean_cost": 2.648,
-          "mean_error": 0.15866666666666668
+          "frac_to_base": 0.42733333333333334,
+          "mean_cost": 2.7093333333333334,
+          "mean_error": 0.15666666666666668
         },
         {
           "tau": 0.525,
-          "frac_to_base": 0.37866666666666665,
-          "mean_cost": 2.514666666666667,
-          "mean_error": 0.15866666666666668
+          "frac_to_base": 0.396,
+          "mean_cost": 2.584,
+          "mean_error": 0.158
         },
         {
           "tau": 0.55,
-          "frac_to_base": 0.352,
-          "mean_cost": 2.408,
-          "mean_error": 0.16
+          "frac_to_base": 0.3566666666666667,
+          "mean_cost": 2.4266666666666667,
+          "mean_error": 0.15866666666666668
         },
         {
           "tau": 0.5750000000000001,
-          "frac_to_base": 0.32066666666666666,
-          "mean_cost": 2.2826666666666666,
+          "frac_to_base": 0.31266666666666665,
+          "mean_cost": 2.2506666666666666,
           "mean_error": 0.16
         },
         {
           "tau": 0.6000000000000001,
-          "frac_to_base": 0.284,
-          "mean_cost": 2.136,
+          "frac_to_base": 0.2906666666666667,
+          "mean_cost": 2.1626666666666665,
           "mean_error": 0.162
         },
         {
           "tau": 0.625,
-          "frac_to_base": 0.258,
-          "mean_cost": 2.032,
+          "frac_to_base": 0.2613333333333333,
+          "mean_cost": 2.0453333333333332,
           "mean_error": 0.16333333333333333
         },
         {
           "tau": 0.65,
-          "frac_to_base": 0.22133333333333333,
-          "mean_cost": 1.8853333333333333,
-          "mean_error": 0.16533333333333333
+          "frac_to_base": 0.22666666666666666,
+          "mean_cost": 1.9066666666666667,
+          "mean_error": 0.16666666666666666
         },
         {
           "tau": 0.675,
-          "frac_to_base": 0.19933333333333333,
-          "mean_cost": 1.7973333333333332,
-          "mean_error": 0.166
+          "frac_to_base": 0.20266666666666666,
+          "mean_cost": 1.8106666666666666,
+          "mean_error": 0.16666666666666666
         },
         {
           "tau": 0.7000000000000001,
-          "frac_to_base": 0.17466666666666666,
-          "mean_cost": 1.6986666666666668,
+          "frac_to_base": 0.182,
+          "mean_cost": 1.728,
           "mean_error": 0.168
         },
         {
           "tau": 0.7250000000000001,
-          "frac_to_base": 0.15066666666666667,
-          "mean_cost": 1.6026666666666667,
-          "mean_error": 0.16933333333333334
+          "frac_to_base": 0.16,
+          "mean_cost": 1.64,
+          "mean_error": 0.16866666666666666
         },
         {
           "tau": 0.75,
-          "frac_to_base": 0.12733333333333333,
-          "mean_cost": 1.5093333333333334,
-          "mean_error": 0.172
+          "frac_to_base": 0.14,
+          "mean_cost": 1.56,
+          "mean_error": 0.17133333333333334
         },
         {
           "tau": 0.775,
-          "frac_to_base": 0.108,
-          "mean_cost": 1.432,
+          "frac_to_base": 0.11466666666666667,
+          "mean_cost": 1.4586666666666666,
           "mean_error": 0.17333333333333334
         },
         {
           "tau": 0.8,
-          "frac_to_base": 0.096,
-          "mean_cost": 1.384,
-          "mean_error": 0.17333333333333334
+          "frac_to_base": 0.09666666666666666,
+          "mean_cost": 1.3866666666666667,
+          "mean_error": 0.174
         },
         {
           "tau": 0.8250000000000001,
-          "frac_to_base": 0.078,
-          "mean_cost": 1.312,
-          "mean_error": 0.17466666666666666
+          "frac_to_base": 0.08266666666666667,
+          "mean_cost": 1.3306666666666667,
+          "mean_error": 0.174
         },
         {
           "tau": 0.8500000000000001,
-          "frac_to_base": 0.05733333333333333,
-          "mean_cost": 1.2293333333333334,
+          "frac_to_base": 0.068,
+          "mean_cost": 1.272,
           "mean_error": 0.17466666666666666
         },
         {
           "tau": 0.875,
-          "frac_to_base": 0.048,
-          "mean_cost": 1.192,
-          "mean_error": 0.17466666666666666
+          "frac_to_base": 0.05,
+          "mean_cost": 1.2,
+          "mean_error": 0.17533333333333334
         },
         {
           "tau": 0.9,
-          "frac_to_base": 0.028666666666666667,
-          "mean_cost": 1.1146666666666667,
+          "frac_to_base": 0.032,
+          "mean_cost": 1.128,
           "mean_error": 0.17533333333333334
         },
         {
           "tau": 0.925,
-          "frac_to_base": 0.020666666666666667,
-          "mean_cost": 1.0826666666666667,
-          "mean_error": 0.17666666666666667
+          "frac_to_base": 0.022,
+          "mean_cost": 1.088,
+          "mean_error": 0.176
         },
         {
           "tau": 0.9500000000000001,
-          "frac_to_base": 0.012,
-          "mean_cost": 1.048,
+          "frac_to_base": 0.011333333333333334,
+          "mean_cost": 1.0453333333333332,
           "mean_error": 0.176
         },
         {
@@ -476,8 +476,8 @@
       "n_dominating_points": 31,
       "best_dominating": {
         "tau": 0.05,
-        "frac_to_base": 0.998,
-        "mean_cost": 4.992,
+        "frac_to_base": 0.9986666666666667,
+        "mean_cost": 4.994666666666666,
         "mean_error": 0.14133333333333334
       }
     },
@@ -539,188 +539,188 @@
         },
         {
           "tau": 0.225,
-          "frac_to_base": 0.9953333333333333,
-          "mean_cost": 4.981333333333334,
+          "frac_to_base": 0.9966666666666667,
+          "mean_cost": 4.986666666666666,
           "mean_error": 0.14133333333333334
         },
         {
           "tau": 0.25,
-          "frac_to_base": 0.9926666666666667,
-          "mean_cost": 4.970666666666666,
+          "frac_to_base": 0.9933333333333333,
+          "mean_cost": 4.973333333333334,
           "mean_error": 0.14133333333333334
         },
         {
           "tau": 0.275,
-          "frac_to_base": 0.9826666666666667,
-          "mean_cost": 4.930666666666666,
+          "frac_to_base": 0.9913333333333333,
+          "mean_cost": 4.965333333333334,
           "mean_error": 0.14133333333333334
         },
         {
           "tau": 0.30000000000000004,
-          "frac_to_base": 0.9646666666666667,
-          "mean_cost": 4.858666666666666,
+          "frac_to_base": 0.9706666666666667,
+          "mean_cost": 4.882666666666666,
           "mean_error": 0.14133333333333334
         },
         {
           "tau": 0.325,
-          "frac_to_base": 0.946,
-          "mean_cost": 4.784,
+          "frac_to_base": 0.9533333333333334,
+          "mean_cost": 4.8133333333333335,
           "mean_error": 0.142
         },
         {
           "tau": 0.35000000000000003,
-          "frac_to_base": 0.9226666666666666,
-          "mean_cost": 4.690666666666667,
+          "frac_to_base": 0.9373333333333334,
+          "mean_cost": 4.749333333333333,
           "mean_error": 0.142
         },
         {
           "tau": 0.375,
-          "frac_to_base": 0.8953333333333333,
-          "mean_cost": 4.581333333333333,
-          "mean_error": 0.14133333333333334
-        },
-        {
-          "tau": 0.4,
-          "frac_to_base": 0.862,
-          "mean_cost": 4.448,
+          "frac_to_base": 0.916,
+          "mean_cost": 4.664,
           "mean_error": 0.14066666666666666
         },
         {
-          "tau": 0.42500000000000004,
-          "frac_to_base": 0.764,
-          "mean_cost": 4.056,
-          "mean_error": 0.14533333333333334
+          "tau": 0.4,
+          "frac_to_base": 0.8866666666666667,
+          "mean_cost": 4.546666666666667,
+          "mean_error": 0.14
         },
         {
-          "tau": 0.45,
-          "frac_to_base": 0.668,
-          "mean_cost": 3.672,
+          "tau": 0.42500000000000004,
+          "frac_to_base": 0.8186666666666667,
+          "mean_cost": 4.274666666666667,
           "mean_error": 0.144
         },
         {
+          "tau": 0.45,
+          "frac_to_base": 0.7326666666666667,
+          "mean_cost": 3.9306666666666668,
+          "mean_error": 0.14533333333333334
+        },
+        {
           "tau": 0.47500000000000003,
-          "frac_to_base": 0.5933333333333334,
-          "mean_cost": 3.3733333333333335,
-          "mean_error": 0.148
+          "frac_to_base": 0.6466666666666666,
+          "mean_cost": 3.5866666666666664,
+          "mean_error": 0.14666666666666667
         },
         {
           "tau": 0.5,
-          "frac_to_base": 0.508,
-          "mean_cost": 3.032,
-          "mean_error": 0.15133333333333332
+          "frac_to_base": 0.564,
+          "mean_cost": 3.256,
+          "mean_error": 0.15
         },
         {
           "tau": 0.525,
-          "frac_to_base": 0.368,
-          "mean_cost": 2.472,
-          "mean_error": 0.156
+          "frac_to_base": 0.43666666666666665,
+          "mean_cost": 2.7466666666666666,
+          "mean_error": 0.15333333333333332
         },
         {
           "tau": 0.55,
-          "frac_to_base": 0.216,
-          "mean_cost": 1.864,
-          "mean_error": 0.16133333333333333
+          "frac_to_base": 0.2966666666666667,
+          "mean_cost": 2.1866666666666665,
+          "mean_error": 0.15866666666666668
         },
         {
           "tau": 0.5750000000000001,
-          "frac_to_base": 0.12733333333333333,
-          "mean_cost": 1.5093333333333334,
-          "mean_error": 0.16866666666666666
+          "frac_to_base": 0.17733333333333334,
+          "mean_cost": 1.7093333333333334,
+          "mean_error": 0.164
         },
         {
           "tau": 0.6000000000000001,
-          "frac_to_base": 0.05733333333333333,
-          "mean_cost": 1.2293333333333334,
-          "mean_error": 0.172
+          "frac_to_base": 0.10533333333333333,
+          "mean_cost": 1.4213333333333333,
+          "mean_error": 0.16866666666666666
         },
         {
           "tau": 0.625,
-          "frac_to_base": 0.02666666666666667,
-          "mean_cost": 1.1066666666666667,
-          "mean_error": 0.17466666666666666
+          "frac_to_base": 0.05333333333333334,
+          "mean_cost": 1.2133333333333334,
+          "mean_error": 0.17133333333333334
         },
         {
           "tau": 0.65,
-          "frac_to_base": 0.011333333333333334,
-          "mean_cost": 1.0453333333333332,
-          "mean_error": 0.17666666666666667
+          "frac_to_base": 0.014666666666666666,
+          "mean_cost": 1.0586666666666666,
+          "mean_error": 0.176
         },
         {
           "tau": 0.675,
-          "frac_to_base": 0.009333333333333334,
-          "mean_cost": 1.0373333333333334,
-          "mean_error": 0.17666666666666667
+          "frac_to_base": 0.002,
+          "mean_cost": 1.008,
+          "mean_error": 0.17733333333333334
         },
         {
           "tau": 0.7000000000000001,
-          "frac_to_base": 0.008666666666666666,
-          "mean_cost": 1.0346666666666666,
-          "mean_error": 0.17666666666666667
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.17733333333333334
         },
         {
           "tau": 0.7250000000000001,
-          "frac_to_base": 0.008,
-          "mean_cost": 1.032,
-          "mean_error": 0.17666666666666667
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.17733333333333334
         },
         {
           "tau": 0.75,
-          "frac_to_base": 0.007333333333333333,
-          "mean_cost": 1.0293333333333334,
-          "mean_error": 0.17666666666666667
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.17733333333333334
         },
         {
           "tau": 0.775,
-          "frac_to_base": 0.007333333333333333,
-          "mean_cost": 1.0293333333333334,
-          "mean_error": 0.17666666666666667
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.17733333333333334
         },
         {
           "tau": 0.8,
-          "frac_to_base": 0.007333333333333333,
-          "mean_cost": 1.0293333333333334,
-          "mean_error": 0.17666666666666667
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.17733333333333334
         },
         {
           "tau": 0.8250000000000001,
-          "frac_to_base": 0.006,
-          "mean_cost": 1.024,
-          "mean_error": 0.17666666666666667
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.17733333333333334
         },
         {
           "tau": 0.8500000000000001,
-          "frac_to_base": 0.006,
-          "mean_cost": 1.024,
-          "mean_error": 0.17666666666666667
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.17733333333333334
         },
         {
           "tau": 0.875,
-          "frac_to_base": 0.005333333333333333,
-          "mean_cost": 1.0213333333333334,
-          "mean_error": 0.17666666666666667
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
+          "mean_error": 0.17733333333333334
         },
         {
           "tau": 0.9,
-          "frac_to_base": 0.004666666666666667,
-          "mean_cost": 1.0186666666666666,
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
           "mean_error": 0.17733333333333334
         },
         {
           "tau": 0.925,
-          "frac_to_base": 0.004666666666666667,
-          "mean_cost": 1.0186666666666666,
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
           "mean_error": 0.17733333333333334
         },
         {
           "tau": 0.9500000000000001,
-          "frac_to_base": 0.004,
-          "mean_cost": 1.016,
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
           "mean_error": 0.17733333333333334
         },
         {
           "tau": 0.9750000000000001,
-          "frac_to_base": 0.0033333333333333335,
-          "mean_cost": 1.0133333333333334,
+          "frac_to_base": 0.0,
+          "mean_cost": 1.0,
           "mean_error": 0.17733333333333334
         },
         {
@@ -730,12 +730,12 @@
           "mean_error": 0.17733333333333334
         }
       ],
-      "n_dominating_points": 33,
+      "n_dominating_points": 24,
       "best_dominating": {
         "tau": 0.4,
-        "frac_to_base": 0.862,
-        "mean_cost": 4.448,
-        "mean_error": 0.14066666666666666
+        "frac_to_base": 0.8866666666666667,
+        "mean_cost": 4.546666666666667,
+        "mean_error": 0.14
       }
     }
   }

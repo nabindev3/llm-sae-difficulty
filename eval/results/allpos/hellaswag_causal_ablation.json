@@ -1,0 +1,46 @@
+{
+  "metric": "continuous",
+  "metric_unit": "nats (neg-log-prob of true ending)",
+  "positions": "all",
+  "sae_ckpt": "sae/checkpoints_allpos_hellaswag/sae_topk_32.pt",
+  "activations_path": "activations_allpos/hellaswag_activations.safetensors",
+  "top_5_features": [
+    1126,
+    2869,
+    2483,
+    893,
+    2903
+  ],
+  "natural_error_mean": 2.607853444040895,
+  "recon_error_mean": 2.891816409609173,
+  "delta_recon_natural": 0.2839629655682778,
+  "delta_recon_natural_ci_lower": 0.2754581102993267,
+  "delta_recon_natural_ci_upper": 0.29253839486396016,
+  "feature_effects": {
+    "1126": {
+      "delta_error": -0.00028746894711729207,
+      "ci_lower": -0.0005429019603512938,
+      "ci_upper": -4.2559716445434294e-05
+    },
+    "2869": {
+      "delta_error": 0.009327167030013824,
+      "ci_lower": 0.008371784456019564,
+      "ci_upper": 0.010306058260422694
+    },
+    "2483": {
+      "delta_error": 0.0010679096599830796,
+      "ci_lower": 0.0008406145839869299,
+      "ci_upper": 0.001290791513046636
+    },
+    "893": {
+      "delta_error": 0.00040894058881559876,
+      "ci_lower": 0.00036094014727329715,
+      "ci_upper": 0.00045683091882867284
+    },
+    "2903": {
+      "delta_error": 0.0009669662714799776,
+      "ci_lower": 0.0008290800275287285,
+      "ci_upper": 0.001114039322867085
+    }
+  }
+}

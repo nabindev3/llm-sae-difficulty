@@ -33,6 +33,21 @@ def main():
     ap.add_argument("--model", default="EleutherAI/pythia-410m")
     ap.add_argument("--out_dir", default="eval/results")
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--metric", type=str, default="binary", choices=["binary", "continuous"],
+                    help="binary: 0/1 error rate (legacy). continuous: log-prob (HellaSwag) "
+                         "or cross-entropy loss (SQuAD) — sensitive to sub-threshold feature effects.")
+    ap.add_argument("--positions", type=str, default="boundary", choices=["boundary", "all"],
+                    help="boundary: patch only at the prompt-boundary token (matches the "
+                         "boundary-only SAE's training distribution). all: patch every token "
+                         "in positions [0, prompt_len) — requires --sae_ckpt to point to an "
+                         "all-position SAE trained on full prompt sequences.")
+    ap.add_argument("--hellaswag_boundary", type=str, default="first_ending",
+                    choices=["first_ending", "last_prompt"],
+                    help="HellaSwag boundary-token choice. first_ending = position prompt_len "
+                         "(matches the boundary-only SAE training: raw_act[prompt_len, :] is "
+                         "the first candidate ending token). last_prompt = position prompt_len-1 "
+                         "(matches the all-position SAE training distribution, which only saw "
+                         "prompt tokens). Ignored for --dataset squad.")
     args = ap.parse_args()
 
     # Dynamic defaults
@@ -108,27 +123,32 @@ def main():
     active_feat_idx = None
     ablate_active = False
     recon_active = False
-    # Boundary index (single token position) to patch. Set per-sample before forward pass.
-    # SQuAD: prompt_len - 1 (last prompt token, matches extract_activations.py:201).
-    # HellaSwag: prompt_len (first candidate token, matches extract_activations.py:137).
-    # Patching only this position avoids feeding the SAE token positions it was never
-    # trained on (full context, question, target tokens), which otherwise destroys the
-    # forward pass and yields recon_error_mean ~= 1.0.
+    # current_boundary_idx: single token position to patch (used when args.positions == "boundary").
+    # current_prompt_len:   length of the prompt portion (used when args.positions == "all"; the
+    #                      hook patches positions [0, current_prompt_len) so the candidate ending
+    #                      or target tokens are left untouched).
+    # Both set per-sample below; closure reads them at hook-call time.
     current_boundary_idx = None
+    current_prompt_len = None
 
     def patch_hook(module, input, output):
         if not (recon_active or ablate_active):
             return output
-        if current_boundary_idx is None:
-            return output
         hidden_states = output[0] if isinstance(output, tuple) else output
-        # Bounds-check (defensive): if boundary outside this forward's seq dim, no-op.
-        if current_boundary_idx >= hidden_states.shape[1]:
-            return output
 
-        # Slice out just the boundary token, run through SAE, splice back in.
-        boundary_slice = hidden_states[:, current_boundary_idx:current_boundary_idx + 1, :]
-        x_2d = boundary_slice.to(torch.float32).reshape(-1, d_model)
+        if args.positions == "boundary":
+            if current_boundary_idx is None or current_boundary_idx >= hidden_states.shape[1]:
+                return output
+            slice_start, slice_end = current_boundary_idx, current_boundary_idx + 1
+        else:  # "all" — patch every token in the prompt portion
+            if current_prompt_len is None or current_prompt_len <= 0:
+                return output
+            slice_end = min(current_prompt_len, hidden_states.shape[1])
+            slice_start = 0
+
+        sliced = hidden_states[:, slice_start:slice_end, :]
+        n_tokens = sliced.shape[1]
+        x_2d = sliced.to(torch.float32).reshape(-1, d_model)
 
         with torch.no_grad():
             acts, x_reconstruct, _ = sae(x_2d)
@@ -138,8 +158,8 @@ def main():
             x_reconstruct = acts @ sae.W_dec + sae.b_dec
 
         patched = hidden_states.clone()
-        patched[:, current_boundary_idx:current_boundary_idx + 1, :] = (
-            x_reconstruct.reshape(1, 1, d_model).to(hidden_states.dtype)
+        patched[:, slice_start:slice_end, :] = (
+            x_reconstruct.reshape(1, n_tokens, d_model).to(hidden_states.dtype)
         )
         if isinstance(output, tuple):
             return (patched,) + output[1:]
@@ -191,22 +211,30 @@ def main():
                     ending_ids = tokenizer.encode(ending_clean, add_special_tokens=False)
                     full_ids = prompt_ids + ending_ids
                     input_tensor = torch.tensor([full_ids], dtype=torch.long, device=device)
-                    
+
                     with torch.no_grad():
                         logits = model(input_tensor).logits
-                        
+
                     shift_logits = logits[0, prompt_len-1 : -1, :]
                     shift_labels = input_tensor[0, prompt_len:]
-                    
+
                     log_probs = F.log_softmax(shift_logits, dim=-1)
                     target_log_probs = log_probs[torch.arange(len(ending_ids)), shift_labels]
                     ending_scores.append(target_log_probs.mean().item())
-                    
+
+                if args.metric == "continuous":
+                    # Negate so larger = harder (matches binary convention; lower log-prob = harder)
+                    return -ending_scores[true_label]
                 predicted_label = int(np.argmax(ending_scores))
                 return 0 if predicted_label == true_label else 1
 
-            # SAE was trained on raw_act[prompt_len, :] (first candidate token).
-            current_boundary_idx = prompt_len
+            # Default: SAE was trained on raw_act[prompt_len, :] (first candidate token).
+            # last_prompt mode: use prompt_len - 1 instead (in-distribution for all-position SAE).
+            if args.hellaswag_boundary == "last_prompt":
+                current_boundary_idx = prompt_len - 1
+            else:
+                current_boundary_idx = prompt_len
+            current_prompt_len = prompt_len
 
             recon_active, ablate_active = False, False
             err_natural = run_eval_hellaswag()
@@ -246,16 +274,21 @@ def main():
                     logits = model(input_tensor).logits
                 shift_logits = logits[0, prompt_len-1 : -1, :]
                 shift_labels = input_tensor[0, prompt_len:]
-                
+
                 loss = F.cross_entropy(shift_logits, shift_labels, reduction="mean").item()
+
+                if args.metric == "continuous":
+                    # Cross-entropy of gold answer; larger = harder. Bounded above by ~10 nats
+                    # for typical Pythia-410M outputs; bootstrap CIs handle any tail.
+                    return float(loss)
+
                 target_perplexity = np.exp(loss)
-                
-                # Check difficulty mapping
                 norm_ppl = (target_perplexity - mean_tr) / (std_tr + 1e-8)
                 return 1 if norm_ppl >= threshold_ppl else 0
 
             # SAE was trained on raw_act[prompt_len - 1, :] (last prompt token).
             current_boundary_idx = prompt_len - 1
+            current_prompt_len = prompt_len
 
             recon_active, ablate_active = False, False
             err_natural = run_eval_squad()
@@ -310,7 +343,18 @@ def main():
 
     recon_nat_ci = _ci(boot_drn)
     
+    if args.metric == "continuous":
+        unit = "nats (neg-log-prob of true ending)" if args.dataset == "hellaswag" else "nats (cross-entropy of gold answer)"
+    else:
+        unit = "0/1 error rate"
+
     summary = {
+        "metric": args.metric,
+        "metric_unit": unit,
+        "positions": args.positions,
+        "hellaswag_boundary": args.hellaswag_boundary if args.dataset == "hellaswag" else None,
+        "sae_ckpt": args.sae_ckpt,
+        "activations_path": args.activations,
         "top_5_features": top_5_features,
         "natural_error_mean": float(natural_errors.mean()),
         "recon_error_mean": float(recon_errors.mean()),
@@ -320,8 +364,8 @@ def main():
         "feature_effects": {}
     }
 
-    print("\n--- Causal Ablation Results (Mean Delta Error Rate vs Recon) ---")
-    print(f"Recon - Natural reconstruction penalty: {delta_recon_natural:+.3f}  95% CI [{recon_nat_ci[0]:+.3f}, {recon_nat_ci[1]:+.3f}]")
+    print(f"\n--- Causal Ablation Results [metric={args.metric}, unit={unit}] ---")
+    print(f"Recon - Natural reconstruction penalty: {delta_recon_natural:+.4f}  95% CI [{recon_nat_ci[0]:+.4f}, {recon_nat_ci[1]:+.4f}]")
     
     for feat in top_5_features:
         feat_errs = df_res[f"err_ablate_{feat}"].values
@@ -333,7 +377,7 @@ def main():
             "ci_lower": feat_ci[0],
             "ci_upper": feat_ci[1]
         }
-        print(f"Feature {feat:4d} ablation: {delta_feat:+.3f}  95% CI [{feat_ci[0]:+.3f}, {feat_ci[1]:+.3f}]")
+        print(f"Feature {feat:4d} ablation: {delta_feat:+.4f}  95% CI [{feat_ci[0]:+.4f}, {feat_ci[1]:+.4f}]")
 
     with open(os.path.join(args.out_dir, f"{args.dataset}_causal_ablation.json"), "w") as f:
         json.dump(summary, f, indent=2)

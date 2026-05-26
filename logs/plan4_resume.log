@@ -1,0 +1,65 @@
+== Plan 4 [2/3]: Train Layer-18 SAE on SQuAD activations ==
+Loading activations from activations_late/squad_activations.safetensors...
+Loaded activations with shape: torch.Size([5000, 1, 1024])
+Auto-detected d_model = 1024
+Auto-set d_hidden = 4096
+Filtering to split='train': 3500/5000 prompts
+Masking out padding tokens for SAE training...
+Total tokens for SAE training: (3500, 1024)
+Token activation variance: 0.2632
+Using training device: mps
+Epoch 1/10:   0%|          | 0/2 [00:00<?, ?it/s]Epoch 1/10:   0%|          | 0/2 [00:00<?, ?it/s, nMSE=1.029, L0=32.0, dead=0.0%, lr=5.00e-06]Epoch 1/10:  50%|█████     | 1/2 [00:00<00:00,  3.18it/s, nMSE=1.029, L0=32.0, dead=0.0%, lr=5.00e-06]Epoch 1/10:  50%|█████     | 1/2 [00:00<00:00,  3.18it/s, nMSE=1.032, L0=32.0, dead=0.0%, lr=1.00e-05]Epoch 1/10: 100%|██████████| 2/2 [00:00<00:00,  4.92it/s, nMSE=1.032, L0=32.0, dead=0.0%, lr=1.00e-05]
+Epoch 1 | MSE: 0.2712 | nMSE: 1.030 | L0: 32.0 | Dead: 0.0%
+Epoch 2/10:   0%|          | 0/2 [00:00<?, ?it/s]Epoch 2/10:   0%|          | 0/2 [00:00<?, ?it/s, nMSE=1.030, L0=32.0, dead=0.0%, lr=1.50e-05]Epoch 2/10:   0%|          | 0/2 [00:00<?, ?it/s, nMSE=1.029, L0=32.0, dead=0.0%, lr=2.00e-05]Epoch 2/10: 100%|██████████| 2/2 [00:00<00:00, 20.39it/s, nMSE=1.029, L0=32.0, dead=0.0%, lr=2.00e-05]
+Epoch 2 | MSE: 0.2709 | nMSE: 1.029 | L0: 32.0 | Dead: 0.0%
+Epoch 3/10:   0%|          | 0/2 [00:00<?, ?it/s]Epoch 3/10:   0%|          | 0/2 [00:00<?, ?it/s, nMSE=1.027, L0=32.0, dead=0.0%, lr=2.50e-05]Epoch 3/10:   0%|          | 0/2 [00:00<?, ?it/s, nMSE=1.027, L0=32.0, dead=0.0%, lr=3.00e-05]Epoch 3/10: 100%|██████████| 2/2 [00:00<00:00, 20.37it/s, nMSE=1.027, L0=32.0, dead=0.0%, lr=3.00e-05]
+Epoch 3 | MSE: 0.2703 | nMSE: 1.027 | L0: 32.0 | Dead: 0.0%
+Epoch 4/10:   0%|          | 0/2 [00:00<?, ?it/s]Epoch 4/10:   0%|          | 0/2 [00:00<?, ?it/s, nMSE=1.021, L0=32.0, dead=0.0%, lr=3.50e-05]Epoch 4/10:   0%|          | 0/2 [00:00<?, ?it/s, nMSE=1.025, L0=32.0, dead=0.0%, lr=4.00e-05]Epoch 4/10: 100%|██████████| 2/2 [00:00<00:00, 20.79it/s, nMSE=1.025, L0=32.0, dead=0.0%, lr=4.00e-05]
+Epoch 4 | MSE: 0.2693 | nMSE: 1.023 | L0: 32.0 | Dead: 0.0%
+Epoch 5/10:   0%|          | 0/2 [00:00<?, ?it/s]Epoch 5/10:   0%|          | 0/2 [00:00<?, ?it/s, nMSE=1.015, L0=32.0, dead=0.0%, lr=4.50e-05]Epoch 5/10:   0%|          | 0/2 [00:00<?, ?it/s, nMSE=1.020, L0=32.0, dead=0.0%, lr=5.00e-05]Epoch 5/10: 100%|██████████| 2/2 [00:00<00:00, 21.07it/s, nMSE=1.020, L0=32.0, dead=0.0%, lr=5.00e-05]
+Epoch 5 | MSE: 0.2678 | nMSE: 1.018 | L0: 32.0 | Dead: 0.0%
+Epoch 6/10:   0%|          | 0/2 [00:00<?, ?it/s]Epoch 6/10:   0%|          | 0/2 [00:00<?, ?it/s, nMSE=1.009, L0=32.0, dead=0.0%, lr=5.50e-05]Epoch 6/10:  50%|█████     | 1/2 [00:00<00:00,  9.52it/s, nMSE=1.009, L0=32.0, dead=0.0%, lr=5.50e-05]Epoch 6/10:  50%|█████     | 1/2 [00:00<00:00,  9.52it/s, nMSE=1.012, L0=32.0, dead=0.0%, lr=6.00e-05]Epoch 6/10: 100%|██████████| 2/2 [00:00<00:00, 13.66it/s, nMSE=1.012, L0=32.0, dead=0.0%, lr=6.00e-05]
+Epoch 6 | MSE: 0.2659 | nMSE: 1.011 | L0: 32.0 | Dead: 0.0%
+Epoch 7/10:   0%|          | 0/2 [00:00<?, ?it/s]Epoch 7/10:   0%|          | 0/2 [00:00<?, ?it/s, nMSE=1.000, L0=32.0, dead=0.0%, lr=6.50e-05]Epoch 7/10:   0%|          | 0/2 [00:00<?, ?it/s, nMSE=1.004, L0=32.0, dead=0.0%, lr=7.00e-05]Epoch 7/10: 100%|██████████| 2/2 [00:00<00:00, 20.81it/s, nMSE=1.004, L0=32.0, dead=0.0%, lr=7.00e-05]
+Epoch 7 | MSE: 0.2637 | nMSE: 1.002 | L0: 32.0 | Dead: 0.0%
+Epoch 8/10:   0%|          | 0/2 [00:00<?, ?it/s]Epoch 8/10:   0%|          | 0/2 [00:00<?, ?it/s, nMSE=0.995, L0=32.0, dead=0.0%, lr=7.50e-05]Epoch 8/10:   0%|          | 0/2 [00:00<?, ?it/s, nMSE=0.988, L0=32.0, dead=0.0%, lr=8.00e-05]Epoch 8/10: 100%|██████████| 2/2 [00:00<00:00, 20.09it/s, nMSE=0.988, L0=32.0, dead=0.0%, lr=8.00e-05]
+Epoch 8 | MSE: 0.2609 | nMSE: 0.992 | L0: 32.0 | Dead: 0.0%
+Epoch 9/10:   0%|          | 0/2 [00:00<?, ?it/s]Epoch 9/10:   0%|          | 0/2 [00:00<?, ?it/s, nMSE=0.984, L0=32.0, dead=0.0%, lr=8.50e-05]Epoch 9/10:   0%|          | 0/2 [00:00<?, ?it/s, nMSE=0.978, L0=32.0, dead=0.0%, lr=9.00e-05]Epoch 9/10: 100%|██████████| 2/2 [00:00<00:00, 20.74it/s, nMSE=0.978, L0=32.0, dead=0.0%, lr=9.00e-05]
+Epoch 9 | MSE: 0.2580 | nMSE: 0.981 | L0: 32.0 | Dead: 0.0%
+Epoch 10/10:   0%|          | 0/2 [00:00<?, ?it/s]Epoch 10/10:   0%|          | 0/2 [00:00<?, ?it/s, nMSE=0.970, L0=32.0, dead=0.0%, lr=9.50e-05]Epoch 10/10:   0%|          | 0/2 [00:00<?, ?it/s, nMSE=0.966, L0=32.0, dead=0.0%, lr=1.00e-04]Epoch 10/10: 100%|██████████| 2/2 [00:00<00:00, 20.49it/s, nMSE=0.966, L0=32.0, dead=0.0%, lr=1.00e-04]
+Epoch 10 | MSE: 0.2548 | nMSE: 0.968 | L0: 32.0 | Dead: 0.0%
+Saved SAE checkpoint to sae/checkpoints_late_squad/sae_topk_32.pt
+== Plan 4 [3/3]: Probe Layer-18 SQuAD ==
+Loading HellaSwag metadata and activations...
+Computing prompt statistics...
+Loading SAE...
+Auto-detected SAE dimensions from checkpoint: d_model=1024, d_hidden=4096
+Aggregating activations (padding-aware sequence pooling)...
+Aggregating SAE codes (padding-aware sequence pooling)...
+Train samples: 3500, Test samples: 1500, Hard (incorrect) rate: 17.7%
+  CV: Using stratified-by-topic CV across 5 folds
+Training probe: P1_InputStats (features: 8)
+  P1_InputStats point AUROC = 0.591  (C=1.0)
+Training probe: P2_InputStats_Raw (features: 1032)
+  P2_InputStats_Raw point AUROC = 0.708  (C=0.1)
+Training probe: P3_InputStats_SAE (features: 4104)
+  P3_InputStats_SAE point AUROC = 0.628  (C=0.03)
+Training probe: P4_RawOnly (features: 1024)
+  P4_RawOnly point AUROC = 0.716  (C=0.1)
+Training probe: P5_SAEOnly (features: 4096)
+  P5_SAEOnly point AUROC = 0.621  (C=0.03)
+Running paired bootstrap (B=2000)...
+  P1_InputStats AUROC 95% CI: [0.552, 0.628]
+  P2_InputStats_Raw AUROC 95% CI: [0.676, 0.739]
+  P3_InputStats_SAE AUROC 95% CI: [0.594, 0.662]
+  P4_RawOnly AUROC 95% CI: [0.682, 0.747]
+  P5_SAEOnly AUROC 95% CI: [0.585, 0.656]
+
+--- Incremental Predictive Power (ΔAUROC, paired bootstrap) ---
+Δ Raw - Stats : +0.117  95% CI [+0.072, +0.161]
+Δ SAE - Stats : +0.037  95% CI [-0.009, +0.080]
+Δ SAE - Raw   : -0.080  95% CI [-0.119, -0.040]
+
+Saved activations_late/squad_scores.parquet
+Saved probing/results/squad_probe_late_results.json
+=== Plan 4 resume complete ===

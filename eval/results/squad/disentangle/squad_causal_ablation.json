@@ -1,0 +1,47 @@
+{
+  "metric": "continuous",
+  "metric_unit": "nats (cross-entropy of gold answer)",
+  "positions": "boundary",
+  "hellaswag_boundary": null,
+  "sae_ckpt": "sae/checkpoints_allpos_squad/sae_topk_32.pt",
+  "activations_path": "activations_allpos/squad_activations.safetensors",
+  "top_5_features": [
+    2154,
+    3070,
+    1264,
+    507,
+    2121
+  ],
+  "natural_error_mean": 3.292780686557293,
+  "recon_error_mean": 3.3168285580376784,
+  "delta_recon_natural": 0.024047871480385462,
+  "delta_recon_natural_ci_lower": 0.012444115897019704,
+  "delta_recon_natural_ci_upper": 0.03609408163701494,
+  "feature_effects": {
+    "2154": {
+      "delta_error": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0
+    },
+    "3070": {
+      "delta_error": 0.006629420191049576,
+      "ci_lower": 0.004768008718142907,
+      "ci_upper": 0.008531931406507888
+    },
+    "1264": {
+      "delta_error": -0.0002378421624501546,
+      "ci_lower": -0.00043351611495018007,
+      "ci_upper": -8.859961032867437e-05
+    },
+    "507": {
+      "delta_error": -2.7795533339182535e-05,
+      "ci_lower": -8.464700529972712e-05,
+      "ci_upper": 2.784908562898632e-05
+    },
+    "2121": {
+      "delta_error": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0
+    }
+  }
+}
