@@ -113,12 +113,13 @@ def main():
     # If any topic-label group is too small, fallback to standard stratified CV by y
     if (counts < n_splits).any():
         print(f"  CV: Using stratified-by-label CV (some topic-label groups have count < {n_splits})")
-        cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
         cv_target = y_train
     else:
         print(f"  CV: Using stratified-by-topic CV across {n_splits} folds")
-        cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
         cv_target = strat_key.values
+
+    cv_splitter = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
+    splits = list(cv_splitter.split(np.zeros((len(y_train), 1)), cv_target))
 
     for name, X in probes.items():
         print(f"Training probe: {name} (features: {X.shape[1]})")
@@ -127,11 +128,11 @@ def main():
         X_test_s = scaler.transform(X[test_mask])
 
         base = LogisticRegression(penalty="l1", solver="liblinear", class_weight="balanced", max_iter=2000)
-        gs = GridSearchCV(base, C_grid, scoring="roc_auc", cv=cv, n_jobs=-1)
+        gs = GridSearchCV(base, C_grid, scoring="roc_auc", cv=splits, n_jobs=-1)
         
         from joblib import parallel_backend
         with parallel_backend("threading"):
-            gs.fit(X_train_s, cv_target if cv_target is not y_train else y_train)
+            gs.fit(X_train_s, y_train)
         
         preds[name] = gs.predict_proba(X_test_s)[:, 1]
         point = roc_auc_score(y_test, preds[name]) if len(np.unique(y_test)) > 1 else 0.0

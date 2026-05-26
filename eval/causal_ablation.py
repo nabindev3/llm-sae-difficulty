@@ -91,7 +91,10 @@ def main():
     clf.fit(X_tr_s, y_tr)
     
     coefs = clf.coef_[0]
-    feature_importance = np.abs(coefs.reshape(3, d_hidden)).sum(axis=0)
+    if len(coefs) == d_hidden:
+        feature_importance = np.abs(coefs)
+    else:
+        feature_importance = np.abs(coefs.reshape(3, d_hidden)).sum(axis=0)
     top_5_features = np.argsort(-feature_importance)[:5].tolist()
     print(f"Top-5 features identified: {top_5_features}")
 
@@ -105,27 +108,42 @@ def main():
     active_feat_idx = None
     ablate_active = False
     recon_active = False
+    # Boundary index (single token position) to patch. Set per-sample before forward pass.
+    # SQuAD: prompt_len - 1 (last prompt token, matches extract_activations.py:201).
+    # HellaSwag: prompt_len (first candidate token, matches extract_activations.py:137).
+    # Patching only this position avoids feeding the SAE token positions it was never
+    # trained on (full context, question, target tokens), which otherwise destroys the
+    # forward pass and yields recon_error_mean ~= 1.0.
+    current_boundary_idx = None
 
     def patch_hook(module, input, output):
+        if not (recon_active or ablate_active):
+            return output
+        if current_boundary_idx is None:
+            return output
         hidden_states = output[0] if isinstance(output, tuple) else output
-        x = hidden_states.to(torch.float32)
-        orig_shape = x.shape
-        x_2d = x.reshape(-1, d_model)
-        
+        # Bounds-check (defensive): if boundary outside this forward's seq dim, no-op.
+        if current_boundary_idx >= hidden_states.shape[1]:
+            return output
+
+        # Slice out just the boundary token, run through SAE, splice back in.
+        boundary_slice = hidden_states[:, current_boundary_idx:current_boundary_idx + 1, :]
+        x_2d = boundary_slice.to(torch.float32).reshape(-1, d_model)
+
         with torch.no_grad():
             acts, x_reconstruct, _ = sae(x_2d)
-            
+
         if ablate_active and active_feat_idx is not None:
             acts[:, active_feat_idx] = 0.0
             x_reconstruct = acts @ sae.W_dec + sae.b_dec
-            
-        if recon_active or ablate_active:
-            reconstructed_states = x_reconstruct.reshape(orig_shape).to(hidden_states.dtype)
-            if isinstance(output, tuple):
-                return (reconstructed_states,) + output[1:]
-            else:
-                return reconstructed_states
-        return output
+
+        patched = hidden_states.clone()
+        patched[:, current_boundary_idx:current_boundary_idx + 1, :] = (
+            x_reconstruct.reshape(1, 1, d_model).to(hidden_states.dtype)
+        )
+        if isinstance(output, tuple):
+            return (patched,) + output[1:]
+        return patched
 
     # Hook Layer 12
     handle = model.gpt_neox.layers[11].register_forward_hook(patch_hook)
@@ -187,6 +205,9 @@ def main():
                 predicted_label = int(np.argmax(ending_scores))
                 return 0 if predicted_label == true_label else 1
 
+            # SAE was trained on raw_act[prompt_len, :] (first candidate token).
+            current_boundary_idx = prompt_len
+
             recon_active, ablate_active = False, False
             err_natural = run_eval_hellaswag()
 
@@ -232,6 +253,9 @@ def main():
                 # Check difficulty mapping
                 norm_ppl = (target_perplexity - mean_tr) / (std_tr + 1e-8)
                 return 1 if norm_ppl >= threshold_ppl else 0
+
+            # SAE was trained on raw_act[prompt_len - 1, :] (last prompt token).
+            current_boundary_idx = prompt_len - 1
 
             recon_active, ablate_active = False, False
             err_natural = run_eval_squad()

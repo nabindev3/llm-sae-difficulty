@@ -1,0 +1,41 @@
+{
+  "top_5_features": [
+    1659,
+    139,
+    966,
+    1441,
+    78
+  ],
+  "natural_error_mean": 0.6210807204803203,
+  "recon_error_mean": 0.6210807204803203,
+  "delta_recon_natural": 0.0,
+  "delta_recon_natural_ci_lower": -0.016010673782521682,
+  "delta_recon_natural_ci_upper": 0.015343562374916611,
+  "feature_effects": {
+    "1659": {
+      "delta_error": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0
+    },
+    "139": {
+      "delta_error": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0
+    },
+    "966": {
+      "delta_error": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0
+    },
+    "1441": {
+      "delta_error": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0
+    },
+    "78": {
+      "delta_error": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0
+    }
+  }
+}
