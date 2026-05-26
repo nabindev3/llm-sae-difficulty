@@ -1,6 +1,7 @@
 # SAE Features Are Causally Active But Not Routable: A Layer-Invariant Negative Result for Sparse-Autoencoder Difficulty Probes on Pythia
 
-**Author(s):** _<fill in>_
+**Author:** Nabin Prasad Dev
+**Email:** nabin.dev33@gmail.com
 **Affiliation:** _<fill in>_
 
 ---
@@ -315,4 +316,4 @@ All scripts, leakage controls, SAE checkpoints, probe outputs, cascade results, 
 
 ---
 
-_(Author and acknowledgement sections to be filled in by the authors. All citations marked `[CITE: ...]` are placeholders the authors should replace with the appropriate bibliographic entries before submission.)_
+_(Affiliation and acknowledgement sections to be filled in by the author. All citations marked `[CITE: ...]` are placeholders to replace with the appropriate bibliographic entries before submission.)_
