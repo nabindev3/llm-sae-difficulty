@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+
+# Virtual envs (the venv lives outside this repo in ../tsfm-sae-routing/venv)
+venv/
+.venv/
+
+# Local IDE/editor state
+.vscode/
+.idea/
+*.swp
+
+# Local run logs (regeneratable; large; not paper-relevant)
+logs/
+
+# Large generated artifacts — uncomment if you intend to keep them out of git.
+# Keep checked in by default so paper numbers are reproducible from disk.
+# activations/*.safetensors
+# activations_late/*.safetensors
+# activations_allpos/*.safetensors
+# sae/checkpoints*/sae_topk_32.pt
