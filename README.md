@@ -153,7 +153,35 @@ The original boundary-only binary-metric causal ablation reported ΔError ≈ 0 
 
 For SQuAD, ablating Feature 1264 *improves* the model's confidence in the gold answer — evidence that some SAE features encode signal that competes with correct completion, not signal the model exploits. This is a form of feature heterogeneity that aggregated probe predictions cannot expose.
 
-### 2.6 Summary
+### 2.6 Per-Pooling Ablation (Task 1)
+
+The default `aggregate_sequence` concatenates **mean + max + last** pooling over the prompt sequence, multiplying the feature dimension by 3×. We fit each pooling separately on the all-position activations to ask: **which pool carries the signal?**
+
+| Pool | SQuAD P4 RawOnly AUROC | SQuAD P5 SAEOnly AUROC | Comment |
+|---|---|---|---|
+| mean | 0.636 [0.596, 0.673] | 0.630 [0.593, 0.667] | Both comparable |
+| max | 0.566 [0.530, 0.603] | **0.658** [0.621, 0.694] | **SAE > Raw** — reverses headline |
+| **last** | **0.667** [0.634, 0.700] | 0.614 [0.576, 0.648] | Raw matches full concat |
+
+**Finding:** for raw activations on SQuAD, `last`-token pooling alone reproduces the full `mean+max+last` concat AUROC (0.667 either way) — the 3× feature-dimension cost of concatenation is **unjustified** for raw activations. For SAE features, `max` pooling reverses the SAE-vs-Raw ranking. HellaSwag is robust to pooling choice (all probes land at chance regardless), consistent with the layer-invariant null.
+
+For paper-replication speed, swapping the default to `last`-only would cut raw-probe feature dimensions 3× without changing P4 numbers.
+
+### 2.7 chosen_C Variance Diagnosis (Task 2)
+
+The L1 regularization constant `C` selected by inner-CV varies across probes (0.01 → 1.0). Diagnosis: **chosen_C scales inversely with feature-space dimensionality**, as expected for L1 on a fixed-size train split (n=3,500).
+
+| Probe (SQuAD L18) | n_feat | chosen_C | best inner-CV AUROC |
+|---|---|---|---|
+| P1 InputStats | 8 | 0.3 | 0.616 |
+| P2 Stats + Raw | 1,032 | 0.1 | 0.813 |
+| P4 RawOnly | 1,024 | 0.1 | 0.810 |
+| P3 Stats + SAE | 4,104 | 0.03 | 0.752 |
+| P5 SAEOnly | 4,096 | 0.03 | 0.747 |
+
+Higher-dimensional feature spaces require stronger shrinkage (smaller C) to control the bias–variance tradeoff. The pattern is consistent across all three (dataset × layer) configurations we tested. **HellaSwag exception:** when the signal is at chance, the optimizer drives all weights toward zero and chosen_C lands at the grid endpoints essentially by accident (CV scores plateau across C). Regularization-path plots are in [`eval/results/chosen_c/*.png`](eval/results/chosen_c/).
+
+### 2.8 Summary
 
 | Quantity | HellaSwag L12 | SQuAD L12 | SQuAD L18 |
 |---|---|---|---|
@@ -188,6 +216,7 @@ These interpretations are from the **boundary-trained SAE**. The all-position SA
 - **Binary metric below model resolution.** Single-position SAE patching with a high-fidelity SAE produces sub-resolution shifts in the binary 0/1 difficulty label (Δ ≈ ±0.001 with CI straddling zero). Continuous metrics (Δ log-prob, Δ cross-entropy) are required to surface real per-feature effects.
 - **Per-dataset SAE training matters.** The original L12 SAE checkpoint was unintentionally SQuAD-trained (FVU 0.099 on SQuAD, 1.058 on HellaSwag — i.e., worse than the mean predictor on HellaSwag). Re-training a HellaSwag-matched L12 SAE strengthened HellaSwag's null (probes collapsed cleanly to chance, `chosen_C` driven to its minimum).
 - **macOS MPS forking deadlocks.** L1 regularized logistic regression on 12,288 features × 3,500 samples across 45 CV fits is normally 11+ minutes. With `n_jobs=-1` multiprocessing, Apple Silicon fork safety deadlocks. Wrapping fits inside `joblib.parallel_backend("threading")` enables parallel execution that completes in under 30 seconds.
+- **Vectorized `compute_prompt_stats`.** The original prompt-stat extractor iterated rows via `df_meta.iterrows()`, which has significant pandas-overhead per row. The vectorized version (`probing/features.py`) uses pandas string accessors and list comprehensions over numpy arrays, yielding a 1.3–1.9× speedup on N=5,000 (the per-character Unicode-aware `str.isalpha()`/`str.isupper()` for capitalization remains the floor). Numerical equivalence to the original loop is verified by `tests/test_features_equivalence.py` (rtol=atol=1e-12).
 - **Collinearity-free sequence pooling for max_seq=1.** For boundary-only activations (SQuAD `max_seq` = 1), mean+max+last pooling produced collinear duplicates that stalled L1 `liblinear` coordinate descent. `probing/features.aggregate_sequence` now bypasses pooling when `max_seq == 1` and returns the raw squeezed `(N, d)` matrix directly.
 - **All-position SAE training requires fresh extraction.** Boundary-only activations are stored as `(N, 1, d_model)` or `(N, 4, d_model)`; for all-position causal ablation, we run `extract_prompt_sequences.py` to capture the full `(N, max_seq_len, d_model)` prompt-portion tensor. ~0.8 GB (HellaSwag) / ~2 GB (SQuAD) fp16.
 
@@ -204,14 +233,26 @@ python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Reproduction Scripts (in chronological order of the work)
+### Reproduce Everything (One Command)
+
+```bash
+bash run_all.sh
+```
+
+This is the canonical, idempotent end-to-end reproducer. It runs all 14 phases — extraction → SAE training → probing → cascade → calibration → causal ablation (boundary + continuous + all-position + disentanglement) → permutation tests → per-pooling ablation → chosen_C diagnosis → report population — and writes SHA256 checksums of every key artifact to `eval/reproduction_manifest.txt`.
+
+Each phase skips automatically if its terminal output already exists, so re-running the script after a partial completion picks up where it left off. To force a stage to re-run, delete its terminal artifact and re-invoke.
+
+Wall-clock from scratch on Apple Silicon MPS: ~3.5 hours.
+
+### Reproduce Individual Pieces (chronological order of the work)
 
 ```bash
 # Original boundary-only pipelines (one per dataset)
-bash reproduce.sh                  # HellaSwag dual-layer
-bash reproduce_squad.sh            # SQuAD continuous-perplexity cascade
+bash reproduce.sh                          # HellaSwag dual-layer
+bash reproduce_squad.sh                    # SQuAD continuous-perplexity cascade
 
-# Step 1: per-dataset L12 SAE for HellaSwag (closes cross-dataset gap)
+# Step 1: dataset-matched L12 SAE for HellaSwag (closes the cross-dataset gap)
 bash run_step1_hellaswag_l12_sae.sh
 
 # Step 2: all-position SAE training + continuous causal at all prompt positions
@@ -229,6 +270,20 @@ python3 eval/permutation_test.py \
   --B 10000 \
   --out_json eval/results/squad/permutation/squad_l12_p3_vs_p2.json
 
+# Per-pooling ablation (mean vs max vs last)
+bash run_pooling_ablation.sh
+
+# chosen_C variance diagnosis with regularization-path plots
+python3 eval/chosen_c_diagnosis.py \
+  --cases \
+    "hellaswag_l12:activations/hellaswag_metadata.parquet:activations/hellaswag_activations.safetensors:sae/checkpoints_hellaswag_l12/sae_topk_32.pt" \
+    "squad_l12:activations/squad_metadata.parquet:activations/squad_activations.safetensors:sae/checkpoints/sae_topk_32.pt" \
+    "squad_l18:activations_late/squad_metadata.parquet:activations_late/squad_activations.safetensors:sae/checkpoints_late_squad/sae_topk_32.pt" \
+  --out_dir eval/results/chosen_c
+
+# Numerical equivalence test for vectorized features
+python3 tests/test_features_equivalence.py
+
 # Qualitative feature interpretations (boundary-SAE)
 python3 eval/interpret_features.py
 ```
@@ -239,11 +294,13 @@ python3 eval/interpret_features.py
 probing/results/                          probe AUROCs + CIs
 eval/results/                             HellaSwag downstream
 eval/results/squad/                       SQuAD downstream
-eval/results/{allpos,disentangle,permutation}/        Step 2 / disentangle / Step 3
-eval/results/squad/{allpos,disentangle,calibrated,permutation}/
+eval/results/{allpos,disentangle,permutation,pooling,chosen_c}/
+eval/results/squad/{allpos,disentangle,calibrated,permutation,pooling}/
+eval/reproduction_manifest.txt            SHA256 manifest from run_all.sh
 eval/report.md                            HellaSwag final report
 eval/report_squad.md                      SQuAD final report
 paper_draft.md                            Workshop-paper-length writeup (4,175 words)
+tests/test_features_equivalence.py        Vectorization correctness regression test
 ```
 
 ### SAE Checkpoints

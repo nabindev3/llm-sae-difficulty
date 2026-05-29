@@ -1,0 +1,97 @@
+{
+  "label": "hellaswag_l12_allpos",
+  "n_train": 3500,
+  "n_test": 1499,
+  "by_pooling": {
+    "mean": {
+      "P2_Stats+Raw": {
+        "AUROC": 0.5204327468570823,
+        "CI_lower": 0.4901070107279055,
+        "CI_upper": 0.5494228710547254,
+        "chosen_C": 0.1,
+        "n_features": 1032
+      },
+      "P3_Stats+SAE": {
+        "AUROC": 0.48831333867868865,
+        "CI_lower": 0.4600259225791246,
+        "CI_upper": 0.5203662917166619,
+        "chosen_C": 0.3,
+        "n_features": 4104
+      },
+      "P4_RawOnly": {
+        "AUROC": 0.5164048198968245,
+        "CI_lower": 0.48629508664956517,
+        "CI_upper": 0.5456099609721755,
+        "chosen_C": 0.1,
+        "n_features": 1024
+      },
+      "P5_SAEOnly": {
+        "AUROC": 0.4839601518887763,
+        "CI_lower": 0.4552223022767492,
+        "CI_upper": 0.5156619509932425,
+        "chosen_C": 0.3,
+        "n_features": 4096
+      }
+    },
+    "max": {
+      "P2_Stats+Raw": {
+        "AUROC": 0.4965318225140315,
+        "CI_lower": 0.46729058691600817,
+        "CI_upper": 0.5269417125180244,
+        "chosen_C": 0.01,
+        "n_features": 1032
+      },
+      "P3_Stats+SAE": {
+        "AUROC": 0.486080013918095,
+        "CI_lower": 0.4544524069277058,
+        "CI_upper": 0.5166405482354429,
+        "chosen_C": 0.3,
+        "n_features": 4104
+      },
+      "P4_RawOnly": {
+        "AUROC": 0.49652047624090406,
+        "CI_lower": 0.467279218084345,
+        "CI_upper": 0.5269285337145849,
+        "chosen_C": 0.01,
+        "n_features": 1024
+      },
+      "P5_SAEOnly": {
+        "AUROC": 0.4837048607434078,
+        "CI_lower": 0.4537741099518399,
+        "CI_upper": 0.5150976671509535,
+        "chosen_C": 0.3,
+        "n_features": 4096
+      }
+    },
+    "last": {
+      "P2_Stats+Raw": {
+        "AUROC": 0.4927478404260147,
+        "CI_lower": 0.46272808798455856,
+        "CI_upper": 0.5219027938530058,
+        "chosen_C": 0.1,
+        "n_features": 1032
+      },
+      "P3_Stats+SAE": {
+        "AUROC": 0.521765933949562,
+        "CI_lower": 0.49114561020738073,
+        "CI_upper": 0.5511197364207809,
+        "chosen_C": 0.03,
+        "n_features": 4104
+      },
+      "P4_RawOnly": {
+        "AUROC": 0.4915432444289799,
+        "CI_lower": 0.46100049504543317,
+        "CI_upper": 0.5209637088772044,
+        "chosen_C": 0.1,
+        "n_features": 1024
+      },
+      "P5_SAEOnly": {
+        "AUROC": 0.49387584907943904,
+        "CI_lower": 0.46333465618605885,
+        "CI_upper": 0.5226879687091404,
+        "chosen_C": 0.03,
+        "n_features": 4096
+      }
+    }
+  }
+}
