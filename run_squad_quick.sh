@@ -35,7 +35,7 @@ $PY eval/causal_ablation.py --dataset squad --sae_ckpt sae/checkpoints/sae_topk_
     --out_dir eval/results/squad
 
 echo "== [9/9] SQuAD: Compiling SQuAD results and populating report_squad.md =="
-$PY eval/populate_report_squad.py --squad_results_dir eval/results/squad
+$PY eval/populate_report.py --dataset squad
 
 echo
 echo "=========================================================="

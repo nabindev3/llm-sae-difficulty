@@ -245,6 +245,27 @@ Each phase skips automatically if its terminal output already exists, so re-runn
 
 Wall-clock from scratch on Apple Silicon MPS: ~3.5 hours.
 
+### Script Reference
+
+The root holds 14 `*.sh` scripts accumulated over the project. **If you just want results, run `run_all.sh`.** The rest are historical: standalone experiments that feed specific findings, and one-off resume/fix scripts kept for provenance (which step of which run produced which artifact). The one-off scripts hardcode a sibling-repo interpreter (`PY=../tsfm-sae-routing/venv/bin/python3`) and are *not* expected to run as-is — they document what was executed, not a supported entrypoint. Prefer the canonical scripts, which honor `PY=${PY:-python3}`.
+
+| Script | Tier | Purpose |
+| :--- | :--- | :--- |
+| `run_all.sh` | **canonical** | Full 14-phase idempotent reproducer with SHA256 manifest; superset of everything below. Start here. |
+| `reproduce.sh` | **canonical** | HellaSwag dual-layer (L12 mid + L18 late) boundary pipeline, end-to-end. |
+| `reproduce_squad.sh` | **canonical** | SQuAD generative-perplexity difficulty + cascade-routing pipeline, end-to-end. |
+| `run_step1_hellaswag_l12_sae.sh` | experiment | Train the dataset-matched L12 SAE for HellaSwag (closes the cross-dataset gap). |
+| `run_step2_allpos.sh` | experiment | All-position SAE training + continuous causal patching at every prompt position. |
+| `run_disentangle.sh` | experiment | Boundary-vs-all-position SAE disentanglement (2×2 design). |
+| `run_pooling_ablation.sh` | experiment | Per-pooling ablation (mean vs max vs last token). |
+| `run_from_step4.sh` | one-off resume | Resume the HellaSwag pipeline from step 4 (probe) onward. |
+| `run_squad_from_step3.sh` | one-off resume | Resume the SQuAD pipeline from step 3 (probing). |
+| `run_squad_quick.sh` | one-off resume | SQuAD from step 3, skipping base-model extraction (step 4). |
+| `run_squad_postleakfix.sh` | one-off fix | Re-run SQuAD probe/eval after the train/test leakage fix. |
+| `run_plan4_resume.sh` | one-off resume | Plan 4 step 2/3: train the L18 SQuAD SAE on extracted activations. |
+| `run_plan4_chain.sh` | one-off chain | Poll for the L18 SQuAD extract to finish, then train SAE + probe. |
+| `run_plan2_squad_continuous.sh` | one-off chain | Poll for HellaSwag continuous to finish, then run SQuAD continuous. |
+
 ### Reproduce Individual Pieces (chronological order of the work)
 
 ```bash

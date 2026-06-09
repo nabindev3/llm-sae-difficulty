@@ -37,7 +37,7 @@ $PY eval/recalibrate.py \
    --out_dir eval/results/squad
 
 echo "== [6/6] SQuAD report populate =="
-$PY eval/populate_report_squad.py --squad_results_dir eval/results/squad
+$PY eval/populate_report.py --dataset squad
 
 echo
 echo "=== Post-leakage-fix SQuAD pipeline complete ==="

@@ -356,7 +356,7 @@ log_artifact 13 eval/results/chosen_c/squad_l18.json
 # -----------------------------------------------------------------------------
 log_phase "14 — Report population"
 if [ ! -f eval/report.md ];       then $PY eval/populate_report.py;                                          fi
-if [ ! -f eval/report_squad.md ]; then $PY eval/populate_report_squad.py --squad_results_dir eval/results/squad; fi
+if [ ! -f eval/report_squad.md ]; then $PY eval/populate_report.py --dataset squad; fi
 log_artifact 14 eval/report.md
 log_artifact 14 eval/report_squad.md
 
