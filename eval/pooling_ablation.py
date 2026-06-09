@@ -23,7 +23,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import roc_auc_score
 from joblib import parallel_backend
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from sae.sae_model import TopKSAE
 from probing.features import compute_prompt_stats
 
@@ -126,7 +125,7 @@ def main():
           f"max_seq={raw_acts.shape[1]} d_model={raw_acts.shape[2]}")
 
     # Load SAE and encode the full sequence
-    state = torch.load(args.sae_ckpt, map_location="cpu")
+    state = torch.load(args.sae_ckpt, map_location="cpu", weights_only=True)
     d_model, d_hidden = state["W_enc"].shape
     device = "mps" if torch.backends.mps.is_available() else ("cuda" if torch.cuda.is_available() else "cpu")
     sae = TopKSAE(d_model=d_model, d_hidden=d_hidden, k=32).to(device)

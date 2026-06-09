@@ -26,7 +26,6 @@ from sklearn.model_selection import GridSearchCV, StratifiedKFold
 from sklearn.preprocessing import StandardScaler
 from joblib import parallel_backend
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from sae.sae_model import TopKSAE
 from probing.features import compute_prompt_stats, aggregate_sequence
 
@@ -37,7 +36,7 @@ C_GRID = [1e-4, 3e-4, 1e-3, 3e-3, 0.01, 0.03, 0.1, 0.3, 1.0]
 def diagnose(label, meta_path, acts_path, sae_path, out_json, out_png):
     meta = pd.read_parquet(meta_path)
     raw_acts = load_file(acts_path)["encoder_embeddings"]
-    state = torch.load(sae_path, map_location="cpu")
+    state = torch.load(sae_path, map_location="cpu", weights_only=True)
     d_model, d_hidden = state["W_enc"].shape
     device = "mps" if torch.backends.mps.is_available() else ("cuda" if torch.cuda.is_available() else "cpu")
     sae = TopKSAE(d_model=d_model, d_hidden=d_hidden, k=32).to(device)

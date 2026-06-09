@@ -15,9 +15,6 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-# Include the parent and sibling directory in sys.path to resolve imports
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'sae')))
 from sae.sae_model import TopKSAE
 from probing.features import compute_prompt_stats, aggregate_sequence
 
@@ -73,7 +70,7 @@ def load_sae(sae_ckpt, k, device):
     if not os.path.exists(sae_ckpt):
         sys.exit(f"[probe] SAE checkpoint '{sae_ckpt}' not found. Train the SAE first; refusing to probe with random weights.")
 
-    state = torch.load(sae_ckpt, map_location=device)
+    state = torch.load(sae_ckpt, map_location=device, weights_only=True)
     if "W_enc" not in state:
         sys.exit(f"[probe] '{sae_ckpt}' is not a TopKSAE checkpoint.")
 

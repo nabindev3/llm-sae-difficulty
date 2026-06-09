@@ -1,3 +1,7 @@
+# Install-time floors — broad enough to `pip install`. These do NOT pin the
+# numerics-critical stack, so a fresh resolve may shift the AUROC bootstrap CIs.
+# To reproduce the committed numbers (AUROC=0.716 gate), use the exact pins:
+#     pip install -r requirements.lock && pip install -e . --no-deps
 torch>=2.4.0
 transformers>=4.40.0
 datasets>=2.19.0

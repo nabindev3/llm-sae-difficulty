@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-sae-difficulty"
+version = "0.1.0"
+description = "Label-free difficulty probing for Pythia: SAE vs raw-activation probes, cascade routing, and recalibrated selective QA."
+readme = "README.md"
+requires-python = ">=3.10"
+
+# Install-time floors (broad enough to install). For BIT-REPRODUCIBLE runs that
+# regenerate the committed AUROC=0.716 gate and bootstrap CIs, install the exact
+# pins instead:
+#     pip install -r requirements.lock && pip install -e . --no-deps
+# numpy / scipy / scikit-learn / joblib / threadpoolctl / torch determine the
+# AUROC-bootstrap and liblinear bit pattern, so the lock is what the reported
+# numbers are calibrated against.
+dependencies = [
+    "torch>=2.4.0",
+    "transformers>=4.40.0",
+    "datasets>=2.19.0",
+    "safetensors>=0.4.0",
+    "scikit-learn>=1.4.0",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "scipy>=1.11.0",
+    "matplotlib>=3.8.0",
+    "pyarrow>=14.0.0",
+    "tqdm>=4.66.0",
+    "statsmodels>=0.14.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+# Installing the project (`pip install -e .`) puts the repo root on the import
+# path, so `from sae.sae_model import ...` and `from probing.features import ...`
+# resolve from any working directory — no sys.path.append hacks in the scripts.
+# `eval/` is entrypoints-only (never imported), so it is not a package.
+[tool.setuptools]
+packages = ["sae", "probing"]

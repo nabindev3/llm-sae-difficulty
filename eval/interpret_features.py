@@ -11,9 +11,6 @@ import pandas as pd
 import torch
 from safetensors.torch import load_file
 
-# Resolve imports
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'sae')))
 from sae.sae_model import TopKSAE
 
 
@@ -41,7 +38,7 @@ def main():
         device = "cuda"
 
     print(f"Loading SAE checkpoint from {args.sae_ckpt}...")
-    state = torch.load(args.sae_ckpt, map_location=device)
+    state = torch.load(args.sae_ckpt, map_location=device, weights_only=True)
     d_model, d_hidden = state["W_enc"].shape
     sae = TopKSAE(d_model=d_model, d_hidden=d_hidden, k=32).to(device)
     sae.load_state_dict(state)

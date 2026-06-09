@@ -22,9 +22,6 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-# Resolve imports
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'sae')))
 from sae.sae_model import TopKSAE
 from probing.features import compute_prompt_stats, aggregate_sequence
 
@@ -75,7 +72,7 @@ def main():
     print("Loading metadata, activations, SAE...")
     meta = pd.read_parquet(args.metadata)
     raw_acts = load_file(args.activations)["encoder_embeddings"]
-    state = torch.load(args.sae_ckpt, map_location="cpu")
+    state = torch.load(args.sae_ckpt, map_location="cpu", weights_only=True)
     d_model_ckpt, d_hidden_ckpt = state["W_enc"].shape
     
     sae = TopKSAE(d_model=d_model_ckpt, d_hidden=d_hidden_ckpt, k=32)

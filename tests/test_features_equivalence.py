@@ -6,7 +6,6 @@ import time
 import numpy as np
 import pandas as pd
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from probing.features import compute_prompt_stats, INPUT_STAT_NAMES
 
 

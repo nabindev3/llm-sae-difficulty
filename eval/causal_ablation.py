@@ -17,9 +17,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from tqdm import tqdm
 
-# Resolve imports
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'sae')))
 from sae.sae_model import TopKSAE
 from probing.features import aggregate_sequence
 
@@ -67,7 +64,7 @@ def main():
     print(f"Loading {args.dataset} metadata, activations, SAE...")
     meta = pd.read_parquet(args.metadata)
     raw_acts = load_file(args.activations)["encoder_embeddings"]
-    state = torch.load(args.sae_ckpt, map_location="cpu")
+    state = torch.load(args.sae_ckpt, map_location="cpu", weights_only=True)
     d_model, d_hidden = state["W_enc"].shape
     
     device = "mps" if torch.backends.mps.is_available() else "cpu"

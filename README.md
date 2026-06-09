@@ -230,8 +230,21 @@ These interpretations are from the **boundary-trained SAE**. The all-position SA
 git clone https://github.com/nabindev3/llm-sae-difficulty.git
 cd llm-sae-difficulty
 python3 -m venv venv && source venv/bin/activate
+
+# Standard install (broad floors):
 pip install -r requirements.txt
+pip install -e .                     # registers the `sae` / `probing` packages
+
+# OR — reproduce the committed numbers (AUROC=0.716 gate) bit-for-bit:
+pip install -r requirements.lock
+pip install -e . --no-deps
 ```
+
+`pip install -e .` is required: the scripts import `sae` and `probing` as
+installed packages (no `sys.path` hacks), so imports only resolve once the
+project is installed. `requirements.txt` holds broad floors for a flexible
+install; `requirements.lock` holds the exact pins of the environment that
+produced the reported AUROCs and bootstrap CIs.
 
 ### Reproduce Everything (One Command)
 

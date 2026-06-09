@@ -1,0 +1,36 @@
+# Exact-pin lock — the environment that produced the committed results (AUROC=0.716
+# RawOnly gate, P*/Δ bootstrap CIs in README §2 and paper_draft.md).
+# Captured 2026-06-09 on Python 3.10.20 (CPython, macOS/Apple-Silicon, MPS).
+#
+#   pip install -r requirements.lock
+#   pip install -e . --no-deps          # add the package without re-resolving deps
+#
+# Why a lock and not just requirements.txt's floors: the AUROC paired bootstrap
+# and the L1-liblinear probe are bit-sensitive to numpy/scipy/scikit-learn (and
+# the BLAS thread pool). A floating `pip install` six months from now can resolve
+# a newer scikit-learn whose liblinear shifts the CI tails by ~1e-3 and silently
+# moves the reported gate. These exact pins prevent that.
+#
+# Direct dependencies + the transitive packages that affect numerics
+# (joblib / threadpoolctl). Other transitive deps are left to the resolver —
+# they don't touch the numbers.
+
+# python_version == "3.10.20"
+
+# --- numerics-critical (govern the bit pattern of the reported AUROC/CIs) --- #
+numpy==2.2.6
+scipy==1.15.3
+scikit-learn==1.7.2
+joblib==1.5.3
+threadpoolctl==3.6.0
+torch==2.12.0
+
+# --- direct dependencies --- #
+transformers==4.57.6
+datasets==4.8.5
+safetensors==0.7.0
+pandas==2.3.3
+matplotlib==3.10.9
+pyarrow==24.0.0
+tqdm==4.67.3
+statsmodels==0.14.6
