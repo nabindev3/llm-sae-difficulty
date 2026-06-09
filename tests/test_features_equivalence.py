@@ -5,8 +5,18 @@ import sys
 import time
 import numpy as np
 import pandas as pd
+import pytest
 
 from probing.features import compute_prompt_stats, INPUT_STAT_NAMES
+
+
+# (label, metadata path) pairs the equivalence check runs against. Each is
+# skipped (not failed) when its parquet is absent, so the suite stays green on a
+# fresh checkout that hasn't run extraction yet.
+DATASETS = [
+    ("HellaSwag L12", "activations/hellaswag_metadata.parquet"),
+    ("SQuAD L12", "activations/squad_metadata.parquet"),
+]
 
 
 # A faithful copy of the prior per-row implementation, kept here as a reference
@@ -66,7 +76,10 @@ def compute_prompt_stats_reference_loop(df_meta: pd.DataFrame) -> np.ndarray:
     return np.array(stats, dtype=np.float64)
 
 
+@pytest.mark.parametrize("label,metadata_path", DATASETS)
 def test_against_dataset(label, metadata_path):
+    if not os.path.exists(metadata_path):
+        pytest.skip(f"{label}: {metadata_path} not present (run extraction first)")
     df = pd.read_parquet(metadata_path)
     print(f"\n=== {label}  (N={len(df)}) ===")
 
@@ -98,10 +111,7 @@ def test_against_dataset(label, metadata_path):
 
 
 if __name__ == "__main__":
-    for label, path in [
-        ("HellaSwag L12", "activations/hellaswag_metadata.parquet"),
-        ("SQuAD L12",     "activations/squad_metadata.parquet"),
-    ]:
+    for label, path in DATASETS:
         if os.path.exists(path):
             test_against_dataset(label, path)
         else:

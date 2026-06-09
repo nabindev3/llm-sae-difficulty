@@ -12,8 +12,15 @@ from sklearn.model_selection import GridSearchCV, StratifiedKFold
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import roc_auc_score
 import warnings
+from sklearn.exceptions import ConvergenceWarning
 
-warnings.filterwarnings("ignore")
+# Suppress only the known-benign sklearn notices instead of blanket-ignoring
+# every warning: the GridSearchCV(n_jobs=-1) + liblinear combo emits a "n_jobs
+# has no effect" notice, and the L1 path can hit the iteration cap. Real
+# data/deprecation warnings stay visible. (Mirrors core.probe in
+# fm-difficulty-probe, which scopes the same liblinear message.)
+warnings.filterwarnings("ignore", message=".*n_jobs.*liblinear.*")
+warnings.filterwarnings("ignore", category=ConvergenceWarning)
 
 from sae.sae_model import TopKSAE
 from probing.features import compute_prompt_stats, aggregate_sequence
