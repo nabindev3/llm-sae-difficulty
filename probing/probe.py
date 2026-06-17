@@ -23,6 +23,7 @@ warnings.filterwarnings("ignore", message=".*n_jobs.*liblinear.*")
 warnings.filterwarnings("ignore", category=ConvergenceWarning)
 
 from sae.sae_model import TopKSAE
+from sae.load_any import load_sae_any
 from probing.features import compute_prompt_stats, aggregate_sequence
 
 
@@ -47,9 +48,17 @@ def parse_args():
     parser.add_argument("--metadata", type=str, default="activations/hellaswag_metadata.parquet")
     parser.add_argument("--activations", type=str, default="activations/hellaswag_activations.safetensors")
     parser.add_argument("--sae_ckpt", type=str, default="sae/checkpoints/sae_topk_32.pt")
+    parser.add_argument("--sae_codes", type=str, default=None,
+                        help="Optional pre-encoded SAE codes safetensors (key 'encoder_embeddings', "
+                             "shape (N, max_seq, d_hidden)). When set, the SAE checkpoint is not "
+                             "loaded -- used to probe off-the-shelf SAEs (e.g. Gemma Scope) whose "
+                             "encoder lives in a separate environment.")
     parser.add_argument("--k", type=int, default=32)
     parser.add_argument("--results_json", type=str, default="probing/results/probe_results.json")
     parser.add_argument("--scores_parquet", type=str, default="activations/probe_scores.parquet")
+    parser.add_argument("--seed", type=int, default=42,
+                        help="Seed for CV fold shuffling and the paired bootstrap. "
+                             "Vary across runs to measure probe-fit (fold + resample) variance.")
     return parser.parse_args()
 
 
@@ -69,24 +78,14 @@ def load_dataset(metadata_path, activations_path):
 
 
 def load_sae(sae_ckpt, k, device):
-    """Load a TopKSAE from a checkpoint, auto-detecting its dimensions.
+    """Load any SAE checkpoint (TopK or a variant), auto-detecting dimensions.
 
-    Exits (rather than silently probing with random weights) if the checkpoint
-    is missing or is not a TopKSAE. Returns the SAE and its hidden width.
+    Delegates to sae.load_any.load_sae_any, which handles both the legacy bare
+    TopK state_dict and the self-describing variant format. Exits (rather than
+    silently probing with random weights) if the checkpoint is missing or
+    unrecognized. Returns the SAE and its hidden width.
     """
-    if not os.path.exists(sae_ckpt):
-        sys.exit(f"[probe] SAE checkpoint '{sae_ckpt}' not found. Train the SAE first; refusing to probe with random weights.")
-
-    state = torch.load(sae_ckpt, map_location=device, weights_only=True)
-    if "W_enc" not in state:
-        sys.exit(f"[probe] '{sae_ckpt}' is not a TopKSAE checkpoint.")
-
-    d_model_ckpt, d_hidden_ckpt = state["W_enc"].shape
-    print(f"Auto-detected SAE dimensions from checkpoint: d_model={d_model_ckpt}, d_hidden={d_hidden_ckpt}")
-    sae = TopKSAE(d_model=d_model_ckpt, d_hidden=d_hidden_ckpt, k=k).to(device)
-    sae.load_state_dict(state)
-    sae.eval()
-    return sae, d_hidden_ckpt
+    return load_sae_any(sae_ckpt, k, device)
 
 
 def encode_sae_codes(sae, raw_acts, device, d_hidden, batch_size=8192):
@@ -117,7 +116,7 @@ def build_ladder(input_stats, raw_agg, sae_agg):
     }
 
 
-def make_cv_splits(df_meta, y_train, train_mask):
+def make_cv_splits(df_meta, y_train, train_mask, seed=42):
     """Build inner-CV folds over the TRAIN rows.
 
     Stratifies by a composite (topic, label) key so folds are balanced by topic
@@ -137,7 +136,7 @@ def make_cv_splits(df_meta, y_train, train_mask):
         print(f"  CV: Using stratified-by-topic CV across {n_splits} folds")
         cv_target = strat_key.values
 
-    cv_splitter = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
+    cv_splitter = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=seed)
     return list(cv_splitter.split(np.zeros((len(y_train), 1)), cv_target))
 
 
@@ -277,13 +276,19 @@ def main():
     print("Computing prompt statistics...")
     input_stats = compute_prompt_stats(df_meta)
 
-    print("Loading SAE...")
-    sae, d_hidden = load_sae(args.sae_ckpt, args.k, device)
-
     print("Aggregating activations (padding-aware sequence pooling)...")
     raw_agg = aggregate_sequence(raw_acts.numpy(), df_meta)
 
-    sae_acts = encode_sae_codes(sae, raw_acts, device, d_hidden)
+    if args.sae_codes:
+        print(f"Loading pre-encoded SAE codes from {args.sae_codes}...")
+        sae_acts = load_file(args.sae_codes)["encoder_embeddings"].to(torch.float32).numpy()
+        if sae_acts.shape[0] != raw_acts.shape[0]:
+            sys.exit(f"[probe] sae_codes rows ({sae_acts.shape[0]}) != activations rows ({raw_acts.shape[0]})")
+        print(f"  pre-encoded codes shape: {sae_acts.shape}")
+    else:
+        print("Loading SAE...")
+        sae, d_hidden = load_sae(args.sae_ckpt, args.k, device)
+        sae_acts = encode_sae_codes(sae, raw_acts, device, d_hidden)
     print("Aggregating SAE codes (padding-aware sequence pooling)...")
     sae_agg = aggregate_sequence(sae_acts, df_meta)
 
@@ -299,13 +304,13 @@ def main():
     y_train, y_test = y[train_mask], y[test_mask]
 
     probes = build_ladder(input_stats, raw_agg, sae_agg)
-    splits = make_cv_splits(df_meta, y_train, train_mask)
+    splits = make_cv_splits(df_meta, y_train, train_mask, seed=args.seed)
     results, preds = fit_ladder(probes, y_train, y_test, train_mask, test_mask, splits)
 
     # PAIRED bootstrap to compute 95% CIs and deltas
     print("Running paired bootstrap (B=2000)...")
     names = list(probes.keys())
-    auroc_ci, delta_ci = paired_bootstrap(preds, y_test, names, HEADLINE_PAIRS)
+    auroc_ci, delta_ci = paired_bootstrap(preds, y_test, names, HEADLINE_PAIRS, seed=args.seed)
 
     for n in names:
         lo, hi = auroc_ci[n]
