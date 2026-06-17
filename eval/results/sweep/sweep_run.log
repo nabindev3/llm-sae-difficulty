@@ -1,0 +1,83 @@
+
+=== squad_l12 ===
+  -> squad_l12     topk_x4_k16            P5=0.581 P4=0.667 Δ(SAE-Raw)=-0.0734 nMSE=0.986 L0=16.0
+  -> squad_l12     topk_x4_k32            P5=0.586 P4=0.667 Δ(SAE-Raw)=-0.0773 nMSE=0.976 L0=32.0
+  -> squad_l12     topk_x4_k64            P5=0.599 P4=0.667 Δ(SAE-Raw)=-0.0658 nMSE=0.961 L0=64.0
+  -> squad_l12     topk_x4_k128           P5=0.600 P4=0.667 Δ(SAE-Raw)=-0.0653 nMSE=0.939 L0=128.0
+  -> squad_l12     gated_x4_l10.003       P5=0.643 P4=0.667 Δ(SAE-Raw)=-0.0202 nMSE=0.245 L0=2030.4
+  -> squad_l12     gated_x4_l10.01        P5=0.643 P4=0.667 Δ(SAE-Raw)=-0.0203 nMSE=0.247 L0=2030.5
+  -> squad_l12     gated_x4_l10.03        P5=0.643 P4=0.667 Δ(SAE-Raw)=-0.0204 nMSE=0.247 L0=2030.5
+  -> squad_l12     gated_x4_l10.1         P5=0.643 P4=0.667 Δ(SAE-Raw)=-0.0204 nMSE=0.247 L0=2030.6
+  -> squad_l12     jumprelu_x4_l00.001    P5=0.653 P4=0.667 Δ(SAE-Raw)=-0.0123 nMSE=0.177 L0=2033.6
+  -> squad_l12     jumprelu_x4_l00.003    P5=0.653 P4=0.667 Δ(SAE-Raw)=-0.0122 nMSE=0.177 L0=2033.6
+  -> squad_l12     jumprelu_x4_l00.01     P5=0.653 P4=0.667 Δ(SAE-Raw)=-0.0124 nMSE=0.177 L0=2033.6
+  -> squad_l12     jumprelu_x4_l00.03     P5=0.653 P4=0.667 Δ(SAE-Raw)=-0.0124 nMSE=0.177 L0=2033.6
+  -> squad_l12     topk_x8_k16            P5=0.590 P4=0.667 Δ(SAE-Raw)=-0.0736 nMSE=0.977 L0=16.0
+  -> squad_l12     topk_x8_k32            P5=0.612 P4=0.667 Δ(SAE-Raw)=-0.0579 nMSE=0.96 L0=32.0
+  -> squad_l12     topk_x8_k64            P5=0.580 P4=0.667 Δ(SAE-Raw)=-0.0836 nMSE=0.933 L0=64.0
+  -> squad_l12     topk_x8_k128           P5=0.607 P4=0.667 Δ(SAE-Raw)=-0.0607 nMSE=0.891 L0=128.0
+  -> squad_l12     gated_x8_l10.003       P5=0.638 P4=0.667 Δ(SAE-Raw)=-0.0255 nMSE=0.193 L0=4052.8
+  -> squad_l12     gated_x8_l10.01        P5=0.637 P4=0.667 Δ(SAE-Raw)=-0.0256 nMSE=0.195 L0=4053.5
+  -> squad_l12     gated_x8_l10.03        P5=0.637 P4=0.667 Δ(SAE-Raw)=-0.0258 nMSE=0.195 L0=4053.6
+  -> squad_l12     gated_x8_l10.1         P5=0.637 P4=0.667 Δ(SAE-Raw)=-0.0258 nMSE=0.195 L0=4053.7
+  -> squad_l12     jumprelu_x8_l00.001    P5=0.663 P4=0.667 Δ(SAE-Raw)=-0.0006 nMSE=0.092 L0=4062.9
+  -> squad_l12     jumprelu_x8_l00.003    P5=0.663 P4=0.667 Δ(SAE-Raw)=-0.0006 nMSE=0.092 L0=4062.9
+  -> squad_l12     jumprelu_x8_l00.01     P5=0.663 P4=0.667 Δ(SAE-Raw)=-0.0006 nMSE=0.092 L0=4062.9
+  -> squad_l12     jumprelu_x8_l00.03     P5=0.663 P4=0.667 Δ(SAE-Raw)=-0.0008 nMSE=0.092 L0=4062.9
+  -> squad_l12     topk_x16_k16           P5=0.578 P4=0.667 Δ(SAE-Raw)=-0.0968 nMSE=0.982 L0=16.0
+  -> squad_l12     topk_x16_k32           P5=0.545 P4=0.667 Δ(SAE-Raw)=-0.1157 nMSE=0.966 L0=32.0
+  -> squad_l12     topk_x16_k64           P5=0.600 P4=0.667 Δ(SAE-Raw)=-0.0691 nMSE=0.938 L0=64.0
+  -> squad_l12     topk_x16_k128          P5=0.575 P4=0.667 Δ(SAE-Raw)=-0.0918 nMSE=0.892 L0=128.0
+  -> squad_l12     gated_x16_l10.003      P5=0.638 P4=0.667 Δ(SAE-Raw)=-0.0288 nMSE=0.196 L0=8065.6
+  -> squad_l12     gated_x16_l10.01       P5=0.638 P4=0.667 Δ(SAE-Raw)=-0.0295 nMSE=0.199 L0=8067.4
+  -> squad_l12     gated_x16_l10.03       P5=0.638 P4=0.667 Δ(SAE-Raw)=-0.0292 nMSE=0.199 L0=8067.8
+  -> squad_l12     gated_x16_l10.1        P5=0.638 P4=0.667 Δ(SAE-Raw)=-0.0293 nMSE=0.2 L0=8067.9
+  -> squad_l12     jumprelu_x16_l00.001   P5=0.663 P4=0.667 Δ(SAE-Raw)=-0.0037 nMSE=0.055 L0=8123.1
+  -> squad_l12     jumprelu_x16_l00.003   P5=0.663 P4=0.667 Δ(SAE-Raw)=-0.0038 nMSE=0.055 L0=8123.1
+  -> squad_l12     jumprelu_x16_l00.01    P5=0.663 P4=0.667 Δ(SAE-Raw)=-0.0037 nMSE=0.055 L0=8123.1
+  -> squad_l12     jumprelu_x16_l00.03    P5=0.663 P4=0.667 Δ(SAE-Raw)=-0.0038 nMSE=0.055 L0=8123.1
+
+=== squad_l18 ===
+  -> squad_l18     topk_x4_k16            P5=0.591 P4=0.716 Δ(SAE-Raw)=-0.1075 nMSE=0.98 L0=16.0
+  -> squad_l18     topk_x4_k32            P5=0.621 P4=0.716 Δ(SAE-Raw)=-0.0803 nMSE=0.968 L0=32.0
+  -> squad_l18     topk_x4_k64            P5=0.655 P4=0.716 Δ(SAE-Raw)=-0.0495 nMSE=0.949 L0=64.0
+  -> squad_l18     topk_x4_k128           P5=0.654 P4=0.716 Δ(SAE-Raw)=-0.0515 nMSE=0.922 L0=128.0
+  -> squad_l18     gated_x4_l10.003       P5=0.690 P4=0.716 Δ(SAE-Raw)=-0.0176 nMSE=0.244 L0=2043.4
+  -> squad_l18     gated_x4_l10.01        P5=0.689 P4=0.716 Δ(SAE-Raw)=-0.0179 nMSE=0.251 L0=2044.2
+  -> squad_l18     gated_x4_l10.03        P5=0.689 P4=0.716 Δ(SAE-Raw)=-0.0180 nMSE=0.253 L0=2044.4
+  -> squad_l18     gated_x4_l10.1         P5=0.688 P4=0.716 Δ(SAE-Raw)=-0.0181 nMSE=0.254 L0=2044.4
+  -> squad_l18     jumprelu_x4_l00.001    P5=0.704 P4=0.716 Δ(SAE-Raw)=+0.0018 nMSE=0.172 L0=2038.3
+  -> squad_l18     jumprelu_x4_l00.003    P5=0.704 P4=0.716 Δ(SAE-Raw)=+0.0019 nMSE=0.172 L0=2038.3
+  -> squad_l18     jumprelu_x4_l00.01     P5=0.704 P4=0.716 Δ(SAE-Raw)=+0.0018 nMSE=0.172 L0=2038.3
+  -> squad_l18     jumprelu_x4_l00.03     P5=0.704 P4=0.716 Δ(SAE-Raw)=+0.0018 nMSE=0.172 L0=2038.3
+  -> squad_l18     topk_x8_k16            P5=0.627 P4=0.716 Δ(SAE-Raw)=-0.0736 nMSE=0.971 L0=16.0
+  -> squad_l18     topk_x8_k32            P5=0.636 P4=0.716 Δ(SAE-Raw)=-0.0692 nMSE=0.95 L0=32.0
+  -> squad_l18     topk_x8_k64            P5=0.613 P4=0.716 Δ(SAE-Raw)=-0.0933 nMSE=0.917 L0=64.0
+  -> squad_l18     topk_x8_k128           P5=0.644 P4=0.716 Δ(SAE-Raw)=-0.0641 nMSE=0.868 L0=128.0
+  -> squad_l18     gated_x8_l10.003       P5=0.711 P4=0.716 Δ(SAE-Raw)=+0.0130 nMSE=0.2 L0=4076.2
+  -> squad_l18     gated_x8_l10.01        P5=0.710 P4=0.716 Δ(SAE-Raw)=+0.0121 nMSE=0.207 L0=4079.6
+  -> squad_l18     gated_x8_l10.03        P5=0.710 P4=0.716 Δ(SAE-Raw)=+0.0118 nMSE=0.209 L0=4080.4
+  -> squad_l18     gated_x8_l10.1         P5=0.710 P4=0.716 Δ(SAE-Raw)=+0.0117 nMSE=0.21 L0=4080.7
+  -> squad_l18     jumprelu_x8_l00.001    P5=0.714 P4=0.716 Δ(SAE-Raw)=+0.0187 nMSE=0.093 L0=4059.5
+  -> squad_l18     jumprelu_x8_l00.003    P5=0.714 P4=0.716 Δ(SAE-Raw)=+0.0187 nMSE=0.093 L0=4059.5
+  -> squad_l18     jumprelu_x8_l00.01     P5=0.714 P4=0.716 Δ(SAE-Raw)=+0.0187 nMSE=0.093 L0=4059.5
+  -> squad_l18     jumprelu_x8_l00.03     P5=0.714 P4=0.716 Δ(SAE-Raw)=+0.0186 nMSE=0.093 L0=4059.5
+  -> squad_l18     topk_x16_k16           P5=0.578 P4=0.716 Δ(SAE-Raw)=-0.1218 nMSE=0.975 L0=16.0
+  -> squad_l18     topk_x16_k32           P5=0.631 P4=0.716 Δ(SAE-Raw)=-0.0776 nMSE=0.955 L0=32.0
+  -> squad_l18     topk_x16_k64           P5=0.634 P4=0.716 Δ(SAE-Raw)=-0.0750 nMSE=0.92 L0=64.0
+  -> squad_l18     topk_x16_k128          P5=0.645 P4=0.716 Δ(SAE-Raw)=-0.0553 nMSE=0.866 L0=128.0
+  -> squad_l18     gated_x16_l10.003      P5=0.715 P4=0.716 Δ(SAE-Raw)=+0.0100 nMSE=0.215 L0=8137.6
+  -> squad_l18     gated_x16_l10.01       P5=0.716 P4=0.716 Δ(SAE-Raw)=+0.0104 nMSE=0.229 L0=8145.3
+  -> squad_l18     gated_x16_l10.03       P5=0.716 P4=0.716 Δ(SAE-Raw)=+0.0106 nMSE=0.233 L0=8147.3
+  -> squad_l18     gated_x16_l10.1        P5=0.716 P4=0.716 Δ(SAE-Raw)=+0.0107 nMSE=0.234 L0=8147.9
+  -> squad_l18     jumprelu_x16_l00.001   P5=0.705 P4=0.716 Δ(SAE-Raw)=-0.0002 nMSE=0.056 L0=8125.8
+  -> squad_l18     jumprelu_x16_l00.003   P5=0.705 P4=0.716 Δ(SAE-Raw)=-0.0004 nMSE=0.056 L0=8125.8
+  -> squad_l18     jumprelu_x16_l00.01    P5=0.705 P4=0.716 Δ(SAE-Raw)=-0.0005 nMSE=0.056 L0=8125.8
+  -> squad_l18     jumprelu_x16_l00.03    P5=0.706 P4=0.716 Δ(SAE-Raw)=-0.0004 nMSE=0.056 L0=8125.8
+
+========================================================================
+SWEEP DONE: 72 cells
+  cells with Δ(SAE−Raw) > 0           : 16
+  cells with Δ(SAE−Raw) > 0 (CI>0)    : 0
+  max Δ(SAE−Raw) over all cells       : +0.0187
+Wrote /Users/nabindev/Desktop/project 3/llm-sae-difficulty/eval/results/sweep/sweep_summary.json
