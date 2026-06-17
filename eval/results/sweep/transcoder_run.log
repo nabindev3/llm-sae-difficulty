@@ -1,0 +1,15 @@
+=== transcoder_x4_k16 ===
+  -> transcoder_x4_k16  P5=0.526 P4=0.667 Δ(SAE-Raw)=-0.1293 CI=[-0.17281996139169342, -0.08906117819371959]
+=== transcoder_x4_k32 ===
+  -> transcoder_x4_k32  P5=0.546 P4=0.667 Δ(SAE-Raw)=-0.1142 CI=[-0.15919536037782656, -0.07186341263137655]
+=== transcoder_x4_k64 ===
+  -> transcoder_x4_k64  P5=0.558 P4=0.667 Δ(SAE-Raw)=-0.1059 CI=[-0.14882275471627734, -0.06542625248362313]
+=== transcoder_x8_k16 ===
+  -> transcoder_x8_k16  P5=0.522 P4=0.667 Δ(SAE-Raw)=-0.1399 CI=[-0.18635473747382858, -0.0939665284387408]
+=== transcoder_x8_k32 ===
+  -> transcoder_x8_k32  P5=0.545 P4=0.667 Δ(SAE-Raw)=-0.1153 CI=[-0.15940260326301922, -0.07098412937332406]
+=== transcoder_x8_k64 ===
+  -> transcoder_x8_k64  P5=0.594 P4=0.667 Δ(SAE-Raw)=-0.0766 CI=[-0.11885651315027931, -0.03441823722613921]
+
+TRANSCODER DONE: 6 cells, 0 significant-positive, max Δ(SAE-Raw)=-0.0766
+Wrote /Users/nabindev/Desktop/project 3/llm-sae-difficulty/eval/results/sweep/transcoder_summary.json

@@ -1,0 +1,80 @@
+{
+  "site": "L12 MLP (in->out) transcoder vs resid-raw",
+  "n_cells": 6,
+  "n_positive_delta_sig": 0,
+  "max_delta_sae_over_raw": -0.07657718039019745,
+  "cells": [
+    {
+      "tag": "transcoder_x4_k16",
+      "expansion": 4,
+      "k": 16,
+      "P4_RawOnly_AUROC": 0.6665712092224076,
+      "P5_SAEOnly_AUROC": 0.5263660569576291,
+      "delta_sae_over_raw": -0.12930015476292012,
+      "delta_sae_over_raw_CI": [
+        -0.17281996139169342,
+        -0.08906117819371959
+      ]
+    },
+    {
+      "tag": "transcoder_x4_k32",
+      "expansion": 4,
+      "k": 32,
+      "P4_RawOnly_AUROC": 0.6665346510522661,
+      "P5_SAEOnly_AUROC": 0.546477620306845,
+      "delta_sae_over_raw": -0.11419858398020977,
+      "delta_sae_over_raw_CI": [
+        -0.15919536037782656,
+        -0.07186341263137655
+      ]
+    },
+    {
+      "tag": "transcoder_x4_k64",
+      "expansion": 4,
+      "k": 64,
+      "P4_RawOnly_AUROC": 0.6665498836231585,
+      "P5_SAEOnly_AUROC": 0.557917281047026,
+      "delta_sae_over_raw": -0.10593948404235887,
+      "delta_sae_over_raw_CI": [
+        -0.14882275471627734,
+        -0.06542625248362313
+      ]
+    },
+    {
+      "tag": "transcoder_x8_k16",
+      "expansion": 8,
+      "k": 16,
+      "P4_RawOnly_AUROC": 0.6665773022507646,
+      "P5_SAEOnly_AUROC": 0.5215875994686878,
+      "delta_sae_over_raw": -0.13988374501894918,
+      "delta_sae_over_raw_CI": [
+        -0.18635473747382858,
+        -0.0939665284387408
+      ]
+    },
+    {
+      "tag": "transcoder_x8_k32",
+      "expansion": 8,
+      "k": 32,
+      "P4_RawOnly_AUROC": 0.6665255115097306,
+      "P5_SAEOnly_AUROC": 0.5448538282497166,
+      "delta_sae_over_raw": -0.11531360816953251,
+      "delta_sae_over_raw_CI": [
+        -0.15940260326301922,
+        -0.07098412937332406
+      ]
+    },
+    {
+      "tag": "transcoder_x8_k64",
+      "expansion": 8,
+      "k": 64,
+      "P4_RawOnly_AUROC": 0.6665255115097306,
+      "P5_SAEOnly_AUROC": 0.5935950085911701,
+      "delta_sae_over_raw": -0.07657718039019745,
+      "delta_sae_over_raw_CI": [
+        -0.11885651315027931,
+        -0.03441823722613921
+      ]
+    }
+  ]
+}
