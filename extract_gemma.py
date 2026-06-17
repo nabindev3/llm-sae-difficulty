@@ -59,9 +59,10 @@ def main():
     from sae_lens import SAE
 
     device = "cuda" if torch.cuda.is_available() else ("mps" if torch.backends.mps.is_available() else "cpu")
-    # bf16 on accelerators: halves the ~10GB fp32 footprint (critical on a 16GB
-    # Mac) and matches the precision Gemma Scope SAEs were trained against.
-    dtype = torch.float32 if device == "cpu" else torch.bfloat16
+    # fp16 on accelerators: halves the ~10GB fp32 footprint (critical on a 16GB
+    # Mac) AND has much better MPS kernel coverage than bf16 (bf16 silently falls
+    # back to CPU for several Gemma-2 ops -> ~20s/iter swap-thrash). cuda keeps bf16.
+    dtype = torch.float32 if device == "cpu" else (torch.bfloat16 if device == "cuda" else torch.float16)
     print(f"Device {device}; loading {args.model} ...")
     model = HookedTransformer.from_pretrained(args.model, dtype=dtype).to(device)
     model.eval()
@@ -98,11 +99,13 @@ def main():
             # Gold-target perplexity (continuous self-difficulty), Gemma's own.
             shift_logits = logits[0, prompt_len - 1:-1, :]
             shift_labels = full[0, prompt_len:]
-            tgt_ce = F.cross_entropy(shift_logits, shift_labels).item()
+            tgt_ce = F.cross_entropy(shift_logits.float(), shift_labels).item()
 
-            # Prompt perplexity for the Pile-contamination check.
-            plogits = model(torch.tensor([prompt_ids], device=device))
-            p_ce = F.cross_entropy(plogits[0, :-1, :], torch.tensor(prompt_ids[1:], device=device)).item()
+            # Prompt perplexity (Pile-contamination check) from the SAME forward:
+            # next-token CE over the prompt span only -- no second forward pass.
+            p_ce = F.cross_entropy(logits[0, :prompt_len - 1, :].float(),
+                                   full[0, 1:prompt_len]).item()
+            del cache
 
         raw_list.append(boundary.cpu().to(torch.float16).reshape(1, 1, -1))
         code_list.append(code.cpu().to(torch.float16).reshape(1, 1, -1))
