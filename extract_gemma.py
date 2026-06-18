@@ -51,6 +51,9 @@ def main():
     ap.add_argument("--layer", type=int, default=12)
     ap.add_argument("--width", default="16k")
     ap.add_argument("--max_samples", type=int, default=5000)
+    ap.add_argument("--device", default="auto", choices=["auto", "cpu", "mps", "cuda"],
+                    help="Force a device. 'cpu' uses pageable RAM (no wired-MPS jetsam "
+                         "thrash) at the cost of speed -- the only local option on a 16GB Mac.")
     ap.add_argument("--chunk_size", type=int, default=500,
                     help="Samples per on-disk chunk. Extraction is resumable at "
                          "chunk granularity, so a jetsam kill costs <= one chunk.")
@@ -79,11 +82,14 @@ def main():
         from transformer_lens import HookedTransformer
         from sae_lens import SAE
 
-        device = "cuda" if torch.cuda.is_available() else ("mps" if torch.backends.mps.is_available() else "cpu")
-        # fp16 on accelerators: halves the ~10GB fp32 footprint (critical on a 16GB
-        # Mac) AND has much better MPS kernel coverage than bf16 (bf16 silently falls
-        # back to CPU for several Gemma-2 ops -> ~20s/iter swap-thrash). cuda keeps bf16.
-        dtype = torch.float32 if device == "cpu" else (torch.bfloat16 if device == "cuda" else torch.float16)
+        if args.device != "auto":
+            device = args.device
+        else:
+            device = "cuda" if torch.cuda.is_available() else ("mps" if torch.backends.mps.is_available() else "cpu")
+        # fp16 on MPS: best kernel coverage (bf16 falls back to CPU for several
+        # Gemma-2 ops -> ~25s/iter thrash). bf16 elsewhere: half the ~10GB fp32
+        # footprint (fits in pageable RAM on CPU) and matches Gemma Scope's training.
+        dtype = torch.float16 if device == "mps" else torch.bfloat16
         print(f"Device {device}; loading {args.model} ...")
         model = HookedTransformer.from_pretrained(args.model, dtype=dtype).to(device)
         model.eval()

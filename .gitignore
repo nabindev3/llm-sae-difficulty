@@ -39,3 +39,6 @@ activations_gemma/*.safetensors
 
 # Gemma extraction intermediate chunks (resumable; regeneratable)
 activations_gemma/_chunks/
+
+# Extension configs: activations/SAEs/probe jsons (regeneratable; summary kept in eval/results)
+activations_ext/
