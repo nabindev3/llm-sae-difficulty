@@ -36,3 +36,6 @@ activations_gemma/*.safetensors
 # activations_late/*.safetensors
 # activations_allpos/*.safetensors
 # sae/checkpoints*/sae_topk_32.pt
+
+# Gemma extraction intermediate chunks (resumable; regeneratable)
+activations_gemma/_chunks/

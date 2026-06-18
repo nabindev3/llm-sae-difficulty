@@ -51,74 +51,104 @@ def main():
     ap.add_argument("--layer", type=int, default=12)
     ap.add_argument("--width", default="16k")
     ap.add_argument("--max_samples", type=int, default=5000)
+    ap.add_argument("--chunk_size", type=int, default=500,
+                    help="Samples per on-disk chunk. Extraction is resumable at "
+                         "chunk granularity, so a jetsam kill costs <= one chunk.")
     ap.add_argument("--output_dir", default="activations_gemma")
     args = ap.parse_args()
     os.makedirs(args.output_dir, exist_ok=True)
 
-    from transformer_lens import HookedTransformer
-    from sae_lens import SAE
-
-    device = "cuda" if torch.cuda.is_available() else ("mps" if torch.backends.mps.is_available() else "cpu")
-    # fp16 on accelerators: halves the ~10GB fp32 footprint (critical on a 16GB
-    # Mac) AND has much better MPS kernel coverage than bf16 (bf16 silently falls
-    # back to CPU for several Gemma-2 ops -> ~20s/iter swap-thrash). cuda keeps bf16.
-    dtype = torch.float32 if device == "cpu" else (torch.bfloat16 if device == "cuda" else torch.float16)
-    print(f"Device {device}; loading {args.model} ...")
-    model = HookedTransformer.from_pretrained(args.model, dtype=dtype).to(device)
-    model.eval()
-
-    hook_name = f"blocks.{args.layer}.hook_resid_post"
-    sae_id = f"layer_{args.layer}/width_{args.width}/canonical"
-    print(f"Loading Gemma Scope SAE: {args.sae_release} / {sae_id}")
-    loaded = SAE.from_pretrained(args.sae_release, sae_id, device=device)
-    sae = loaded[0] if isinstance(loaded, tuple) else loaded   # older sae_lens returns a tuple
-    sae.eval()
+    chunk_dir = os.path.join(args.output_dir, "_chunks")
+    os.makedirs(chunk_dir, exist_ok=True)
 
     dataset = load_dataset("squad", split="validation").select(range(args.max_samples))
-    train_cutoff = int(len(dataset) * 0.7)
+    n = len(dataset)
+    train_cutoff = int(n * 0.7)
+    starts = list(range(0, n, args.chunk_size))
 
-    raw_list, code_list, metadata = [], [], []
-    for idx in tqdm(range(len(dataset))):
-        s = dataset[idx]
-        prompt = f"Context: {s['context']}\nQuestion: {s['question']}\nAnswer:"
-        target = " " + s["answers"]["text"][0].strip()
+    def chunk_path(st):
+        return os.path.join(chunk_dir, f"chunk_{st:06d}.pt")
 
-        prompt_ids = model.to_tokens(prompt)[0].tolist()         # includes BOS
-        target_ids = model.to_tokens(target, prepend_bos=False)[0].tolist()
-        if len(prompt_ids) > 200:
-            prompt_ids = prompt_ids[-200:]
-        prompt_len = len(prompt_ids)
-        full = torch.tensor([prompt_ids + target_ids], device=device)
+    pending = [st for st in starts if not os.path.exists(chunk_path(st))]
+    print(f"{n} samples, {len(starts)} chunks of {args.chunk_size}; {len(pending)} pending.")
 
-        with torch.no_grad():
-            logits, cache = model.run_with_cache(full, names_filter=hook_name)
-            resid = cache[hook_name][0]                          # (seq, d_model)
-            boundary = resid[prompt_len - 1, :].float()          # (d_model,)
-            code = sae.encode(boundary.to(sae.W_enc.dtype)).float()  # (d_hidden,)
+    # Only pay the model/SAE memory cost if there is extraction left to do. Once
+    # all chunks exist (possibly across several jetsam-killed restarts), assembly
+    # below needs no model -- so the final pass is cheap and always completes.
+    if pending:
+        from transformer_lens import HookedTransformer
+        from sae_lens import SAE
 
-            # Gold-target perplexity (continuous self-difficulty), Gemma's own.
-            shift_logits = logits[0, prompt_len - 1:-1, :]
-            shift_labels = full[0, prompt_len:]
-            tgt_ce = F.cross_entropy(shift_logits.float(), shift_labels).item()
+        device = "cuda" if torch.cuda.is_available() else ("mps" if torch.backends.mps.is_available() else "cpu")
+        # fp16 on accelerators: halves the ~10GB fp32 footprint (critical on a 16GB
+        # Mac) AND has much better MPS kernel coverage than bf16 (bf16 silently falls
+        # back to CPU for several Gemma-2 ops -> ~20s/iter swap-thrash). cuda keeps bf16.
+        dtype = torch.float32 if device == "cpu" else (torch.bfloat16 if device == "cuda" else torch.float16)
+        print(f"Device {device}; loading {args.model} ...")
+        model = HookedTransformer.from_pretrained(args.model, dtype=dtype).to(device)
+        model.eval()
 
-            # Prompt perplexity (Pile-contamination check) from the SAME forward:
-            # next-token CE over the prompt span only -- no second forward pass.
-            p_ce = F.cross_entropy(logits[0, :prompt_len - 1, :].float(),
-                                   full[0, 1:prompt_len]).item()
-            del cache
+        hook_name = f"blocks.{args.layer}.hook_resid_post"
+        sae_id = f"layer_{args.layer}/width_{args.width}/canonical"
+        print(f"Loading Gemma Scope SAE: {args.sae_release} / {sae_id}")
+        loaded = SAE.from_pretrained(args.sae_release, sae_id, device=device)
+        sae = loaded[0] if isinstance(loaded, tuple) else loaded   # older sae_lens returns a tuple
+        sae.eval()
 
-        raw_list.append(boundary.cpu().to(torch.float16).reshape(1, 1, -1))
-        code_list.append(code.cpu().to(torch.float16).reshape(1, 1, -1))
-        metadata.append({
-            "window_id": idx, "dataset": "squad", "prompt": prompt,
-            "gold_answer": s["answers"]["text"][0],
-            "perplexity": float(np.exp(tgt_ce)),
-            "prompt_perplexity": float(np.exp(p_ce)),
-            "activity_label": s.get("title", "Unknown"),
-            "seq_len": 1,
-            "split": "train" if idx < train_cutoff else "test",
-        })
+        for st in pending:
+            en = min(st + args.chunk_size, n)
+            raw_c, code_c, meta_c = [], [], []
+            for idx in tqdm(range(st, en), desc=f"chunk {st}-{en}"):
+                s = dataset[idx]
+                prompt = f"Context: {s['context']}\nQuestion: {s['question']}\nAnswer:"
+                target = " " + s["answers"]["text"][0].strip()
 
+                prompt_ids = model.to_tokens(prompt)[0].tolist()         # includes BOS
+                target_ids = model.to_tokens(target, prepend_bos=False)[0].tolist()
+                if len(prompt_ids) > 200:
+                    prompt_ids = prompt_ids[-200:]
+                prompt_len = len(prompt_ids)
+                full = torch.tensor([prompt_ids + target_ids], device=device)
+
+                with torch.no_grad():
+                    logits, cache = model.run_with_cache(full, names_filter=hook_name)
+                    resid = cache[hook_name][0]                          # (seq, d_model)
+                    boundary = resid[prompt_len - 1, :].float()          # (d_model,)
+                    code = sae.encode(boundary.to(sae.W_enc.dtype)).float()  # (d_hidden,)
+
+                    # Gold-target perplexity (continuous self-difficulty), Gemma's own.
+                    shift_logits = logits[0, prompt_len - 1:-1, :]
+                    shift_labels = full[0, prompt_len:]
+                    tgt_ce = F.cross_entropy(shift_logits.float(), shift_labels).item()
+
+                    # Prompt perplexity (Pile-contamination check) from the SAME forward:
+                    # next-token CE over the prompt span only -- no second forward pass.
+                    p_ce = F.cross_entropy(logits[0, :prompt_len - 1, :].float(),
+                                           full[0, 1:prompt_len]).item()
+                    del cache
+
+                raw_c.append(boundary.cpu().to(torch.float16).reshape(1, 1, -1))
+                code_c.append(code.cpu().to(torch.float16).reshape(1, 1, -1))
+                meta_c.append({
+                    "window_id": idx, "dataset": "squad", "prompt": prompt,
+                    "gold_answer": s["answers"]["text"][0],
+                    "perplexity": float(np.exp(tgt_ce)),
+                    "prompt_perplexity": float(np.exp(p_ce)),
+                    "activity_label": s.get("title", "Unknown"),
+                    "seq_len": 1,
+                    "split": "train" if idx < train_cutoff else "test",
+                })
+            torch.save({"raw": torch.cat(raw_c), "codes": torch.cat(code_c), "meta": meta_c},
+                       chunk_path(st))
+            print(f"saved chunk {st}-{en}", flush=True)
+
+    # --- Assemble all chunks (no model needed) ---------------------------------
+    raw_parts, code_parts, metadata = [], [], []
+    for st in starts:
+        d = torch.load(chunk_path(st), weights_only=False)
+        raw_parts.append(d["raw"])
+        code_parts.append(d["codes"])
+        metadata.extend(d["meta"])
     df = pd.DataFrame(metadata)
 
     # --- Leakage controls (mirror extract_activations.py) ----------------------
@@ -145,8 +175,8 @@ def main():
     print(f"Difficulty threshold (top 25% train ppl): {thr:.3f}")
     print(df["split"].value_counts().to_string())
 
-    raw_t = torch.cat(raw_list, dim=0)
-    code_t = torch.cat(code_list, dim=0)
+    raw_t = torch.cat(raw_parts, dim=0)
+    code_t = torch.cat(code_parts, dim=0)
     print(f"raw {tuple(raw_t.shape)}  codes {tuple(code_t.shape)}")
     save_file({"encoder_embeddings": raw_t}, os.path.join(args.output_dir, "gemma_activations.safetensors"))
     save_file({"encoder_embeddings": code_t}, os.path.join(args.output_dir, "gemma_sae_codes.safetensors"))
