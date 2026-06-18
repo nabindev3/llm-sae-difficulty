@@ -25,7 +25,10 @@ logs/
 
 # Multi-seed / sweep working checkpoints + scores (large, regeneratable).
 # The small summary JSONs and run logs alongside them ARE kept.
-**/_work/
+**/_work*/
+
+# Transcoder MLP-in/out tensors (regeneratable via extract_mlp.py).
+activations_mlp/*.safetensors
 
 # Gemma extraction tensors (large, regeneratable; license-gated model).
 activations_gemma/*.safetensors
