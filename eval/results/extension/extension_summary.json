@@ -1,0 +1,132 @@
+{
+  "cells": [
+    {
+      "label": "arc_pythia_l12",
+      "model": "EleutherAI/pythia-410m",
+      "dataset": "arc_easy",
+      "layer_idx": 11,
+      "task": "binary",
+      "test_hard_rate": 0.5593922651933702,
+      "P1_AUROC": 0.4879997290916831,
+      "P4_RawOnly_AUROC": 0.5295696427880335,
+      "P5_SAEOnly_AUROC": 0.5289310731839468,
+      "best_AUROC": 0.5295696427880335,
+      "delta_raw": 0.04155636828050624,
+      "delta_sae_over_raw": -0.0008591663764078161,
+      "delta_sae_over_raw_CI": [
+        -0.03864931053234908,
+        0.03447669137739839
+      ]
+    },
+    {
+      "label": "arc_pythia_l18",
+      "model": "EleutherAI/pythia-410m",
+      "dataset": "arc_easy",
+      "layer_idx": 17,
+      "task": "binary",
+      "test_hard_rate": 0.5593922651933702,
+      "P1_AUROC": 0.4879919888540578,
+      "P4_RawOnly_AUROC": 0.5416231278300243,
+      "P5_SAEOnly_AUROC": 0.5093066682147143,
+      "best_AUROC": 0.5416231278300243,
+      "delta_raw": 0.053621463678934944,
+      "delta_sae_over_raw": -0.03230484925887234,
+      "delta_sae_over_raw_CI": [
+        -0.06877953941153439,
+        0.0034028155403885776
+      ]
+    },
+    {
+      "label": "triviaqa_pythia_l12",
+      "model": "EleutherAI/pythia-410m",
+      "dataset": "triviaqa",
+      "layer_idx": 11,
+      "task": "continuous",
+      "test_hard_rate": 0.23239917976760083,
+      "P1_AUROC": 0.514606359017338,
+      "P4_RawOnly_AUROC": 0.6578571054423551,
+      "P5_SAEOnly_AUROC": 0.6003090461473992,
+      "best_AUROC": 0.6578571054423551,
+      "delta_raw": 0.1427347965009691,
+      "delta_sae_over_raw": -0.05465926352731654,
+      "delta_sae_over_raw_CI": [
+        -0.08843271044908813,
+        -0.020973523471889823
+      ]
+    },
+    {
+      "label": "triviaqa_pythia_l18",
+      "model": "EleutherAI/pythia-410m",
+      "dataset": "triviaqa",
+      "layer_idx": 17,
+      "task": "continuous",
+      "test_hard_rate": 0.23239917976760083,
+      "P1_AUROC": 0.514606359017338,
+      "P4_RawOnly_AUROC": 0.6827196060971139,
+      "P5_SAEOnly_AUROC": 0.6045217641820753,
+      "best_AUROC": 0.6827196060971139,
+      "delta_raw": 0.16800848567387772,
+      "delta_sae_over_raw": -0.06714158504007117,
+      "delta_sae_over_raw_CI": [
+        -0.09871301528409492,
+        -0.03387841498929642
+      ]
+    },
+    {
+      "label": "squad_qwen_l12",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "dataset": "squad",
+      "layer_idx": 12,
+      "task": "continuous",
+      "test_hard_rate": 0.19333333333333333,
+      "P1_AUROC": 0.6362610430322029,
+      "P4_RawOnly_AUROC": 0.7127814192077514,
+      "P5_SAEOnly_AUROC": 0.6667882587631804,
+      "best_AUROC": 0.7127814192077514,
+      "delta_raw": 0.07301795383300091,
+      "delta_sae_over_raw": -0.03455970361926486,
+      "delta_sae_over_raw_CI": [
+        -0.0646634630098083,
+        -0.0045261829458862
+      ]
+    },
+    {
+      "label": "squad_qwen_l20",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "dataset": "squad",
+      "layer_idx": 20,
+      "task": "continuous",
+      "test_hard_rate": 0.19333333333333333,
+      "P1_AUROC": 0.6362724422912511,
+      "P4_RawOnly_AUROC": 0.7747905386149899,
+      "P5_SAEOnly_AUROC": 0.6694243374180677,
+      "best_AUROC": 0.7754089484183528,
+      "delta_raw": 0.1391365061271017,
+      "delta_sae_over_raw": -0.08582502137361081,
+      "delta_sae_over_raw_CI": [
+        -0.11512126717797944,
+        -0.055640044344945176
+      ]
+    },
+    {
+      "label": "arc_qwen_l12",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "dataset": "arc_easy",
+      "layer_idx": 12,
+      "task": "binary",
+      "test_hard_rate": 0.40124309392265195,
+      "P1_AUROC": 0.49396200719834354,
+      "P4_RawOnly_AUROC": 0.5737274356943345,
+      "P5_SAEOnly_AUROC": 0.5353931792419306,
+      "best_AUROC": 0.5737274356943345,
+      "delta_raw": 0.07962249393024395,
+      "delta_sae_over_raw": -0.03780420743775892,
+      "delta_sae_over_raw_CI": [
+        -0.07202709528920472,
+        -0.003522717894943939
+      ]
+    }
+  ],
+  "n_cells": 7,
+  "n_sae_beats_raw_sig": 0
+}
