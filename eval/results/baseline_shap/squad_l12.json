@@ -1,0 +1,87 @@
+{
+  "chosen_C": 0.3,
+  "P1_full_AUROC": 0.5896558657583992,
+  "ranked_features": [
+    {
+      "feature": "capitalization_ratio",
+      "std_coef": -0.346903663275469,
+      "mean_abs_shap": 0.2761104771401788
+    },
+    {
+      "feature": "lexical_diversity",
+      "std_coef": -0.11630379521049976,
+      "mean_abs_shap": 0.0918941082206101
+    },
+    {
+      "feature": "perplexity",
+      "std_coef": 0.06170507957960277,
+      "mean_abs_shap": 0.04663327210932736
+    },
+    {
+      "feature": "category_id",
+      "std_coef": -0.05911857895563099,
+      "mean_abs_shap": 0.18418053122379305
+    },
+    {
+      "feature": "char_to_token",
+      "std_coef": 0.026401394291134354,
+      "mean_abs_shap": 0.028101685951979028
+    },
+    {
+      "feature": "char_length",
+      "std_coef": 0.0,
+      "mean_abs_shap": 0.0
+    },
+    {
+      "feature": "token_count",
+      "std_coef": 0.0,
+      "mean_abs_shap": 0.0
+    },
+    {
+      "feature": "bigram_novelty",
+      "std_coef": 0.0,
+      "mean_abs_shap": 0.0
+    }
+  ],
+  "cumulative_recipe": [
+    {
+      "k": 1,
+      "features": [
+        "capitalization_ratio"
+      ],
+      "AUROC": 0.5496414252811932
+    },
+    {
+      "k": 2,
+      "features": [
+        "capitalization_ratio",
+        "lexical_diversity"
+      ],
+      "AUROC": 0.556921070910664
+    },
+    {
+      "k": 3,
+      "features": [
+        "capitalization_ratio",
+        "lexical_diversity",
+        "perplexity"
+      ],
+      "AUROC": 0.5603544923898076
+    },
+    {
+      "k": 4,
+      "features": [
+        "capitalization_ratio",
+        "lexical_diversity",
+        "perplexity",
+        "category_id"
+      ],
+      "AUROC": 0.5935797760202777
+    }
+  ],
+  "recipe": [
+    "capitalization_ratio",
+    "lexical_diversity",
+    "perplexity"
+  ]
+}
