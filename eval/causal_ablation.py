@@ -38,6 +38,10 @@ def main():
                          "boundary-only SAE's training distribution). all: patch every token "
                          "in positions [0, prompt_len) — requires --sae_ckpt to point to an "
                          "all-position SAE trained on full prompt sequences.")
+    ap.add_argument("--coverage", type=int, default=None,
+                    help="Coverage sweep: if set, patch the LAST K prompt positions "
+                         "[max(0,prompt_len-K), prompt_len). Overrides --positions. K=1 ~ boundary, "
+                         "K>=prompt_len ~ all. Used to quantify detectability vs intervention coverage.")
     ap.add_argument("--hellaswag_boundary", type=str, default="first_ending",
                     choices=["first_ending", "last_prompt"],
                     help="HellaSwag boundary-token choice. first_ending = position prompt_len "
@@ -133,7 +137,12 @@ def main():
             return output
         hidden_states = output[0] if isinstance(output, tuple) else output
 
-        if args.positions == "boundary":
+        if args.coverage is not None:  # coverage sweep: last K prompt positions
+            if current_prompt_len is None or current_prompt_len <= 0:
+                return output
+            slice_end = min(current_prompt_len, hidden_states.shape[1])
+            slice_start = max(0, slice_end - args.coverage)
+        elif args.positions == "boundary":
             if current_boundary_idx is None or current_boundary_idx >= hidden_states.shape[1]:
                 return output
             slice_start, slice_end = current_boundary_idx, current_boundary_idx + 1

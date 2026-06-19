@@ -45,3 +45,6 @@ activations_gemma/_chunks/
 
 # Extension configs: activations/SAEs/probe jsons (regeneratable; summary kept in eval/results)
 activations_ext/
+
+# Layer-sweep activations (large, regeneratable; summary+plot kept)
+activations_layersweep/
