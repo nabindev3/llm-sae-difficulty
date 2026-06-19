@@ -65,15 +65,21 @@ def main():
     top_feats = json.load(open(args.causal_json))["top_5_features"]
     causal_effects = json.load(open(args.causal_json)).get("feature_effects", {})
 
-    # Per-sample boundary SAE codes (for predictive AUROC of each feature).
+    # Per-feature activation MAX-POOLED over valid prompt positions (these are
+    # all-position causal features -- they fire mid-prompt, not at the boundary,
+    # so a boundary-only read is constant 0 and AUROC is undefined).
     raw = load_file(args.activations)["encoder_embeddings"]      # (N, max_seq, d)
     meta = pd.read_parquet(args.metadata)
     y = meta["difficulty"].values
     te = (meta["split"] == "test").values
-    bnd = torch.stack([raw[i, int(s) - 1, :] for i, s in enumerate(meta["seq_len"].astype(int).values)]).to(device).float()
+    seqlens = meta["seq_len"].astype(int).values
+    N = raw.shape[0]
+    codes = np.zeros((N, d_hidden), dtype=np.float32)
     with torch.no_grad():
-        codes, _, _ = sae(bnd)                                  # (N, d_hidden)
-    codes = codes.cpu().numpy()
+        for i in range(N):
+            sl = max(1, min(int(seqlens[i]), raw.shape[1]))
+            ci, _, _ = sae(raw[i, :sl, :].to(device).float())   # (sl, d_hidden)
+            codes[i] = ci.max(dim=0).values.cpu().numpy()        # max over positions
 
     def dla_for(f):
         d = sae.W_dec[f].detach()                               # (d_model,) decoder direction

@@ -1,0 +1,162 @@
+{
+  "dataset": "hellaswag",
+  "n_test": 1499,
+  "features": [
+    {
+      "feature": 1126,
+      "predictive_AUROC": 0.5187156775237893,
+      "causal_delta_error": -0.00028746894711729207,
+      "causal_ci": [
+        -0.0005429019603512938,
+        -4.2559716445434294e-05
+      ],
+      "dla_magnitude": 0.013833867385983467,
+      "dla_max_logit": 0.05900584161281586,
+      "promotes_tokens": [
+        "rest",
+        "mapsto",
+        "pid",
+        "rep",
+        "to",
+        "holding",
+        "nim",
+        "\u0446\u0438"
+      ],
+      "suppresses_tokens": [
+        "than",
+        "everal",
+        "Accessor",
+        "gone",
+        "\ufffd",
+        "Flash",
+        "goodbye",
+        "://"
+      ]
+    },
+    {
+      "feature": 2869,
+      "predictive_AUROC": 0.5215257711683636,
+      "causal_delta_error": 0.009327167030013824,
+      "causal_ci": [
+        0.008371784456019564,
+        0.010306058260422694
+      ],
+      "dla_magnitude": 0.015548409894108772,
+      "dla_max_logit": 0.072964608669281,
+      "promotes_tokens": [
+        "omen",
+        "ortium",
+        "nap",
+        "aber",
+        "Strike",
+        "ymbol",
+        "linger",
+        "heed"
+      ],
+      "suppresses_tokens": [
+        "adm",
+        "front",
+        "star",
+        "ances",
+        "bows",
+        "ivities",
+        "vue",
+        "ways"
+      ]
+    },
+    {
+      "feature": 2483,
+      "predictive_AUROC": 0.5238545937277802,
+      "causal_delta_error": 0.0010679096599830796,
+      "causal_ci": [
+        0.0008406145839869299,
+        0.001290791513046636
+      ],
+      "dla_magnitude": 0.01203490886837244,
+      "dla_max_logit": 0.051489848643541336,
+      "promotes_tokens": [
+        "wide",
+        "ards",
+        "unov",
+        "phasis",
+        "backward",
+        "aze",
+        "---|---|---",
+        "tow"
+      ],
+      "suppresses_tokens": [
+        "ico",
+        "hell",
+        "happening",
+        "aign",
+        "sit",
+        "isi",
+        "occurring",
+        "arrives"
+      ]
+    },
+    {
+      "feature": 893,
+      "predictive_AUROC": 0.5429598266289466,
+      "causal_delta_error": 0.00040894058881559876,
+      "causal_ci": [
+        0.00036094014727329715,
+        0.00045683091882867284
+      ],
+      "dla_magnitude": 0.013056948781013489,
+      "dla_max_logit": 0.044671185314655304,
+      "promotes_tokens": [
+        "avier",
+        "ees",
+        "describe",
+        "unov",
+        "clearly",
+        "lo",
+        "little",
+        "metal"
+      ],
+      "suppresses_tokens": [
+        "oda",
+        "wered",
+        "kidding",
+        "acular",
+        "ribute",
+        "evenings",
+        "arynge",
+        "fare"
+      ]
+    },
+    {
+      "feature": 2903,
+      "predictive_AUROC": 0.5186570551126307,
+      "causal_delta_error": 0.0009669662714799776,
+      "causal_ci": [
+        0.0008290800275287285,
+        0.001114039322867085
+      ],
+      "dla_magnitude": 0.01323250774294138,
+      "dla_max_logit": 0.05518335849046707,
+      "promotes_tokens": [
+        "ungle",
+        "ist",
+        "peat",
+        "overn",
+        "akov",
+        "\u0434\u0430",
+        "recht",
+        "astr"
+      ],
+      "suppresses_tokens": [
+        "arel",
+        "PROM",
+        "OLOR",
+        "agar",
+        "pecially",
+        "winning",
+        "elaide",
+        "ocyan"
+      ]
+    }
+  ],
+  "mean_predictive_AUROC": 0.5251425848323021
+}

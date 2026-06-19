@@ -1,0 +1,26 @@
+{
+  "A_boundarySAE_K1": {
+    "delta_recon": 0.12677628943091476,
+    "ci": [
+      0.1234709518066321,
+      0.13016606621578425
+    ]
+  },
+  "B_allposSAE_K1": {
+    "delta_recon": 0.004200436497943412,
+    "ci": [
+      0.003363346848748699,
+      0.005060728567293916
+    ]
+  },
+  "C_allposSAE_Kall": {
+    "delta_recon": 0.2839629655682778,
+    "ci": [
+      0.2754581102993267,
+      0.29253839486396016
+    ]
+  },
+  "fidelity_effect_B_minus_A": -0.12257585293297135,
+  "coverage_effect_C_minus_B": 0.2797625290703344,
+  "note": "A,B both at position prompt_len-1 (matched) -> B-A isolates fidelity; B,C both allpos-SAE -> C-B isolates coverage."
+}

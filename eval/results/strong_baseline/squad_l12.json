@@ -1,0 +1,41 @@
+{
+  "weak": {
+    "tag": "weak_P1_8stats",
+    "P1_AUROC": 0.5909810994260367,
+    "P2_AUROC": 0.6711866782028004,
+    "P3_AUROC": 0.5938387297254482,
+    "P4_RawOnly_AUROC": 0.6665437905948015,
+    "P5_SAEOnly_AUROC": 0.5864235142150351,
+    "delta_raw_over_stats": 0.08020557877676371,
+    "delta_raw_over_stats_CI": [
+      0.039069755089561425,
+      0.12142134499659511
+    ],
+    "delta_sae_over_raw": -0.07734794847735227,
+    "delta_sae_over_raw_CI": [
+      -0.11549751971860674,
+      -0.03782394409190757
+    ]
+  },
+  "strong": {
+    "tag": "strong_P1_11feats",
+    "P1_AUROC": 0.5974945467396204,
+    "P2_AUROC": 0.67036716588879,
+    "P3_AUROC": 0.5938600553246974,
+    "P4_RawOnly_AUROC": 0.6665681627082293,
+    "P5_SAEOnly_AUROC": 0.5864296072433921,
+    "delta_raw_over_stats": 0.07287261914916954,
+    "delta_raw_over_stats_CI": [
+      0.03411872675797238,
+      0.11084410217519997
+    ],
+    "delta_sae_over_raw": -0.07650711056409254,
+    "delta_sae_over_raw_CI": [
+      -0.11499574871708447,
+      -0.03734129546091943
+    ]
+  },
+  "n_extra_features": 3,
+  "P1_gain_from_strong": 0.00651344731358372,
+  "null_holds_strong": true
+}

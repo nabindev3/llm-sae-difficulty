@@ -48,3 +48,7 @@ activations_ext/
 
 # Layer-sweep activations (large, regeneratable; summary+plot kept)
 activations_layersweep/
+
+# Causal coverage/position-matched intermediates (regeneratable; summaries+plots kept)
+eval/results/coverage/k*/
+eval/results/position_matched/[ABC]_*/

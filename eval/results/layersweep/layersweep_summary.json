@@ -1,0 +1,247 @@
+{
+  "n_layers": 24,
+  "cells": [
+    {
+      "layer": 0,
+      "P4_RawOnly_AUROC": 0.5885103764272919,
+      "P5_SAEOnly_AUROC": 0.563723937071203,
+      "delta_sae_over_raw": -0.048142540305382564,
+      "delta_sae_over_raw_CI": [
+        -0.08658434696745347,
+        -0.00869373333666774
+      ]
+    },
+    {
+      "layer": 1,
+      "P4_RawOnly_AUROC": 0.5910389831954278,
+      "P5_SAEOnly_AUROC": 0.5402810104678226,
+      "delta_sae_over_raw": -0.05230560193027134,
+      "delta_sae_over_raw_CI": [
+        -0.09558185701061604,
+        -0.009349700231756727
+      ]
+    },
+    {
+      "layer": 2,
+      "P4_RawOnly_AUROC": 0.6213426597287384,
+      "P5_SAEOnly_AUROC": 0.5413990811713237,
+      "delta_sae_over_raw": -0.07879504271212867,
+      "delta_sae_over_raw_CI": [
+        -0.12451402221053537,
+        -0.03388756216104475
+      ]
+    },
+    {
+      "layer": 3,
+      "P4_RawOnly_AUROC": 0.6098755803609509,
+      "P5_SAEOnly_AUROC": 0.5577801879089944,
+      "delta_sae_over_raw": -0.06440330973300346,
+      "delta_sae_over_raw_CI": [
+        -0.10319797885796345,
+        -0.02599842049507247
+      ]
+    },
+    {
+      "layer": 4,
+      "P4_RawOnly_AUROC": 0.6249862906861968,
+      "P5_SAEOnly_AUROC": 0.5542188128343549,
+      "delta_sae_over_raw": -0.07278122372381512,
+      "delta_sae_over_raw_CI": [
+        -0.11595819227452399,
+        -0.028508699918699715
+      ]
+    },
+    {
+      "layer": 5,
+      "P4_RawOnly_AUROC": 0.6275666881953669,
+      "P5_SAEOnly_AUROC": 0.5379047294086107,
+      "delta_sae_over_raw": -0.08656060735306659,
+      "delta_sae_over_raw_CI": [
+        -0.1295924592787742,
+        -0.04399246879898673
+      ]
+    },
+    {
+      "layer": 6,
+      "P4_RawOnly_AUROC": 0.647475658351714,
+      "P5_SAEOnly_AUROC": 0.5599157943481068,
+      "delta_sae_over_raw": -0.0913497276416324,
+      "delta_sae_over_raw_CI": [
+        -0.13298281765817402,
+        -0.048139819756665106
+      ]
+    },
+    {
+      "layer": 7,
+      "P4_RawOnly_AUROC": 0.6348966013087824,
+      "P5_SAEOnly_AUROC": 0.5447746188810763,
+      "delta_sae_over_raw": -0.07942871766125204,
+      "delta_sae_over_raw_CI": [
+        -0.12123325408310553,
+        -0.03809417579829113
+      ]
+    },
+    {
+      "layer": 8,
+      "P4_RawOnly_AUROC": 0.6158833063209076,
+      "P5_SAEOnly_AUROC": 0.5569500127953596,
+      "delta_sae_over_raw": -0.06094856265461057,
+      "delta_sae_over_raw_CI": [
+        -0.10713611479028104,
+        -0.016814822105108186
+      ]
+    },
+    {
+      "layer": 9,
+      "P4_RawOnly_AUROC": 0.6295743410389832,
+      "P5_SAEOnly_AUROC": 0.5866063050657437,
+      "delta_sae_over_raw": -0.045060991213852986,
+      "delta_sae_over_raw_CI": [
+        -0.08560024068299399,
+        -0.007870188130363972
+      ]
+    },
+    {
+      "layer": 10,
+      "P4_RawOnly_AUROC": 0.634509694008116,
+      "P5_SAEOnly_AUROC": 0.562401749917744,
+      "delta_sae_over_raw": -0.07181243221505962,
+      "delta_sae_over_raw_CI": [
+        -0.11542279999999999,
+        -0.027226142460406073
+      ]
+    },
+    {
+      "layer": 11,
+      "P4_RawOnly_AUROC": 0.666540744080623,
+      "P5_SAEOnly_AUROC": 0.5864357002717491,
+      "delta_sae_over_raw": -0.07726569259453331,
+      "delta_sae_over_raw_CI": [
+        -0.11536299216975616,
+        -0.03770393126217233
+      ]
+    },
+    {
+      "layer": 12,
+      "P4_RawOnly_AUROC": 0.6852067364521515,
+      "P5_SAEOnly_AUROC": 0.615950329632834,
+      "delta_sae_over_raw": -0.0632943785720379,
+      "delta_sae_over_raw_CI": [
+        -0.10212228079426683,
+        -0.02653273241158065
+      ]
+    },
+    {
+      "layer": 13,
+      "P4_RawOnly_AUROC": 0.6944407209271152,
+      "P5_SAEOnly_AUROC": 0.6175223309489283,
+      "delta_sae_over_raw": -0.07934950829261156,
+      "delta_sae_over_raw_CI": [
+        -0.11863449444157495,
+        -0.03937202106910984
+      ]
+    },
+    {
+      "layer": 14,
+      "P4_RawOnly_AUROC": 0.7094448032561144,
+      "P5_SAEOnly_AUROC": 0.6750070069826105,
+      "delta_sae_over_raw": -0.023963880527900105,
+      "delta_sae_over_raw_CI": [
+        -0.05876642885979811,
+        0.010212198705025353
+      ]
+    },
+    {
+      "layer": 15,
+      "P4_RawOnly_AUROC": 0.7132925506635307,
+      "P5_SAEOnly_AUROC": 0.5849611874093662,
+      "delta_sae_over_raw": -0.11710495850647684,
+      "delta_sae_over_raw_CI": [
+        -0.15721918505030827,
+        -0.07862569885431059
+      ]
+    },
+    {
+      "layer": 16,
+      "P4_RawOnly_AUROC": 0.7177648334775348,
+      "P5_SAEOnly_AUROC": 0.660907739364619,
+      "delta_sae_over_raw": -0.053618649541194996,
+      "delta_sae_over_raw_CI": [
+        -0.08996829888196278,
+        -0.0176240525542827
+      ]
+    },
+    {
+      "layer": 17,
+      "P4_RawOnly_AUROC": 0.7155530641839607,
+      "P5_SAEOnly_AUROC": 0.6213578922996308,
+      "delta_sae_over_raw": -0.08030306723047487,
+      "delta_sae_over_raw_CI": [
+        -0.11944705035349733,
+        -0.039914471284670114
+      ]
+    },
+    {
+      "layer": 18,
+      "P4_RawOnly_AUROC": 0.7111843628520248,
+      "P5_SAEOnly_AUROC": 0.6186373551382508,
+      "delta_sae_over_raw": -0.08111953303030661,
+      "delta_sae_over_raw_CI": [
+        -0.1234893697397854,
+        -0.03715666861658551
+      ]
+    },
+    {
+      "layer": 19,
+      "P4_RawOnly_AUROC": 0.6950683028478813,
+      "P5_SAEOnly_AUROC": 0.6067803219556184,
+      "delta_sae_over_raw": -0.07269287481263931,
+      "delta_sae_over_raw_CI": [
+        -0.11439366901833697,
+        -0.029291773477349063
+      ]
+    },
+    {
+      "layer": 20,
+      "P4_RawOnly_AUROC": 0.6932982781101863,
+      "P5_SAEOnly_AUROC": 0.5823655573293038,
+      "delta_sae_over_raw": -0.09529191698858153,
+      "delta_sae_over_raw_CI": [
+        -0.1397602237008356,
+        -0.054315823649404904
+      ]
+    },
+    {
+      "layer": 21,
+      "P4_RawOnly_AUROC": 0.7174419029746164,
+      "P5_SAEOnly_AUROC": 0.6200235190894579,
+      "delta_sae_over_raw": -0.07705852963039683,
+      "delta_sae_over_raw_CI": [
+        -0.11988135753344792,
+        -0.03743615065319435
+      ]
+    },
+    {
+      "layer": 22,
+      "P4_RawOnly_AUROC": 0.715976529654769,
+      "P5_SAEOnly_AUROC": 0.5987192454393684,
+      "delta_sae_over_raw": -0.0990269433713944,
+      "delta_sae_over_raw_CI": [
+        -0.13902614705124536,
+        -0.05890874963680109
+      ]
+    },
+    {
+      "layer": 23,
+      "P4_RawOnly_AUROC": 0.6848167826373064,
+      "P5_SAEOnly_AUROC": 0.6156273991299156,
+      "delta_sae_over_raw": -0.059620282472794606,
+      "delta_sae_over_raw_CI": [
+        -0.106700408198751,
+        -0.01308226161665708
+      ]
+    }
+  ],
+  "n_layers_swept": 24,
+  "n_layers_sae_beats_raw_sig": 0
+}

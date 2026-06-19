@@ -42,13 +42,25 @@ from probing.probe import (build_ladder, make_cv_splits, fit_ladder, paired_boot
 
 
 def emb_distance_to_train(raw_agg, train_mask):
-    """Cosine distance (1 - max sim) from each row to the nearest TRAIN row."""
+    """Cosine distance (1 - max sim) from each row to the nearest TRAIN row.
+
+    Leave-one-out for train rows: a train point's nearest train neighbour is
+    itself (distance 0), which would make the feature constant on train and blow
+    up under StandardScaler. We mask the self-match so train rows use their
+    nearest OTHER train point; test rows use the full train set.
+    """
     Xs = StandardScaler().fit_transform(raw_agg)
     train_X = Xs[train_mask]
+    pos_in_train = np.full(len(Xs), -1, dtype=int)
+    pos_in_train[np.where(train_mask)[0]] = np.arange(train_X.shape[0])
     out = np.empty(len(Xs), dtype=np.float64)
     step = 512
     for i in range(0, len(Xs), step):
         sims = cosine_similarity(Xs[i:i + step], train_X)   # (chunk, n_train)
+        for r in range(sims.shape[0]):
+            p = pos_in_train[i + r]
+            if p >= 0:                                       # train row -> exclude self
+                sims[r, p] = -np.inf
         out[i:i + step] = 1.0 - sims.max(axis=1)
     return out.reshape(-1, 1)
 
