@@ -91,7 +91,12 @@ def main():
         # footprint (fits in pageable RAM on CPU) and matches Gemma Scope's training.
         dtype = torch.float16 if device == "mps" else torch.bfloat16
         print(f"Device {device}; loading {args.model} ...")
-        model = HookedTransformer.from_pretrained(args.model, dtype=dtype).to(device)
+        # from_pretrained_no_processing (not from_pretrained): (1) skips the
+        # LN-folding/centering weight-processing pass that spikes RAM and SIGKILLs
+        # on a ~13GB Colab instance; (2) leaves the residual stream in the model's
+        # RAW basis -- which is what Gemma Scope SAEs were trained on. Default
+        # processing rewrites resid_post and would feed the SAE out-of-basis acts.
+        model = HookedTransformer.from_pretrained_no_processing(args.model, dtype=dtype).to(device)
         model.eval()
 
         hook_name = f"blocks.{args.layer}.hook_resid_post"
