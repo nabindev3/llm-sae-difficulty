@@ -64,7 +64,7 @@ def main():
     chunk_dir = os.path.join(args.output_dir, "_chunks")
     os.makedirs(chunk_dir, exist_ok=True)
 
-    dataset = load_dataset("squad", split="validation").select(range(args.max_samples))
+    dataset = load_dataset("rajpurkar/squad", split="validation").select(range(args.max_samples))
     n = len(dataset)
     train_cutoff = int(n * 0.7)
     starts = list(range(0, n, args.chunk_size))

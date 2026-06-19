@@ -62,7 +62,7 @@ def load_mc_items(dataset, max_samples):
     """Return list of {prompt, choices:[str], gold_idx, category} for MC tasks."""
     items = []
     if dataset == "hellaswag":
-        ds = load_dataset("hellaswag", split="validation").select(range(max_samples))
+        ds = load_dataset("Rowan/hellaswag", split="validation").select(range(max_samples))
         for s in ds:
             ctx = s["ctx_a"] + ((" " + s["ctx_b"]) if s["ctx_b"] else "")
             items.append({"prompt": ctx, "choices": list(s["endings"]),
@@ -88,7 +88,7 @@ def load_gen_items(dataset, max_samples):
     """Return list of {prompt, target, category} for generative tasks."""
     items = []
     if dataset == "squad":
-        ds = load_dataset("squad", split="validation").select(range(max_samples))
+        ds = load_dataset("rajpurkar/squad", split="validation").select(range(max_samples))
         for s in ds:
             items.append({"prompt": f"Context: {s['context']}\nQuestion: {s['question']}\nAnswer:",
                           "target": " " + s["answers"]["text"][0].strip(),
