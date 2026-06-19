@@ -1,0 +1,17 @@
+# Keep the build context tiny: exclude history, large artifacts, and outputs.
+.git
+venv/
+.venv/
+**/__pycache__/
+**/*.pyc
+*.egg-info/
+.pytest_cache/
+logs/
+activations*/*.safetensors
+activations*/_chunks/
+activations_layersweep/
+activations_ext/
+activations_mlp/
+activations_gemma/
+eval/results/**/_work*/
+**/.DS_Store
