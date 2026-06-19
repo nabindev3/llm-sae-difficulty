@@ -46,7 +46,7 @@ from tqdm import tqdm
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--model", default="gemma-2-2b")
+    ap.add_argument("--model", default="google/gemma-2-2b")   # HF repo id (loaded via transformers)
     ap.add_argument("--sae_release", default="gemma-scope-2b-pt-res-canonical")
     ap.add_argument("--layer", type=int, default=12)
     ap.add_argument("--width", default="16k")
@@ -79,32 +79,52 @@ def main():
     # all chunks exist (possibly across several jetsam-killed restarts), assembly
     # below needs no model -- so the final pass is cheap and always completes.
     if pending:
-        from transformer_lens import HookedTransformer
+        from transformers import AutoModelForCausalLM, AutoTokenizer
         from sae_lens import SAE
 
         if args.device != "auto":
             device = args.device
         else:
             device = "cuda" if torch.cuda.is_available() else ("mps" if torch.backends.mps.is_available() else "cpu")
-        # fp16 on MPS: best kernel coverage (bf16 falls back to CPU for several
-        # Gemma-2 ops -> ~25s/iter thrash). bf16 elsewhere: half the ~10GB fp32
-        # footprint (fits in pageable RAM on CPU) and matches Gemma Scope's training.
+        # fp16 on MPS (best kernel coverage); bf16 on cuda/cpu (half the ~10GB
+        # fp32 footprint and matches Gemma Scope's training precision).
         dtype = torch.float16 if device == "mps" else torch.bfloat16
-        print(f"Device {device}; loading {args.model} ...")
-        # from_pretrained_no_processing (not from_pretrained): (1) skips the
-        # LN-folding/centering weight-processing pass that spikes RAM and SIGKILLs
-        # on a ~13GB Colab instance; (2) leaves the residual stream in the model's
-        # RAW basis -- which is what Gemma Scope SAEs were trained on. Default
-        # processing rewrites resid_post and would feed the SAE out-of-basis acts.
-        model = HookedTransformer.from_pretrained_no_processing(args.model, dtype=dtype).to(device)
+        print(f"Device {device}; loading {args.model} via HF ...")
+        tokenizer = AutoTokenizer.from_pretrained(args.model)
+        # Plain HF load (low_cpu_mem_usage) keeps ONE copy of the weights in RAM.
+        # transformer_lens briefly holds the HF model AND its own converted copy
+        # (~2x ~ 10GB) and SIGKILLs on a ~13GB Colab box. The raw resid_post we
+        # hook below is exactly the activation site Gemma Scope SAEs were trained on.
+        model = AutoModelForCausalLM.from_pretrained(
+            args.model, torch_dtype=dtype, low_cpu_mem_usage=True).to(device)
         model.eval()
 
-        hook_name = f"blocks.{args.layer}.hook_resid_post"
+        # Locate decoder layers (Gemma-2: model.model.layers) and hook resid_post.
+        layers = None
+        for pth in ["model.layers", "gpt_neox.layers", "transformer.h"]:
+            obj = model
+            ok = True
+            for part in pth.split("."):
+                if hasattr(obj, part):
+                    obj = getattr(obj, part)
+                else:
+                    ok = False
+                    break
+            if ok:
+                layers = obj
+                break
+        if layers is None or args.layer >= len(layers):
+            raise SystemExit(f"could not hook layer {args.layer}")
+        captured = []
+        layers[args.layer].register_forward_hook(
+            lambda _m, _i, out: captured.append((out[0] if isinstance(out, tuple) else out).detach()))
+
         sae_id = f"layer_{args.layer}/width_{args.width}/canonical"
         print(f"Loading Gemma Scope SAE: {args.sae_release} / {sae_id}")
         loaded = SAE.from_pretrained(args.sae_release, sae_id, device=device)
         sae = loaded[0] if isinstance(loaded, tuple) else loaded   # older sae_lens returns a tuple
         sae.eval()
+        sae_dtype = sae.W_enc.dtype if hasattr(sae, "W_enc") else next(sae.parameters()).dtype
 
         for st in pending:
             en = min(st + args.chunk_size, n)
@@ -114,29 +134,26 @@ def main():
                 prompt = f"Context: {s['context']}\nQuestion: {s['question']}\nAnswer:"
                 target = " " + s["answers"]["text"][0].strip()
 
-                prompt_ids = model.to_tokens(prompt)[0].tolist()         # includes BOS
-                target_ids = model.to_tokens(target, prepend_bos=False)[0].tolist()
+                prompt_ids = tokenizer.encode(prompt, add_special_tokens=True)   # includes BOS
                 if len(prompt_ids) > 200:
                     prompt_ids = prompt_ids[-200:]
                 prompt_len = len(prompt_ids)
+                target_ids = tokenizer.encode(target, add_special_tokens=False)
                 full = torch.tensor([prompt_ids + target_ids], device=device)
 
+                captured.clear()
                 with torch.no_grad():
-                    logits, cache = model.run_with_cache(full, names_filter=hook_name)
-                    resid = cache[hook_name][0]                          # (seq, d_model)
-                    boundary = resid[prompt_len - 1, :].float()          # (d_model,)
-                    code = sae.encode(boundary.to(sae.W_enc.dtype)).float()  # (d_hidden,)
+                    logits = model(full).logits
+                    resid = captured[0]                                  # (1, seq, d_model)
+                    boundary = resid[0, prompt_len - 1, :].float()       # (d_model,)
+                    code = sae.encode(boundary.to(device).to(sae_dtype)).float()  # (d_sae,)
 
                     # Gold-target perplexity (continuous self-difficulty), Gemma's own.
-                    shift_logits = logits[0, prompt_len - 1:-1, :]
-                    shift_labels = full[0, prompt_len:]
-                    tgt_ce = F.cross_entropy(shift_logits.float(), shift_labels).item()
-
-                    # Prompt perplexity (Pile-contamination check) from the SAME forward:
-                    # next-token CE over the prompt span only -- no second forward pass.
+                    tgt_ce = F.cross_entropy(logits[0, prompt_len - 1:-1, :].float(),
+                                             full[0, prompt_len:]).item()
+                    # Prompt perplexity (Pile-contamination check) from the SAME forward.
                     p_ce = F.cross_entropy(logits[0, :prompt_len - 1, :].float(),
                                            full[0, 1:prompt_len]).item()
-                    del cache
 
                 raw_c.append(boundary.cpu().to(torch.float16).reshape(1, 1, -1))
                 code_c.append(code.cpu().to(torch.float16).reshape(1, 1, -1))
