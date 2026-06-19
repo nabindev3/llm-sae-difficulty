@@ -1,1 +1,3 @@
-*.safetensors filter=lfs diff=lfs merge=lfs -text
+# Large *.safetensors and SAE checkpoints are NOT in git (purged from history);
+# they live in the HF dataset nabindev3/llm-sae-difficulty-artifacts and are
+# restored with `bash download_artifacts.sh`. No Git-LFS is used.
