@@ -51,4 +51,12 @@ activations_layersweep/
 
 # Causal coverage/position-matched intermediates (regeneratable; summaries+plots kept)
 eval/results/coverage/k*/
-eval/results/position_matched/[ABC]_*/
+eval/results/position_matched/A_*/
+eval/results/position_matched/B_*/
+eval/results/position_matched/C_*/
+
+# Regeneratable run logs
+eval/results/*.log
+eval/results/layersweep/run.log
+activations_gemma/*.log
+activations_mlp/
