@@ -196,6 +196,31 @@ Higher-dimensional feature spaces require stronger shrinkage (smaller C) to cont
 
 ---
 
+### 2.9 Robustness & Extensions
+
+The negative result was stress-tested along every axis a reviewer might attack. **In none of these does the SAE significantly beat raw activations.** Each row is reproducible from a committed `eval/results/` artifact.
+
+| Stress test | Result | Artifact |
+|---|---|---|
+| **Multi-seed** (5 SAE+probe seeds) | Δ(SAE−Raw) SQuAD L12 −0.096±0.014, L18 −0.077±0.020; variance only in SAE probes | `eval/results/multiseed/` |
+| **SAE design sweep** (exp 4/8/16× × k 16–128, gated, JumpReLU) | 72 cells, **0** significant-positive (max +0.019) | `eval/results/sweep/sweep_summary.json` |
+| **Transcoder** (MLP-in→out) | 6 cells all significantly **negative** (−0.14…−0.11) | `eval/results/sweep/transcoder_summary.json` |
+| **Layer-depth sweep** (all 24 layers) | every layer Δ<0 (−0.117…−0.024), 0/24 sig-positive | `eval/results/layersweep/` (+ `.png`) |
+| **Frontier SAE** — Gemma Scope on **Gemma-2-2B** | raw 0.815; Δ(SAE−Raw) **−0.045** [−0.062,−0.028] | `eval/results/gemma/` |
+| **2nd backbone** — Qwen2.5-0.5B-Instruct | SQuAD L12 −0.035*, L20 −0.086*, ARC −0.038* | `eval/results/extension/` |
+| **Above-chance binary** — ARC-Easy (44%/60% correct) | SAE never beats raw (−0.001…−0.038) | `eval/results/extension/` |
+| **3rd continuous** — TriviaQA | raw 0.66–0.68; Δ −0.055*/−0.067* | `eval/results/extension/` |
+| **Harder baseline** (+max-softmax, entropy, emb-dist) | P1 +0.004–0.007 only; null holds | `eval/results/strong_baseline/` |
+| **Coverage power analysis** | 80% per-feature detection power at K≈4 patched positions (0→0.98 as K 1→64) | `eval/results/coverage/` (+ `.png`) |
+| **Position-matched disentangle** | coverage effect +0.280 ≫ fidelity −0.123 (nats) | `eval/results/position_matched/` |
+| **Causal≠predictive** (DLA) | top causal features: predictive AUROC 0.52 (chance) but causal Δ up to +0.0093 | `eval/results/dla/` |
+| **Feature steering** | clamping top difficulty features shifts gold-answer CE ≤0.0066 nats | `eval/results/steering/` |
+| **P1 recipe** (SHAP/coef) | carried by capitalization-ratio + lexical-diversity + perplexity; top-4 ≈ full | `eval/results/baseline_shap/` |
+
+`*` = paired-bootstrap CI excludes 0. Reproducers: `extract_layersweep.py`+`eval/layer_sweep.py`, `eval/sae_sweep.py`, `eval/coverage_power.py`, `eval/position_matched.py`, `eval/strong_baseline.py`, `eval/dla.py`, `eval/steering.py`, `eval/baseline_shap.py`, `extract_general.py`+`eval/extension_run.py`, and `notebooks/gemma_scope_colab.ipynb` (Gemma).
+
+---
+
 ## 3. Qualitative Feature Interpretations (boundary-SAE SQuAD)
 
 Top-activating-prompt analysis on the **boundary-SAE top-5 SQuAD features** (the SAE checkpoint used in earlier boundary-only runs; top-5 from the L1 logistic feature-selection step of `eval/causal_ablation.py`):

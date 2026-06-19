@@ -14,6 +14,8 @@ Across two benchmark modalities — HellaSwag (binary multiple-choice correctnes
 
 A separate Mishra-style causal-ablation experiment using a dataset-matched all-position SAE (reconstruction FVU 0.006–0.007 on heldout activations) shows that **individual top-5 SAE features have measurable, statistically significant per-feature effects on the model's per-token log-probability of the correct answer** (max effect magnitude 9.3 × 10⁻³ nats, 95% CI excluding zero). A boundary-only intervention with the same SAE produces effects 20–70× smaller, isolating intervention coverage — not SAE fidelity — as the driver of detectable per-feature signal.
 
+The negative result survives an extensive robustness battery (§5): five SAE training seeds, ~80 SAE design points (expansion, sparsity, gated/JumpReLU/transcoder), all 24 residual depths, a second instruction-tuned backbone (Qwen2.5-0.5B-Instruct), two additional benchmarks (ARC-Easy where the model is well above chance, TriviaQA), a hardened cheap baseline, and — addressing the largest objection — an off-the-shelf **frontier SAE (Gemma Scope on Gemma-2-2B)**, which still loses to raw activations (Δ = −0.045, CI [−0.062, −0.028]). In **zero** of these configurations do SAE features significantly beat raw. A power analysis quantifies that per-feature causal detectability is set by intervention coverage (80% power at ≈ 4 patched positions), and direct-logit attribution shows the top causal features are non-predictive of difficulty (mean AUROC 0.52) despite real output effects — making the causal-but-not-routable dissociation concrete.
+
 Our deployable contribution is a 5-fold OOF Platt-recalibrated raw-activation selective-QA pipeline that captures **41% of the oracle AURC** improvement on SQuAD (vs 21% for lexical-only stats), with a ~76% reduction in expected calibration error. Continuous-perplexity difficulty labels, prompt-only lexical baselines, late-residual raw activations, and Platt recalibration unlock the cascade — not the SAE.
 
 ---
@@ -266,7 +268,57 @@ For comparison, boundary-only intervention with the all-position SAE produces de
 
 ---
 
-## 5. Discussion
+## 5. Robustness and Extensions
+
+To rule out that the negative result is an artifact of a single SAE seed, a single SAE configuration, a single model, a single benchmark, or the specific difficulty regime, we ran a battery of robustness checks. Every number below is reproducible from a committed result file under `eval/results/`. **Across all of them — five SAE training seeds, ~80 SAE design points, three SAE architectures, an off-the-shelf frontier SAE, a second (instruction-tuned) backbone family, four benchmarks, and every residual depth — no configuration makes SAE features significantly beat raw activations at predicting self-difficulty.**
+
+### 5.1 Training-induced variance (multi-seed)
+
+A single SAE seed underlies the headline numbers. Re-running the full SAE-training **and** probe-fit pipeline across five seeds, Δ(SAE − Raw) stays negative on SQuAD — L12 −0.096 ± 0.014 (range [−0.117, −0.083]), L18 −0.077 ± 0.020 — with the variance confined to the SAE-dependent probes (the raw-only probe has *zero* seed variance, as it does not depend on the SAE). HellaSwag remains at chance (+0.024 ± 0.014). The training-induced standard deviation (≈0.013–0.020) is comparable to the test-set bootstrap half-width, so it is non-negligible, yet the SQuAD effect still sits 4–7σ into the negative tail.
+
+### 5.2 SAE design space
+
+We swept expansion (4×/8×/16×) and TopK sparsity _k_ (16/32/64/128), plus three alternative objectives — **gated**, **JumpReLU**, and a TopK **transcoder** (MLP-in → MLP-out). Of 72 autoencoder cells on SQuAD L12+L18, **zero** make Δ(SAE − Raw) significantly positive (max +0.019, min −0.122). Tellingly, a high-fidelity JumpReLU (nMSE 0.09) merely *matches* raw (Δ ≈ 0) rather than beating it, and the transcoder is *significantly negative* across six cells (Δ ∈ [−0.14, −0.11], CIs excluding zero). The null is not a TopK-32 artifact.
+
+### 5.3 Depth sweep
+
+Two layers is not a curve. Slicing the boundary residual at all 24 Pythia-410M layers and fitting a per-layer SAE + probe, Δ(SAE − Raw) is negative at **every** layer (range −0.117 to −0.024, 0/24 significantly positive), while raw-probe AUROC rises with depth (0.59 → 0.72). Figure: `eval/results/layersweep/layersweep_summary.png`.
+
+### 5.4 Off-the-shelf frontier SAE (Gemma Scope)
+
+The single biggest objection is that the null reflects small-model SAE quality. We repeat the SQuAD setup on **Gemma-2-2B** with the **Gemma Scope** 16k canonical residual SAE (DeepMind), probing the model's own difficulty. Raw Gemma activations predict difficulty strongly (P4 = 0.815 AUROC — well above Pythia), yet the frontier SAE is **significantly worse**: Δ(SAE − Raw) = −0.045, 95% CI [−0.062, −0.028]. A frontier-quality SAE on a stronger model does not close the gap.
+
+### 5.5 Second backbone family (Qwen2.5-0.5B-Instruct)
+
+To show layer-invariance is not Pythia-specific, we run the pipeline on **Qwen2.5-0.5B-Instruct** (a different architecture family, instruction-tuned). The SAE-vs-Raw null holds and is layer-invariant: SQuAD Δ(SAE − Raw) = −0.035 (L12) and −0.086 (L20), ARC-Easy −0.038, all with CIs excluding zero.
+
+### 5.6 A binary task the model is actually good at (ARC-Easy)
+
+The HellaSwag null is confounded by Pythia being near-chance on it. We replace it with **ARC-Easy**, where Pythia-410M scores 44% and Qwen 60% (vs 25% chance) — genuinely above chance. The SAE still never beats raw (Δ(SAE − Raw) from −0.001 to −0.038); the binary-regime conclusion is therefore not an artifact of the model failing the task.
+
+### 5.7 A second continuous benchmark (TriviaQA)
+
+So the continuous-regime claim is not SQuAD-only, we add **TriviaQA** (closed-book gold-answer perplexity). Raw predicts difficulty at 0.66–0.68 AUROC and the SAE is significantly worse: Δ(SAE − Raw) = −0.055 (L12) / −0.067 (L18), CIs excluding zero.
+
+### 5.8 A harder cheap baseline
+
+The harder the baseline, the more the null means. We augment P1 with three SAE-free difficulty signals: boundary **max-softmax** (model confidence), **logit-entropy**, and **embedding-distance-to-train** (novelty; computed leave-one-out to avoid the train self-match). On the gold-target-perplexity label these are individually near-chance (univariate AUROC ≈ 0.51), so P1 rises only +0.004–0.007 — and the SAE-vs-Raw null still holds at both layers. (That confidence features barely track this difficulty label is itself notable.)
+
+### 5.9 Quantifying coverage-vs-fidelity
+
+We previously *asserted* that detectable per-feature causal effects come from intervention coverage, not SAE fidelity. We now **quantify** it. Sweeping the number of patched prompt positions _K_ with the all-position SAE, the reconstruction penalty grows monotonically (0.004 → 0.259 nats for _K_ = 1 → 64) and per-feature **detection power** rises from undetectable at _K_ = 1 to 0.80 at _K_ ≈ 4 positions and > 0.97 by _K_ = 8 (power = Φ(e/σ − 1.96) + Φ(−e/σ − 1.96), σ from the bootstrap CI). A strictly **position-matched** disentanglement (a boundary SAE trained on the same seq_len−1 slice the all-position SAE saw, both evaluated at that position) confirms the coverage effect (+0.280 nats) dwarfs the fidelity effect (−0.123 nats). Figure: `eval/results/coverage/coverage_power.png`.
+
+### 5.10 Why causal ≠ predictive (direct-logit attribution and steering)
+
+The central tension — features that are causally active but not predictive — is made concrete. For the top-5 all-position causal features, direct-logit attribution (decoder direction through the final-LayerNorm gain and unembedding) gives nonzero output effects and the features carry measurable causal ablation deltas (up to +0.0093 nats), yet their activation is **non-predictive** of difficulty (univariate AUROC 0.519–0.543, mean 0.525 ≈ chance). Complementarily, **steering** — clamping the most difficulty-aligned SAE features at the boundary — shifts the model's gold-answer cross-entropy by at most 0.0066 nats: the difficulty-aligned features are barely actionable. Together these explain the dissociation: these directions do real computational work for the model, but the *correctness* signal a difficulty probe needs is not carried by their activation magnitude.
+
+### 5.11 What actually carries the baseline
+
+For a usable "raw-beats-SAE" recipe, an exact linear-SHAP / coefficient breakdown of the SQuAD P1 baseline shows it is carried by ≈ three cheap features — **capitalization ratio** (dominant; mean |SHAP| 0.28), **lexical diversity**, and **prompt perplexity** (plus task category); the top-4 features alone reproduce AUROC 0.594 ≈ the full 0.590.
+
+---
+
+## 6. Discussion
 
 **The SAE-features-add-incremental-difficulty hypothesis is rejected on Pythia-410M with high statistical confidence.** Δ(SAE − Raw) is significantly negative on SQuAD at both Layer 12 and Layer 18 with bootstrap CIs excluding zero and label-permutation _p_-values below 10⁻⁴. On HellaSwag, where binary correctness produces a near-uniform 38% accuracy regime in which probes cannot recover above-chance signal from any representational substrate, the SAE adds no detectable signal either.
 
@@ -278,19 +330,22 @@ The negative result is **not** a "SAE features have no information." The same SA
 
 ---
 
-## 6. Limitations
+## 7. Limitations
 
-1. **Single backbone family.** All experiments use Pythia-410M for the cheap baseline and Pythia-2.8B for the base. Results may not generalize to instruction-tuned models, models with different vocabularies, or larger frontier models where SAE feature monosemanticity is typically reported.
-2. **Single SAE configuration.** TopK-32 with 4× expansion is one point in a wide design space; SAEs with larger expansion, different sparsity, gated activations, or transcoder structure may produce different probe results. We did not test these.
-3. **Binary 0/1 difficulty labels.** The HellaSwag binary correctness label and SQuAD top-25%-perplexity threshold both quantize an underlying continuous quantity. The continuous-perplexity SQuAD signal we report exists *before* binarization and may be more learnable directly.
-4. **Boundary-token convention asymmetry.** The original boundary-only SAE training and intervention for HellaSwag use the first ending token; for SQuAD, the last prompt token. The all-position SAE was trained only on prompt tokens (positions 0..prompt_len−1). The HellaSwag boundary-only vs all-position comparison is therefore not strictly position-controlled. We address this by reporting an additional in-distribution boundary (last-prompt-token) for HellaSwag in the disentanglement experiment.
-5. **No frontier-scale comparison.** We do not test whether the negative SAE result holds for SAEs trained on larger frontier-scale models with much more training data, where SAE feature quality is widely believed to be higher.
-6. **HellaSwag at chance is uninformative.** The HellaSwag null is consistent with our broader claim, but it is also consistent with "Pythia-410M is near-chance on HellaSwag and no probe can recover signal from the model's representations." Conclusions specific to SAE-versus-Raw on HellaSwag are weaker than on SQuAD.
-7. **Single dataset modality per regime.** SQuAD is the only continuous-perplexity benchmark we test, and HellaSwag is the only binary-correctness benchmark; further benchmarks would strengthen the generality of the layer-invariance and intervention-coverage claims.
+The robustness battery in §5 was built specifically to retire the first version of this list; we mark each item with its status.
+
+1. **Single backbone family.** *Addressed (§5.5).* The null replicates on Qwen2.5-0.5B-Instruct, a different, instruction-tuned family. Residual caveat: still ≤ 2.6B-parameter models; behaviour at frontier scale is untested for the *probe* (though §5.4 tests a frontier *SAE*).
+2. **Single SAE configuration.** *Addressed (§5.2).* The null survives expansion 4–16×, _k_ 16–128, and gated / JumpReLU / transcoder variants (72 + 6 cells, 0 significantly positive).
+3. **Binary 0/1 difficulty labels.** *Partly addressed.* We add a second continuous benchmark (TriviaQA, §5.7) and an above-chance binary benchmark (ARC-Easy, §5.6); the quantization caveat for any single threshold remains.
+4. **Boundary-token convention asymmetry.** *Addressed (§5.9).* We train a position-matched boundary SAE on the exact seq_len−1 slice the all-position SAE saw and evaluate both at that position, making the fidelity-vs-coverage disentanglement strictly position-controlled.
+5. **No frontier-scale comparison.** *Addressed (§5.4).* The off-the-shelf Gemma Scope SAE on Gemma-2-2B still loses to raw (Δ = −0.045, CI excluding zero), so the null is not a small-model-SAE-quality artifact.
+6. **HellaSwag at chance is uninformative.** *Addressed (§5.6).* ARC-Easy (44–60% accuracy, well above chance) gives the same SAE-vs-Raw null, decoupling the conclusion from task failure.
+7. **Single dataset modality per regime.** *Addressed (§5.3, §5.7).* The continuous claim now spans SQuAD + TriviaQA, the depth claim spans all 24 layers, and the binary claim spans HellaSwag + ARC-Easy.
+8. **Residual: actionability and mechanism.** Steering the most difficulty-aligned features moves the output by ≤ 0.0066 nats (§5.10), so we cannot yet turn the causal signal into a control knob; *why* causally active features are non-predictive (§5.10) is characterized but not mechanistically explained.
 
 ---
 
-## 7. Conclusion
+## 8. Conclusion
 
 We test the strong instrumental claim that sparse-autoencoder features extracted from a Pythia-410M residual stream encode incremental self-difficulty signal over raw activations, in a form usable for cascade routing. Across two datasets and two residual depths, the answer is **no**: SAE features do not add over raw activations, and on SQuAD they actively hurt the probe (Δ(SAE − Raw) ≈ −0.08, layer-invariant, label-permutation _p_ < 10⁻⁴).
 
