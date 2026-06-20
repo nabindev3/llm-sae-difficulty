@@ -1,5 +1,12 @@
 # LLM Routing Probe: Label-Free Difficulty Signals & Recalibrated Selective QA for Pythia
 
+> ⚠️ **Legacy / per-modality detail.** This is the Pythia/LLM-specific study. It has been
+> merged into and is **superseded by [`fm-difficulty-probe`](https://github.com/nabindev3/fm-difficulty-probe)**,
+> which replicates the same null modality-agnostically across an autoregressive LM (Pythia)
+> and an encoder-based time-series FM (Chronos-T5). **New readers should start there.**
+> This repo is retained for the full LLM-side detail, the robustness battery (§2.9), and provenance.
+> Large artifacts now live in the HF dataset [`nabindev3/llm-sae-difficulty-artifacts`](https://huggingface.co/datasets/nabindev3/llm-sae-difficulty-artifacts) — run `bash download_artifacts.sh`.
+
 An end-to-end, leakage-controlled study of whether an LLM's internal sparse-autoencoder (SAE) feature spaces encode a self-difficulty signal that raw activations and cheap lexical statistics do not already reveal.
 
 We benchmark this across two paradigms — multiple-choice binary correctness (**HellaSwag**) and continuous generative gold-target perplexity (**SQuAD**) — using **Pythia-410M** (Layer 12 mid and Layer 18 late residual streams) and **Pythia-2.8B** backbones, with paired-bootstrap CIs, **label-permutation _p_-values**, dataset-matched SAEs, and a 2×2 boundary-vs-all-position causal-intervention disentanglement.
