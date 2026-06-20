@@ -39,4 +39,4 @@ dev = ["pytest>=8.0"]
 # resolve from any working directory — no sys.path.append hacks in the scripts.
 # `eval/` is entrypoints-only (never imported), so it is not a package.
 [tool.setuptools]
-packages = ["sae", "probing"]
+packages = ["sae", "probing", "selective_qa"]
