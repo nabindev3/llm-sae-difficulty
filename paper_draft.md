@@ -278,7 +278,7 @@ A single SAE seed underlies the headline numbers. Re-running the full SAE-traini
 
 ### 5.2 SAE design space
 
-We swept expansion (4×/8×/16×) and TopK sparsity _k_ (16/32/64/128), plus three alternative objectives — **gated**, **JumpReLU**, and a TopK **transcoder** (MLP-in → MLP-out). Of 72 autoencoder cells on SQuAD L12+L18, **zero** make Δ(SAE − Raw) significantly positive (max +0.019, min −0.122). Tellingly, a high-fidelity JumpReLU (nMSE 0.09) merely *matches* raw (Δ ≈ 0) rather than beating it, and the transcoder is *significantly negative* across six cells (Δ ∈ [−0.14, −0.11], CIs excluding zero). The null is not a TopK-32 artifact.
+We swept expansion (4×/8×/16×) and TopK sparsity _k_ (16/32/64/128), plus three alternative objectives — **gated**, **JumpReLU**, and a TopK **transcoder** (MLP-in → MLP-out). Of 72 autoencoder cells on SQuAD L12+L18, **zero** make Δ(SAE − Raw) significantly positive (max +0.019, min −0.122). Tellingly, a high-fidelity JumpReLU (nMSE 0.09) merely *matches* raw (Δ ≈ 0) rather than beating it, and the transcoder is *significantly negative* across six cells (Δ ∈ [−0.14, −0.08], CIs excluding zero). The null is not a TopK-32 artifact.
 
 ### 5.3 Depth sweep
 

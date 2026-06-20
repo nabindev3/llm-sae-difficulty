@@ -211,7 +211,7 @@ The negative result was stress-tested along every axis a reviewer might attack. 
 |---|---|---|
 | **Multi-seed** (5 SAE+probe seeds) | Δ(SAE−Raw) SQuAD L12 −0.096±0.014, L18 −0.077±0.020; variance only in SAE probes | `eval/results/multiseed/` |
 | **SAE design sweep** (exp 4/8/16× × k 16–128, gated, JumpReLU) | 72 cells, **0** significant-positive (max +0.019) | `eval/results/sweep/sweep_summary.json` |
-| **Transcoder** (MLP-in→out) | 6 cells all significantly **negative** (−0.14…−0.11) | `eval/results/sweep/transcoder_summary.json` |
+| **Transcoder** (MLP-in→out) | 6 cells all significantly **negative** (−0.14…−0.08) | `eval/results/sweep/transcoder_summary.json` |
 | **Layer-depth sweep** (all 24 layers) | every layer Δ<0 (−0.117…−0.024), 0/24 sig-positive | `eval/results/layersweep/` (+ `.png`) |
 | **Frontier SAE** — Gemma Scope on **Gemma-2-2B** | raw 0.815; Δ(SAE−Raw) **−0.045** [−0.062,−0.028] | `eval/results/gemma/` |
 | **2nd backbone** — Qwen2.5-0.5B-Instruct | SQuAD L12 −0.035*, L20 −0.086*, ARC −0.038* | `eval/results/extension/` |
