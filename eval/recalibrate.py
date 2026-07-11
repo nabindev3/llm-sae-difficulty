@@ -6,7 +6,6 @@ predictions over the HellaSwag training split to guarantee zero test leakage.
 Plots recalibrated reliability diagrams to eval/results/reliability_recalibrated.png.
 """
 import os
-import sys
 import json
 import argparse
 import numpy as np

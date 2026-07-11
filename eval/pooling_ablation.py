@@ -10,7 +10,6 @@ separately using the all-position activations and dataset-matched all-position
 SAE checkpoints, and report test-set AUROC + paired-bootstrap CI.
 """
 import os
-import sys
 import json
 import argparse
 import numpy as np

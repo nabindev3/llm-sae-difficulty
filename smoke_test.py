@@ -1,4 +1,3 @@
-import os
 import torch
 import torch.nn.functional as F
 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -54,7 +53,6 @@ def main():
     handle = model.gpt_neox.layers[chosen_layer].register_forward_hook(hook_fn)
 
     correct_predictions = 0
-    all_scores = []
     
     print("\nEvaluating 50 questions zero-shot...")
     for idx in tqdm(range(num_samples)):

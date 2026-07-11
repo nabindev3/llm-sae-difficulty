@@ -22,7 +22,6 @@ from sklearn.exceptions import ConvergenceWarning
 warnings.filterwarnings("ignore", message=".*n_jobs.*liblinear.*")
 warnings.filterwarnings("ignore", category=ConvergenceWarning)
 
-from sae.sae_model import TopKSAE
 from sae.load_any import load_sae_any
 from probing.features import compute_prompt_stats, aggregate_sequence
 

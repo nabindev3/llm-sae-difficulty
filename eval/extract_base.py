@@ -128,7 +128,6 @@ def main():
             prompt_ids = tokenizer.encode(prompt, add_special_tokens=True)
             target_ids = tokenizer.encode(target, add_special_tokens=False)
             prompt_len = len(prompt_ids)
-            target_len = len(target_ids)
             
             max_prompt_len = 200
             if prompt_len > max_prompt_len:

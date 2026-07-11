@@ -18,10 +18,7 @@ import json
 import os
 import subprocess
 import sys
-import tempfile
 
-import torch
-from safetensors.torch import load_file, save_file
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -75,10 +72,10 @@ def main():
             tag = f"transcoder_x{exp}_k{k}"
             ckpt_dir = os.path.join(work, tag)
             print(f"=== {tag} ===", flush=True)
-            log = run([args.python, "sae/train_variants.py", "--variant", "transcoder",
-                       "--activations", MLP_IN, "--target_activations", MLP_OUT,
-                       "--metadata", MLP_META, "--d_hidden", str(exp * d_model),
-                       "--k", str(k), "--output_dir", ckpt_dir])
+            run([args.python, "sae/train_variants.py", "--variant", "transcoder",
+                 "--activations", MLP_IN, "--target_activations", MLP_OUT,
+                 "--metadata", MLP_META, "--d_hidden", str(exp * d_model),
+                 "--k", str(k), "--output_dir", ckpt_dir])
             ckpt = os.path.join(ckpt_dir, "sae_transcoder.pt")
             codes = os.path.join(work, f"{tag}_codes.safetensors")
             encode_codes(args.python, ckpt, codes)

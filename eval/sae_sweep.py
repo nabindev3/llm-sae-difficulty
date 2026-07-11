@@ -71,11 +71,11 @@ def last_match(rx, text):
 
 
 def probe_cell(py, ds, cfg, sae_ckpt, k, results_json, work_dir, tag):
-    out = run([py, "probing/probe.py",
-               "--activations", cfg["activations"], "--metadata", cfg["metadata"],
-               "--sae_ckpt", sae_ckpt, "--k", str(k),
-               "--results_json", results_json,
-               "--scores_parquet", os.path.join(work_dir, f"{tag}_scores.parquet")])
+    run([py, "probing/probe.py",
+         "--activations", cfg["activations"], "--metadata", cfg["metadata"],
+         "--sae_ckpt", sae_ckpt, "--k", str(k),
+         "--results_json", results_json,
+         "--scores_parquet", os.path.join(work_dir, f"{tag}_scores.parquet")])
     with open(results_json) as f:
         r = json.load(f)
     return {

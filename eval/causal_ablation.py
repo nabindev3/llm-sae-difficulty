@@ -82,7 +82,7 @@ def main():
     y = meta["difficulty"].values.astype(int)
     tr = (meta["split"] == "train").values
     te = (meta["split"] == "test").values
-    y_tr, y_te = y[tr], y[te]
+    y_tr = y[tr]
 
     # Step 1: Identify top-5 difficulty-predictive SAE features using L1 Logistic on train split
     print("Fitting L1 logistic regression to identify top-5 SAE features...")
@@ -265,7 +265,6 @@ def main():
             prompt_ids = tokenizer.encode(prompt, add_special_tokens=True)
             target_ids = tokenizer.encode(target, add_special_tokens=False)
             prompt_len = len(prompt_ids)
-            target_len = len(target_ids)
             
             max_prompt_len = 200
             if prompt_len > max_prompt_len:

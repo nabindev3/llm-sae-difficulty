@@ -29,7 +29,6 @@ import sys
 
 import numpy as np
 import pandas as pd
-import torch
 from safetensors.torch import load_file
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import StandardScaler

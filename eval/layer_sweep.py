@@ -15,7 +15,6 @@ import os
 import subprocess
 import sys
 
-import torch
 from safetensors.torch import load_file, save_file
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

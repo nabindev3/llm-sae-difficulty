@@ -11,7 +11,6 @@ inner-CV ROC-AUC mean for each grid point, and produces a per-probe
 regularization-path plot showing where the optimum lies.
 """
 import os
-import sys
 import json
 import argparse
 import numpy as np

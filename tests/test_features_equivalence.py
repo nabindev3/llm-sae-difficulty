@@ -1,7 +1,6 @@
 """Verify the vectorized compute_prompt_stats produces identical output to
 the original per-row implementation."""
 import os
-import sys
 import time
 import numpy as np
 import pandas as pd
